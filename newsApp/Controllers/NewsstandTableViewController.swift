@@ -1,0 +1,96 @@
+//
+//  NewsstandTableViewController.swift
+//  newsApp
+//
+//  Created by Abhijatya Gupta on 06/10/20.
+//
+
+import UIKit
+
+class NewsstandTableViewController: UITableViewController {
+    
+    private let categories: [String] = ["Sports", "Entertainment", "Business", "Technology", "Health", "Science", "General"]
+    
+    @IBOutlet weak var countrySwitch: UISwitch!
+    @IBOutlet weak var categoryCollectionView: UICollectionView!
+    @IBOutlet weak var countryDisclosureText: UILabel!
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        overrideUserInterfaceStyle = .dark
+        categoryCollectionView.delegate = self
+        categoryCollectionView.dataSource = self
+        countrySwitchDidToggle(countrySwitch)
+    }
+    
+    @IBAction func countrySwitchDidToggle(_ sender: UISwitch) {
+        if countrySwitch.isOn {
+            tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+            countryRefresh()
+            
+        }
+        else {
+            tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+        }
+    }
+    
+    
+    func countryRefresh() {
+        if Settings.isCountrySet {
+            countryDisclosureText.text = Settings.currentCountry
+        }
+        else {
+            countryDisclosureText.isHidden = true
+        }
+    }
+    
+    
+    //MARK: - TableView Methods
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return countrySwitch.isOn ? 2 : 1
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+//MARK: - CollectionView Methods
+
+extension NewsstandTableViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return categories.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cat1", for: indexPath)
+        if let catCell = cell as? CustomCatCell {
+            catCell.layer.cornerRadius = 20
+            catCell.layer.borderWidth = 2
+            catCell.layer.borderColor = #colorLiteral(red: 0.1725490196, green: 0.1725490196, blue: 0.1725490196, alpha: 1)
+            catCell.catTitle.text = Category(indexPath.row).title
+            catCell.backgroundImage.image = UIImage(imageLiteralResourceName: "\(catCell.catTitle.text ?? "Sports").png")
+            return catCell
+        }
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 165, height: 165)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+//        print(Settings().API_KEY)
+    }
+}
+
+//MARK: - Custom category cell class
+
+class CustomCatCell: UICollectionViewCell {
+    @IBOutlet fileprivate weak var catTitle: UILabel!
+    @IBOutlet fileprivate weak var backgroundImage: UIImageView!
+}
+
