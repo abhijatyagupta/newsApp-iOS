@@ -1,2 +1,2 @@
 # newsApp
- A news app which, besides showing news, also let's you see and contribute to a news being real or fake.
+ Read news. Mark news as real or fake. Or see what others have marked.
