@@ -3,7 +3,7 @@
  Read news. Mark news as real or fake. Or see what others have marked.
 
 ## Proposed features
- - Filter news by category, country or bot
+ - Filter news by category, country or both
  - Search for any topic
  - See how many people have marked a news as real or fake
  - Ability to mark news as real or fake
