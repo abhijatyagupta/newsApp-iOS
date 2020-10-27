@@ -9,36 +9,36 @@ import UIKit
 
 class Settings {
     
-    //MARK: - Initializer
+    //MARK: - API Settings
     
-    init() {
+    public static var apiURL: String {
+        get {
+            return "https://newsapi.org/v2/top-headlines?\(API_KEY)"
+        }
+    }
+    
+    public static var worldApiURL: String {
+        get {
+            return "https://newsapi.org/v2/top-headlines?\(API_KEY)&q=%2A"
+        }
+    }
+    
+    
+    private static var API_KEY: String {
         if let path = Bundle.main.path(forResource: "Secrets", ofType: "plist") {
-            print(path)
             if let key = NSDictionary(contentsOfFile: path)?.object(forKey: "API_KEY") as? String {
-                API_KEY = "apiKey=\(key)"
+                return "apiKey=\(key)"
             }
             else {
-                API_KEY = "apiKey="
+                return "apiKey="
             }
         }
         else {
-            API_KEY = "apiKey="
-        }
-        
-        
-        
-    }
-    
-    //MARK: - API Settings
-    
-    public var apiURL: String {
-        get {
-            return "https://newsapi.org/v2/sources?\(API_KEY)"
+            return "apiKey="
         }
     }
     
-    private let API_KEY: String
-    private let API_COUNTRY: String = "&q="
+    fileprivate let API_COUNTRY: String = "&country=\(currentCountry.code)"
     
 //    var country: String
     
@@ -50,10 +50,12 @@ class Settings {
         }
     }
     
-    static var currentCountry: String = "" {
+    static var currentCountry: Country = Country("", "") {
         didSet {
             isCountrySet = true
         }
     }
+    
+    
     
 }

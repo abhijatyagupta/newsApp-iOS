@@ -8,17 +8,11 @@
 import UIKit
 
 class Country {
-    let country: String
+    let name: String
     let code: String
-    let selected: Bool
     
-    init(_ country:String, _ code: String, _ selected: Bool) {
-        self.country = country
+    init(_ country:String, _ code: String) {
+        self.name = country
         self.code = code
-        self.selected = selected
-    }
-    
-    func isSelected() -> Bool {
-        return selected
     }
 }

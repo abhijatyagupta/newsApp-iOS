@@ -9,45 +9,44 @@ import UIKit
 
 class CountryTableViewController: UITableViewController {
     
-    private let countries: [ String] = ["Argentina","Australia", "Austria", "Belgium", "Brazil", "Bulgaria", "Canada", "China", "Colombia", "Cuba", "Czechia", "Egypt", "France", "Germany", "Greece", "Hong Kong", "Hungary", "India", "Indonesia", "Ireland", "Israel", "Italy", "Japan", "Latvia", "Lithuania", "Malaysia", "Mexico", "Morocco", "Netherlands", "New Zealand", "Nigeria", "Norway", "Philippines", "Poland", "Portugal", "Romania", "Russia", "Saudi Arabia", "Serbia", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Sweden", "Switzerland", "Taiwan", "Thailand", "Turkey", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Venezuela"]
+//    private let countries: [ String] = ["Argentina","Australia", "Austria", "Belgium", "Brazil", "Bulgaria", "Canada", "China", "Colombia", "Cuba", "Czechia", "Egypt", "France", "Germany", "Greece", "Hong Kong", "Hungary", "India", "Indonesia", "Ireland", "Israel", "Italy", "Japan", "Latvia", "Lithuania", "Malaysia", "Mexico", "Morocco", "Netherlands", "New Zealand", "Nigeria", "Norway", "Philippines", "Poland", "Portugal", "Romania", "Russia", "Saudi Arabia", "Serbia", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Sweden", "Switzerland", "Taiwan", "Thailand", "Turkey", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Venezuela"]
     
     
-//    private let dofjd: [Country] = [Country("Argentina", "ar", false), Country("Australia", "au", false),
-//                                    Country("Austria", "at", false), Country("Belgium", "be", false),
-//                                    Country("Brazil", "br", false), Country("Bulgaria", "bg", false),
-//                                    Country("Canada", "ca", false), Country("China", "cn", false),
-//                                    Country("Colombia", "co", false), Country("Cuba", "cu", false),
-//                                    Country("Czechia", "cz", false), Country("Egypt", "eg", false),
-//                                    Country("France", "fr", false), Country("Germany", "de", false),
-//                                    Country("Greece", "gr", false), Country("Hong Kong", "hk", false),
-//                                    Country("Hungary", "hu", false), Country("India", "in", false),
-//                                    Country("Indonesia", "id", false), Country("Ireland", "ie", false),
-//                                    Country("Israel", "il", false), Country("Italy", "it", false),
-//                                    Country("Japan", "jp", false), Country("Latvia", "lv", false),
-//                                    Country("Lithuania", "lt", false), Country("Malaysia", "my", false),
-//                                    Country("Mexico", "mx", false), Country("Morocco", "ma", false),
-//                                    Country("Netherlands", "nl", false), Country("New Zealand", "nz", false),
-//                                    Country("Nigeria", "ng", false), Country("Norway", "no", false),
-//                                    Country("Philippines", "ph", false), Country("Poland", "pl", false),
-//                                    Country("Portugal", "pt", false), Country("Romania", "ro", false),
-//                                    Country("Russia", "ru", false), Country("Saudi Arabia", "sa", false),
-//                                    Country("Serbia", "rs", false), Country("Singapore", "sg", false),
-//                                    Country("Slovakia", "sk", false), Country("Slovenia", "si", false),
-//                                    Country("South Africa", "za", false), Country("South Korea", "kr", false),
-//                                    Country("Sweden", "se", false), Country("Switzerland", "ch", false),
-//                                    Country("Taiwan", "tw", false), Country("Thailand", "th", false),
-//                                    Country("Turkey", "tr", false), Country("Ukraine", "ua", false),
-//                                    Country("United Arab Emirates", "ae", false), Country("United Kingdom", "gb", false),
-//                                    Country("United States", "us", false), Country("Venezuela", "ve", false)
-//                        ]
-    
-    let selected: String = "India"
+    private let countries: [Country] = [Country("Argentina", "ar"), Country("Australia", "au"),
+                                    Country("Austria", "at"), Country("Belgium", "be"),
+                                    Country("Brazil", "br"), Country("Bulgaria", "bg"),
+                                    Country("Canada", "ca"), Country("China", "cn"),
+                                    Country("Colombia", "co"), Country("Cuba", "cu"),
+                                    Country("Czechia", "cz"), Country("Egypt", "eg"),
+                                    Country("France", "fr"), Country("Germany", "de"),
+                                    Country("Greece", "gr"), Country("Hong Kong", "hk"),
+                                    Country("Hungary", "hu"), Country("India", "in"),
+                                    Country("Indonesia", "id"), Country("Ireland", "ie"),
+                                    Country("Israel", "il"), Country("Italy", "it"),
+                                    Country("Japan", "jp"), Country("Latvia", "lv"),
+                                    Country("Lithuania", "lt"), Country("Malaysia", "my"),
+                                    Country("Mexico", "mx"), Country("Morocco", "ma"),
+                                    Country("Netherlands", "nl"), Country("New Zealand", "nz"),
+                                    Country("Nigeria", "ng"), Country("Norway", "no"),
+                                    Country("Philippines", "ph"), Country("Poland", "pl"),
+                                    Country("Portugal", "pt"), Country("Romania", "ro"),
+                                    Country("Russia", "ru"), Country("Saudi Arabia", "sa"),
+                                    Country("Serbia", "rs"), Country("Singapore", "sg"),
+                                    Country("Slovakia", "sk"), Country("Slovenia", "si"),
+                                    Country("South Africa", "za"), Country("South Korea", "kr"),
+                                    Country("Sweden", "se"), Country("Switzerland", "ch"),
+                                    Country("Taiwan", "tw"), Country("Thailand", "th"),
+                                    Country("Turkey", "tr"), Country("Ukraine", "ua"),
+                                    Country("United Arab Emirates", "ae"), Country("United Kingdom", "gb"),
+                                    Country("United States", "us"), Country("Venezuela", "ve")
+                        ]
+     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.backButtonTitle = "Newsstand"
-        navigationItem.hidesBackButton = false
+        overrideUserInterfaceStyle = .dark
     }
+    
+    
 
     // MARK: - Table view data source
 
@@ -57,52 +56,24 @@ class CountryTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "countryCell", for: indexPath)
-        cell.textLabel?.text = countries[indexPath.row]
-        cell.accessoryType = cell.textLabel?.text == "India" ? .checkmark : .none
+        cell.textLabel?.text = countries[indexPath.row].name
+        cell.accessoryType = cell.textLabel?.text == Settings.currentCountry.name ? .checkmark : .none
+        
         
         return cell
     }
    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        Settings.isCountrySet = true
+        Settings.currentCountry = countries[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
+        if let NSTVController = self.presentingViewController?.children[0].children[0] as? NewsstandTableViewController {
+            DispatchQueue.main.async {
+                NSTVController.countryRefresh()
+            }
+        }
         self.dismiss(animated: true)
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation

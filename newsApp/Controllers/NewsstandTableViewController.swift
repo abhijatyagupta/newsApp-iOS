@@ -28,9 +28,9 @@ class NewsstandTableViewController: UITableViewController {
         if countrySwitch.isOn {
             tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
             countryRefresh()
-            
         }
         else {
+            Settings.isCountrySet = false
             tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
         }
     }
@@ -38,12 +38,16 @@ class NewsstandTableViewController: UITableViewController {
     
     func countryRefresh() {
         if Settings.isCountrySet {
-            countryDisclosureText.text = Settings.currentCountry
+            countryDisclosureText.isHidden = false
+            countryDisclosureText.text = Settings.currentCountry.name
         }
         else {
             countryDisclosureText.isHidden = true
+            performSegue(withIdentifier: "segueToCountry", sender: self)
         }
     }
+    
+    
     
     
     //MARK: - TableView Methods
