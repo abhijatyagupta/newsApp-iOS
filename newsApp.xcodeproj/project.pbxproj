@@ -12,6 +12,7 @@
 		AC467AC9252BC530003089D5 /* CountryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC467AC8252BC530003089D5 /* CountryTableViewController.swift */; };
 		AC4D9C942542FA7600942DA8 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC4D9C922542FA7600942DA8 /* NewsCell.swift */; };
 		AC4D9C952542FA7600942DA8 /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC4D9C932542FA7600942DA8 /* NewsCell.xib */; };
+		AC4D9CEF254EEECD00942DA8 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4D9CEE254EEECD00942DA8 /* Secrets.plist */; };
 		AC6046D4252A15F3007CEB56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6046D3252A15F3007CEB56 /* AppDelegate.swift */; };
 		AC6046D6252A15F3007CEB56 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6046D5252A15F3007CEB56 /* SceneDelegate.swift */; };
 		AC6046DB252A15F3007CEB56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC6046D9252A15F3007CEB56 /* Main.storyboard */; };
@@ -19,7 +20,6 @@
 		AC6046E0252A15F5007CEB56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC6046DE252A15F4007CEB56 /* LaunchScreen.storyboard */; };
 		ACEDF7D825306FCB00F3E4F8 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEDF7D725306FCB00F3E4F8 /* Category.swift */; };
 		ACEDF81F2535D7DD00F3E4F8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEDF81E2535D7DD00F3E4F8 /* Settings.swift */; };
-		ACEDF82F2535F08D00F3E4F8 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = ACEDF82E2535F08D00F3E4F8 /* Secrets.plist */; };
 		ACEDF834253887B400F3E4F8 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEDF833253887B400F3E4F8 /* Country.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,11 +44,12 @@
 		AC3ED70325405C29007BED8B /* WorldCountryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCountryViewController.swift; sourceTree = "<group>"; };
 		AC467AAF252BB018003089D5 /* NewsstandTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsstandTableViewController.swift; sourceTree = "<group>"; };
 		AC467AC8252BC530003089D5 /* CountryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryTableViewController.swift; sourceTree = "<group>"; };
-		AC4D9C8B2540ABD200942DA8 /* newsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = newsApp.app; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsApp.app"; sourceTree = "<absolute>"; };
-		AC4D9C8C2540ABD200942DA8 /* newsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppTests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppTests.xctest"; sourceTree = "<absolute>"; };
-		AC4D9C8D2540ABD200942DA8 /* newsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppUITests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppUITests.xctest"; sourceTree = "<absolute>"; };
 		AC4D9C922542FA7600942DA8 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		AC4D9C932542FA7600942DA8 /* NewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
+		AC4D9CE7254EEE6B00942DA8 /* newsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC4D9CE8254EEE6B00942DA8 /* newsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppTests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppTests.xctest"; sourceTree = "<absolute>"; };
+		AC4D9CE9254EEE6B00942DA8 /* newsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppUITests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppUITests.xctest"; sourceTree = "<absolute>"; };
+		AC4D9CEE254EEECD00942DA8 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		AC6046D3252A15F3007CEB56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC6046D5252A15F3007CEB56 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AC6046DA252A15F3007CEB56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -57,7 +58,6 @@
 		AC6046E1252A15F5007CEB56 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACEDF7D725306FCB00F3E4F8 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		ACEDF81E2535D7DD00F3E4F8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		ACEDF82E2535F08D00F3E4F8 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		ACEDF833253887B400F3E4F8 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				AC6046D2252A15F3007CEB56 /* newsApp */,
+				AC4D9CE7254EEE6B00942DA8 /* newsApp.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,7 +135,7 @@
 				AC467AA6252B7F13003089D5 /* Controllers */,
 				AC6046DC252A15F4007CEB56 /* Assets.xcassets */,
 				AC6046E1252A15F5007CEB56 /* Info.plist */,
-				ACEDF82E2535F08D00F3E4F8 /* Secrets.plist */,
+				AC4D9CEE254EEECD00942DA8 /* Secrets.plist */,
 			);
 			path = newsApp;
 			sourceTree = "<group>";
@@ -156,7 +157,7 @@
 			);
 			name = newsApp;
 			productName = newsApp;
-			productReference = AC4D9C8B2540ABD200942DA8 /* newsApp.app */;
+			productReference = AC4D9CE7254EEE6B00942DA8 /* newsApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 		AC6046E5252A15F5007CEB56 /* newsAppTests */ = {
@@ -174,7 +175,7 @@
 			);
 			name = newsAppTests;
 			productName = newsAppTests;
-			productReference = AC4D9C8C2540ABD200942DA8 /* newsAppTests.xctest */;
+			productReference = AC4D9CE8254EEE6B00942DA8 /* newsAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		AC6046F0252A15F5007CEB56 /* newsAppUITests */ = {
@@ -192,7 +193,7 @@
 			);
 			name = newsAppUITests;
 			productName = newsAppUITests;
-			productReference = AC4D9C8D2540ABD200942DA8 /* newsAppUITests.xctest */;
+			productReference = AC4D9CE9254EEE6B00942DA8 /* newsAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -242,10 +243,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACEDF82F2535F08D00F3E4F8 /* Secrets.plist in Resources */,
 				AC6046E0252A15F5007CEB56 /* LaunchScreen.storyboard in Resources */,
 				AC4D9C952542FA7600942DA8 /* NewsCell.xib in Resources */,
 				AC6046DD252A15F4007CEB56 /* Assets.xcassets in Resources */,
+				AC4D9CEF254EEECD00942DA8 /* Secrets.plist in Resources */,
 				AC6046DB252A15F3007CEB56 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

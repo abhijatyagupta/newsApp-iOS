@@ -16,6 +16,8 @@ class NewsCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.cornerRadius = 20
+        realFakeButton.layer.cornerRadius = 10
+    
     }
 
     @IBAction func shareButtonPressed(_ sender: UIButton) {
