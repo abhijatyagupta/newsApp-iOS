@@ -47,9 +47,9 @@
 		AC4D9C922542FA7600942DA8 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		AC4D9C932542FA7600942DA8 /* NewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
 		AC4D9CE7254EEE6B00942DA8 /* newsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC4D9CE8254EEE6B00942DA8 /* newsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppTests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppTests.xctest"; sourceTree = "<absolute>"; };
-		AC4D9CE9254EEE6B00942DA8 /* newsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppUITests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppUITests.xctest"; sourceTree = "<absolute>"; };
 		AC4D9CEE254EEECD00942DA8 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+		AC5365F42551748200061FDA /* newsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppTests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppTests.xctest"; sourceTree = "<absolute>"; };
+		AC5365F52551748200061FDA /* newsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppUITests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppUITests.xctest"; sourceTree = "<absolute>"; };
 		AC6046D3252A15F3007CEB56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC6046D5252A15F3007CEB56 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AC6046DA252A15F3007CEB56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 			);
 			name = newsAppTests;
 			productName = newsAppTests;
-			productReference = AC4D9CE8254EEE6B00942DA8 /* newsAppTests.xctest */;
+			productReference = AC5365F42551748200061FDA /* newsAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		AC6046F0252A15F5007CEB56 /* newsAppUITests */ = {
@@ -193,7 +193,7 @@
 			);
 			name = newsAppUITests;
 			productName = newsAppUITests;
-			productReference = AC4D9CE9254EEE6B00942DA8 /* newsAppUITests.xctest */;
+			productReference = AC5365F52551748200061FDA /* newsAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */

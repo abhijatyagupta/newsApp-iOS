@@ -19,7 +19,7 @@ class Settings {
     
     public static var worldApiURL: String {
         get {
-            return "https://newsapi.org/v2/top-headlines?\(API_KEY)&q=%2A"
+            return isCountrySet ? "https://newsapi.org/v2/top-headlines?\(API_KEY)&q=%2A\(API_COUNTRY)" : "https://newsapi.org/v2/top-headlines?\(API_KEY)&language=en"
         }
     }
     
@@ -38,20 +38,23 @@ class Settings {
         }
     }
     
-    fileprivate let API_COUNTRY: String = "&country=\(currentCountry.code)"
+    private static var API_COUNTRY: String {
+        return "&country=\(currentCountry.code)"
+    }
     
 //    var country: String
     
     static var isCountrySet: Bool = false {
         didSet {
             if !isCountrySet {
-                
+                currentCountry = Country("", "")
             }
         }
     }
     
     static var currentCountry: Country = Country("", "") {
         didSet {
+            
             isCountrySet = true
         }
     }

@@ -17,6 +17,7 @@ class WorldCountryViewController: UIViewController {
         worldCountryCollectionView.delegate = self
         worldCountryCollectionView.dataSource = self
         worldCountryCollectionView.register(UINib(nibName: "NewsCell", bundle: nil), forCellWithReuseIdentifier: "newsCell")
+        searchController.searchBar.placeholder = "Search topic"
         navigationItem.searchController = searchController
         
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -37,13 +38,14 @@ class WorldCountryViewController: UIViewController {
 
 extension WorldCountryViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "newsCell", for: indexPath) as! NewsCell
-        cell.newsTitle.text = arr[indexPath.row]
-        cell.newsDescription.text = arr[arr.count - 1 - indexPath.row]
+        cell.newsTitle.text = arr[0]
+        cell.newsDescription.text = arr[arr.count - 2]
+        cell.newsImageView.image = UIImage(imageLiteralResourceName: indexPath.row == 0 ? "ps5.png" : "xb1.png")
         
         return cell
     }
