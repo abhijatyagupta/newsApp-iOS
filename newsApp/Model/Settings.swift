@@ -19,7 +19,8 @@ class Settings {
     
     public static var worldApiURL: String {
         get {
-            return isCountrySet ? "https://newsapi.org/v2/top-headlines?\(API_KEY)&q=%2A\(API_COUNTRY)" : "https://newsapi.org/v2/top-headlines?\(API_KEY)&language=en"
+            return "https://newsapi.org/v2/top-headlines?\(API_KEY)&language=en"
+//            return isCountrySet ? "https://newsapi.org/v2/top-headlines?\(API_KEY)&q=%2A\(API_COUNTRY)" : "https://newsapi.org/v2/top-headlines?\(API_KEY)&language=en"1
         }
     }
     

@@ -9,17 +9,17 @@ import Foundation
 
 class NewsManager {
     
-    func fetchNews(_ url: String) {
-        
-    }
+//    func fetchNews(_ url: String) {
+//
+//    }
     
-    func performRequest(_ apiCall: String, callback: @escaping (URLResponse?) -> Void) {
+    func performRequest(_ apiCall: String, callback: @escaping (Data?) -> Void) {
         if let url = URL(string: apiCall) {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, response, error) in
                 if error == nil {
-                    print("response will be sent!")
-                    callback(response)
+                    print("data will be sent!")
+                    callback(data)
                 }
                 else {
                     print("Error occured in session.dataTask")

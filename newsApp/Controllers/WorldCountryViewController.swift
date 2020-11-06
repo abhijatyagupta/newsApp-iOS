@@ -18,6 +18,7 @@ class WorldCountryViewController: UIViewController {
     private var newsImages: [String] = []
     private var newsTitles: [String] = []
     private var newsDescriptions: [String] = []
+    private var articles: [JSON] = []
     
     
     override func viewDidLoad() {
@@ -33,41 +34,67 @@ class WorldCountryViewController: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         
-        newsManager.performRequest(Settings.worldApiURL) { (response) in
-            print("response received!!")
-            DispatchQueue.main.async {
-                self.activityIndicator.isHidden = true
-                self.worldCountryCollectionView.isHidden = false
-            }
+        newsManager.performRequest(Settings.worldApiURL) { (data) in
+            print("data received!!")
+            self.fetchNews(data)
         }
+        
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         print("view appeared!")
         
+    }
+    
+    func fetchNews(_ data: Data?) {
+        if let safeData = data {
+            do {
+                let newsJSON: JSON = try JSON(data: safeData)
+                articles = newsJSON["articles"].arrayValue
+//                for article in articles {
+//                    newsTitles.append(article["title"].stringValue)
+//                    newsDescriptions.append(article["description"].stringValue)
+//                }
+            } catch { print(error) }
+        }
         
+        DispatchQueue.main.async {
+            self.worldCountryCollectionView.reloadData()
+            self.activityIndicator.isHidden = true
+            self.worldCountryCollectionView.isHidden = false
+        }
         
     }
 
-
 }
-
-
 
 extension WorldCountryViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return articles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "newsCell", for: indexPath) as! NewsCell
-//        cell.newsTitle.text = arr[0]
-//        cell.newsDescription.text = arr[arr.count - 2]
+        cell.newsTitle.text = articles[indexPath.row]["title"].stringValue
+        cell.newsDescription.text = articles[indexPath.row]["description"].stringValue
+        cell.newsURL = articles[indexPath.row]["url"].stringValue
         cell.newsImageView.image = UIImage(imageLiteralResourceName: indexPath.row == 0 ? "ps5.png" : "xb1.png")
-        
+        cell.delegate = self
         return cell
     }
     
     
+}
+
+
+extension WorldCountryViewController: NewsCellDelegate {
+    func presentShareScreen(_ cell: NewsCell) {
+        activityIndicator.isHidden = false
+        let shareText = cell.newsURL
+        let vc = UIActivityViewController(activityItems: [URL(string: shareText!)!], applicationActivities: [])
+        present(vc, animated: true)
+        activityIndicator.isHidden = true
+        
+    }
 }
