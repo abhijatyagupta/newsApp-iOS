@@ -15,9 +15,9 @@ class WorldCountryViewController: UIViewController {
     
     private let newsManager = NewsManager()
     
-    private var newsImages: [String] = []
-    private var newsTitles: [String] = []
-    private var newsDescriptions: [String] = []
+    private var newsImages = [Int : UIImage]()
+//    private var newsTitles: [String] = []
+//    private var newsDescriptions: [String] = []
     private var articles: [JSON] = []
     
     
@@ -52,13 +52,8 @@ class WorldCountryViewController: UIViewController {
             do {
                 let newsJSON: JSON = try JSON(data: safeData)
                 articles = newsJSON["articles"].arrayValue
-//                for article in articles {
-//                    newsTitles.append(article["title"].stringValue)
-//                    newsDescriptions.append(article["description"].stringValue)
-//                }
             } catch { print(error) }
         }
-        
         DispatchQueue.main.async {
             self.worldCountryCollectionView.reloadData()
             self.activityIndicator.isHidden = true
@@ -79,7 +74,27 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         cell.newsTitle.text = articles[indexPath.row]["title"].stringValue
         cell.newsDescription.text = articles[indexPath.row]["description"].stringValue
         cell.newsURL = articles[indexPath.row]["url"].stringValue
-        cell.newsImageView.image = UIImage(imageLiteralResourceName: indexPath.row == 0 ? "ps5.png" : "xb1.png")
+        
+        if let image = newsImages[indexPath.row] {
+            cell.newsImageView.image = image
+            cell.activityIndicator.isHidden = true
+        }
+        else  {
+            DispatchQueue.main.async {
+                self.newsManager.performRequest(self.articles[indexPath.row]["urlToImage"].stringValue) { (data) in
+                    DispatchQueue.main.async {
+                        if let safeData = data {
+                            cell.newsImageView.image = UIImage(data: safeData)
+                        }
+                        else {
+                            cell.newsImageView.image = UIImage(imageLiteralResourceName: "xb1.png")
+                        }
+                        self.newsImages[indexPath.row] = cell.newsImageView.image
+                    }
+                }
+                cell.activityIndicator.isHidden = true
+            }
+        }
         cell.delegate = self
         return cell
     }

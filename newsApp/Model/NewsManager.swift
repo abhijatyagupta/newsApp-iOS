@@ -24,12 +24,14 @@ class NewsManager {
                 else {
                     print("Error occured in session.dataTask")
                     print(error.debugDescription)
+                    callback(nil)
                 }
             }
             task.resume()
         }
         else {
             print("in performRequest, error creating url object")
+            callback(nil)
         }
     }
     

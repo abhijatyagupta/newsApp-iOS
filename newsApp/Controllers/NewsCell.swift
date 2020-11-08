@@ -15,6 +15,7 @@ protocol NewsCellDelegate: class {
 class NewsCell: UICollectionViewCell {
     var delegate: NewsCellDelegate?
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var newsImageView: UIImageView!
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var newsDescription: UILabel!

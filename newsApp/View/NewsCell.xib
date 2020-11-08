@@ -20,12 +20,16 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eM7-7d-5ux">
                         <rect key="frame" x="0.0" y="0.0" width="345" height="353"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8uL-6O-8SX">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8uL-6O-8SX">
                                 <rect key="frame" x="0.0" y="0.0" width="345" height="175"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="175" id="iIq-cy-Agv"/>
                                 </constraints>
                             </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="V3l-Wr-HX5">
+                                <rect key="frame" x="162" y="77" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbw-rB-zjt">
                                 <rect key="frame" x="20" y="197.5" width="305" height="27.5"/>
                                 <constraints>
@@ -93,6 +97,7 @@
             </collectionViewCellContentView>
             <size key="customSize" width="317" height="353"/>
             <connections>
+                <outlet property="activityIndicator" destination="V3l-Wr-HX5" id="uNa-1W-WYQ"/>
                 <outlet property="newsDescription" destination="QZA-we-y3U" id="okj-qv-dz7"/>
                 <outlet property="newsImageView" destination="8uL-6O-8SX" id="Hnm-HC-uNO"/>
                 <outlet property="newsTitle" destination="sbw-rB-zjt" id="cR6-GP-1DN"/>
