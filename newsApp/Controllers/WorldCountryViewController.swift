@@ -12,7 +12,7 @@ class WorldCountryViewController: UIViewController {
     @IBOutlet weak var worldCountryCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private let searchController = UISearchController(searchResultsController: nil)
-    
+    var apiToCall: String = Settings.worldApiURL
     private let newsManager = NewsManager()
     
     private var newsImages = [Int : UIImage]()
@@ -34,7 +34,7 @@ class WorldCountryViewController: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         
-        newsManager.performRequest(Settings.worldApiURL) { (data) in
+        newsManager.performRequest(apiToCall) { (data) in
             print("data received!!")
             self.fetchNews(data)
         }
@@ -98,8 +98,6 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         cell.delegate = self
         return cell
     }
-    
-    
 }
 
 

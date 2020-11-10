@@ -10,6 +10,7 @@ import UIKit
 class NewsstandTableViewController: UITableViewController {
     
     private let categories: [String] = ["Sports", "Entertainment", "Business", "Technology", "Health", "Science", "General"]
+    private var selectedCategory: String = ""
     
     @IBOutlet weak var countrySwitch: UISwitch!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
@@ -87,8 +88,20 @@ extension NewsstandTableViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-//        print(Settings().API_KEY)
+        selectedCategory = categories[indexPath.row]
+        performSegue(withIdentifier: "categorySegue", sender: self)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "categorySegue" {
+            let vc = segue.destination as! WorldCountryViewController
+            vc.navigationItem.title = selectedCategory
+            vc.apiToCall = Settings.worldApiURL + "&category=\(selectedCategory)&country=us"
+            
+        }
+    }
+    
+    
 }
 
 //MARK: - Custom category cell class

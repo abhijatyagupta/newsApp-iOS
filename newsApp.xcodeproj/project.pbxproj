@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7B77149A71C3C4FF4178F63B /* Pods_newsAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92C5F816FC18535FA8C5FD15 /* Pods_newsAppTests.framework */; };
 		A46784C1327F78ED9298BF53 /* Pods_newsApp_newsAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C967D7BB1F4A7C45BAD3B98 /* Pods_newsApp_newsAppUITests.framework */; };
+		AC0635622558267F00882982 /* WorldCountryNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0635612558267F00882982 /* WorldCountryNavigationController.swift */; };
 		AC3ED70425405C29007BED8B /* WorldCountryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3ED70325405C29007BED8B /* WorldCountryViewController.swift */; };
 		AC467AB0252BB018003089D5 /* NewsstandTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC467AAF252BB018003089D5 /* NewsstandTableViewController.swift */; };
 		AC467AC9252BC530003089D5 /* CountryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC467AC8252BC530003089D5 /* CountryTableViewController.swift */; };
@@ -52,6 +53,7 @@
 		763DB5C5856A18A1D3EAD04F /* Pods_newsApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_newsApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		851DF7E0CF276C2438F2D188 /* Pods-newsAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsAppTests.debug.xcconfig"; path = "Target Support Files/Pods-newsAppTests/Pods-newsAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		92C5F816FC18535FA8C5FD15 /* Pods_newsAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_newsAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC0635612558267F00882982 /* WorldCountryNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCountryNavigationController.swift; sourceTree = "<group>"; };
 		AC3ED70325405C29007BED8B /* WorldCountryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCountryViewController.swift; sourceTree = "<group>"; };
 		AC467AAF252BB018003089D5 /* NewsstandTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsstandTableViewController.swift; sourceTree = "<group>"; };
 		AC467AC8252BC530003089D5 /* CountryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryTableViewController.swift; sourceTree = "<group>"; };
@@ -66,8 +68,8 @@
 		AC6046DC252A15F4007CEB56 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC6046DF252A15F4007CEB56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC6046E1252A15F5007CEB56 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ACEC73D2255549D90041BAA5 /* newsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppTests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppTests.xctest"; sourceTree = "<absolute>"; };
-		ACEC73D3255549D90041BAA5 /* newsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppUITests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppUITests.xctest"; sourceTree = "<absolute>"; };
+		ACC522B02559AE3A000A9C70 /* newsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppTests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppTests.xctest"; sourceTree = "<absolute>"; };
+		ACC522B12559AE3A000A9C70 /* newsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = newsAppUITests.xctest; path = "/Users/abhijatya/Desktop/newsApp/build/Debug-iphoneos/newsAppUITests.xctest"; sourceTree = "<absolute>"; };
 		ACEDF7D725306FCB00F3E4F8 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		ACEDF81E2535D7DD00F3E4F8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		ACEDF833253887B400F3E4F8 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				AC467AC8252BC530003089D5 /* CountryTableViewController.swift */,
 				AC467AAF252BB018003089D5 /* NewsstandTableViewController.swift */,
 				AC3ED70325405C29007BED8B /* WorldCountryViewController.swift */,
+				AC0635612558267F00882982 /* WorldCountryNavigationController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -221,7 +224,7 @@
 			);
 			name = newsAppTests;
 			productName = newsAppTests;
-			productReference = ACEC73D2255549D90041BAA5 /* newsAppTests.xctest */;
+			productReference = ACC522B02559AE3A000A9C70 /* newsAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		AC6046F0252A15F5007CEB56 /* newsAppUITests */ = {
@@ -241,7 +244,7 @@
 			);
 			name = newsAppUITests;
 			productName = newsAppUITests;
-			productReference = ACEC73D3255549D90041BAA5 /* newsAppUITests.xctest */;
+			productReference = ACC522B12559AE3A000A9C70 /* newsAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -428,6 +431,7 @@
 				AC5365FA25520E6F00061FDA /* NewsManager.swift in Sources */,
 				ACEDF81F2535D7DD00F3E4F8 /* Settings.swift in Sources */,
 				AC467AC9252BC530003089D5 /* CountryTableViewController.swift in Sources */,
+				AC0635622558267F00882982 /* WorldCountryNavigationController.swift in Sources */,
 				ACEDF7D825306FCB00F3E4F8 /* Category.swift in Sources */,
 				AC3ED70425405C29007BED8B /* WorldCountryViewController.swift in Sources */,
 				AC6046D4252A15F3007CEB56 /* AppDelegate.swift in Sources */,
