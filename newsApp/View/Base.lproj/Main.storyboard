@@ -18,9 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="erX-Al-WC6">
-                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="erX-Al-WC6">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="30" minimumInteritemSpacing="10" id="Rmt-JB-ZhL">
                                     <size key="itemSize" width="128" height="128"/>
@@ -31,13 +30,19 @@
                                 <cells/>
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" id="Hu1-Ed-RFc">
-                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Rqt-zg-aOJ"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="erX-Al-WC6" firstAttribute="leading" secondItem="Rqt-zg-aOJ" secondAttribute="leading" id="1sM-q2-zcV"/>
+                            <constraint firstItem="erX-Al-WC6" firstAttribute="bottom" secondItem="Rqt-zg-aOJ" secondAttribute="bottom" id="AFd-5G-0Gg"/>
+                            <constraint firstItem="erX-Al-WC6" firstAttribute="trailing" secondItem="Rqt-zg-aOJ" secondAttribute="trailing" id="dyh-BY-Ei3"/>
+                            <constraint firstItem="erX-Al-WC6" firstAttribute="top" secondItem="vUu-rR-DiZ" secondAttribute="top" id="lGe-vW-n8A"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="World" id="fFX-E8-nzx"/>
                     <connections>
@@ -48,7 +53,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hRk-kN-HOr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationItem title="Worldwide" id="V3o-3S-Na8"/>
             </objects>
-            <point key="canvasLocation" x="-583.20000000000005" y="2629.835082458771"/>
+            <point key="canvasLocation" x="-586.39999999999998" y="2626.1083743842364"/>
         </scene>
         <!--Country-->
         <scene sceneID="u6k-aY-h8H">
@@ -79,7 +84,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J9M-Qq-zmk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1578" y="4376"/>
+            <point key="canvasLocation" x="-1578" y="4621"/>
         </scene>
         <!--Newsstand-->
         <scene sceneID="hKj-Hp-4MM">
@@ -91,24 +96,24 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <collectionView key="tableFooterView" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="yoM-UY-kcr">
-                            <rect key="frame" x="0.0" y="123" width="375" height="736"/>
+                            <rect key="frame" x="0.0" y="123" width="375" height="740"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="15" minimumInteritemSpacing="15" id="LcB-NN-1HL">
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="15" minimumInteritemSpacing="0.0" id="LcB-NN-1HL">
                                 <size key="itemSize" width="165" height="165"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                <inset key="sectionInset" minX="15" minY="15" maxX="15" maxY="0.0"/>
+                                <inset key="sectionInset" minX="15" minY="15" maxX="15" maxY="15"/>
                             </collectionViewFlowLayout>
                             <cells>
                                 <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cat1" id="aHZ-i8-SL0" customClass="CustomCatCell" customModule="newsApp" customModuleProvider="target">
                                     <rect key="frame" x="15" y="15" width="165" height="165"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="y5X-VF-kzv">
+                                    <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="PVa-7e-CSY">
                                         <rect key="frame" x="0.0" y="0.0" width="165" height="165"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EDw-2D-kZb">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EDw-2D-kZb">
                                                 <rect key="frame" x="0.0" y="0.0" width="165" height="165"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
@@ -122,8 +127,8 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="1I0-ly-TvB" secondAttribute="bottom" constant="8.5" id="GPQ-lm-izf"/>
-                                            <constraint firstItem="1I0-ly-TvB" firstAttribute="top" secondItem="y5X-VF-kzv" secondAttribute="top" constant="135.5" id="VFF-j0-fHP"/>
-                                            <constraint firstItem="1I0-ly-TvB" firstAttribute="leading" secondItem="y5X-VF-kzv" secondAttribute="leading" constant="12" id="Vic-bL-Cfr"/>
+                                            <constraint firstItem="1I0-ly-TvB" firstAttribute="top" secondItem="PVa-7e-CSY" secondAttribute="top" constant="135.5" id="VFF-j0-fHP"/>
+                                            <constraint firstItem="1I0-ly-TvB" firstAttribute="leading" secondItem="PVa-7e-CSY" secondAttribute="leading" constant="12" id="Vic-bL-Cfr"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1I0-ly-TvB" secondAttribute="trailing" id="bJz-dq-zvV"/>
                                         </constraints>
                                     </collectionViewCellContentView>
@@ -215,7 +220,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zAs-Wy-9Ck" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1578.4000000000001" y="2629.835082458771"/>
+            <point key="canvasLocation" x="-1580" y="2628.9355322338834"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="BAY-lR-4bq">
@@ -258,7 +263,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2m-ub-JgP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="365.60000000000002" y="2630.7346326836582"/>
+            <point key="canvasLocation" x="366" y="2625"/>
         </scene>
         <!--Settings root-->
         <scene sceneID="K7O-FX-ioF">
@@ -274,7 +279,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2m8-RM-ngU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1405.5999999999999" y="2629.835082458771"/>
+            <point key="canvasLocation" x="1406" y="2624"/>
         </scene>
         <!--Newsstand-->
         <scene sceneID="SCq-e2-Xdm">
@@ -309,7 +314,7 @@
         <!--World-->
         <scene sceneID="n0Z-b0-K37">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="W9C-qf-mu1" userLabel="World" customClass="WorldCountryNavigationController" customModule="newsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="W9C-qf-mu1" userLabel="World" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="World/Country" id="Nef-41-XUX">
                         <imageReference key="image" image="globe" catalog="system" symbolScale="large"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
@@ -409,7 +414,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zz3-xO-MFY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1578" y="3590"/>
+            <point key="canvasLocation" x="-1578" y="3834"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

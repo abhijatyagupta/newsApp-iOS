@@ -45,17 +45,10 @@ class Settings {
     
 //    var country: String
     
-    static var isCountrySet: Bool = false {
-        didSet {
-            if !isCountrySet {
-                currentCountry = Country("", "")
-            }
-        }
-    }
+    static var isCountrySet: Bool = false
     
     static var currentCountry: Country = Country("", "") {
         didSet {
-            
             isCountrySet = true
         }
     }

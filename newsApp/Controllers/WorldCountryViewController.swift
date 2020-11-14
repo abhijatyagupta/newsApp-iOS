@@ -12,13 +12,11 @@ class WorldCountryViewController: UIViewController {
     @IBOutlet weak var worldCountryCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private let searchController = UISearchController(searchResultsController: nil)
-    var apiToCall: String = Settings.worldApiURL
     private let newsManager = NewsManager()
-    
     private var newsImages = [Int : UIImage]()
-//    private var newsTitles: [String] = []
-//    private var newsDescriptions: [String] = []
     private var articles: [JSON] = []
+    var apiToCall: String = Settings.worldApiURL
+    private var loadNews: DispatchWorkItem?
     
     
     override func viewDidLoad() {
@@ -34,10 +32,14 @@ class WorldCountryViewController: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         
-        newsManager.performRequest(apiToCall) { (data) in
-            print("data received!!")
-            self.fetchNews(data)
+        loadNews = DispatchWorkItem {
+            self.newsManager.performRequest(self.apiToCall) { (data) in
+                print("data received!!")
+                self.fetchNews(data)
+            }
         }
+        
+        DispatchQueue.main.async(execute: loadNews!)
         
         
     }
@@ -46,6 +48,15 @@ class WorldCountryViewController: UIViewController {
         print("view appeared!")
         
     }
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        loadNews?.cancel()
+        
+    }
+    
+    
     
     func fetchNews(_ data: Data?) {
         if let safeData = data {
@@ -59,8 +70,9 @@ class WorldCountryViewController: UIViewController {
             self.activityIndicator.isHidden = true
             self.worldCountryCollectionView.isHidden = false
         }
-        
     }
+    
+    
 
 }
 
@@ -89,10 +101,10 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
                         else {
                             cell.newsImageView.image = UIImage(imageLiteralResourceName: "xb1.png")
                         }
+                        cell.activityIndicator.isHidden = true
                         self.newsImages[indexPath.row] = cell.newsImageView.image
                     }
                 }
-                cell.activityIndicator.isHidden = true
             }
         }
         cell.delegate = self
@@ -103,11 +115,8 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
 
 extension WorldCountryViewController: NewsCellDelegate {
     func presentShareScreen(_ cell: NewsCell) {
-        activityIndicator.isHidden = false
         let shareText = cell.newsURL
         let vc = UIActivityViewController(activityItems: [URL(string: shareText!)!], applicationActivities: [])
         present(vc, animated: true)
-        activityIndicator.isHidden = true
-        
     }
 }

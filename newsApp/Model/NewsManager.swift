@@ -24,7 +24,21 @@ class NewsManager {
                 else {
                     print("Error occured in session.dataTask")
                     print(error.debugDescription)
-                    callback(nil)
+                    
+                    if let colonIndex = apiCall.firstIndex(of: ":") {
+                        if apiCall[apiCall.startIndex..<colonIndex] == "http" {
+                            print("https used!")
+                            self.performRequest("https" + apiCall[colonIndex..<apiCall.endIndex]) { (data) in
+                                callback(data)
+                            }
+                        }
+                        else {
+                            callback(nil)
+                        }
+                    }
+                    else {
+                        callback(nil)
+                    }
                 }
             }
             task.resume()
