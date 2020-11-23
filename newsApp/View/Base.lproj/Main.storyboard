@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UiG-hi-mHP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UiG-hi-mHP">
     <device id="retina4_7" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -252,7 +252,7 @@
         <!--Headlines root-->
         <scene sceneID="5Ps-0P-DSj">
             <objects>
-                <viewController id="L8L-Hg-eIm" userLabel="Headlines root" customClass="HeadlinesViewController" customModule="newsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="L8L-Hg-eIm" userLabel="Headlines root" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6P1-8c-l3t">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -268,7 +268,7 @@
         <!--Settings root-->
         <scene sceneID="K7O-FX-ioF">
             <objects>
-                <viewController id="RbA-zA-3Zx" userLabel="Settings root" customClass="SettingsViewController" customModule="newsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="RbA-zA-3Zx" userLabel="Settings root" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BsS-GL-06u">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -418,7 +418,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="jt2-GV-C9M"/>
+        <segue reference="is5-Ur-IXB"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="gearshape" catalog="system" width="128" height="121"/>

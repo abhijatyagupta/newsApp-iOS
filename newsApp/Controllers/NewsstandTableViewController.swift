@@ -25,6 +25,10 @@ class NewsstandTableViewController: UITableViewController {
         countrySwitchDidToggle(countrySwitch)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+//        tabBarController?.delegate = self
+    }
+    
     @IBAction func countrySwitchDidToggle(_ sender: UISwitch) {
         if countrySwitch.isOn {
             tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
@@ -49,8 +53,6 @@ class NewsstandTableViewController: UITableViewController {
     }
     
     
-    
-    
     //MARK: - TableView Methods
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,6 +63,7 @@ class NewsstandTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+
 
 //MARK: - CollectionView Methods
 
@@ -88,7 +91,6 @@ extension NewsstandTableViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        print(indexPath.row)
         selectedCategory = categories[indexPath.row]
         performSegue(withIdentifier: "categorySegue", sender: self)
     }
@@ -97,6 +99,7 @@ extension NewsstandTableViewController: UICollectionViewDelegate, UICollectionVi
         if segue.identifier == "categorySegue" {
             let vc = segue.destination as! WorldCountryViewController
             vc.navigationItem.title = selectedCategory
+            vc.parentCategory = true
             vc.apiToCall = Settings.worldApiURL + "&category=\(selectedCategory)&country=us"
             
         }
@@ -112,3 +115,40 @@ class CustomCatCell: UICollectionViewCell {
     @IBOutlet fileprivate weak var backgroundImage: UIImageView!
 }
 
+
+
+extension NewsstandTableViewController: UITabBarControllerDelegate {
+//    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+//        print("shouldSelect fired in newsstandTableVC")
+////        print("children count -->\(navigationController?.children.count)")
+//
+//        if navigationController?.topViewController is WorldCountryViewController {
+//            print("presenting vc is indeed wcvc")
+//            if let WCVC = navigationController?.topViewController as? WorldCountryViewController {
+//                print("scrolled to top")
+//                WCVC.worldCountryCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: UICollectionView.ScrollPosition(rawValue: 0), animated: true)
+//                print("will return false")
+//                return false
+//            }
+//        }
+//        return true
+//    }
+    
+    
+//    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+//        let tabBarIndex = tabBarController.selectedIndex
+//        print(tabBarIndex)
+//
+//
+//        self.tableView.setContentOffset(CGPoint(x: 0.0, y: additionalSafeAreaInsets.top), animated: true)
+//
+//        self.tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: UITableView.ScrollPosition(rawValue: 0)!, animated: true)
+//
+//        if let currentViewController = self.presentingViewController as? UICollectionViewController {
+//
+//            currentViewController.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: UICollectionView.ScrollPosition(rawValue: 0), animated: true)
+//        }
+//    }
+    
+    
+}
