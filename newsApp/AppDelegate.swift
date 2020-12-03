@@ -14,6 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        if UserDefaults.standard.object(forKey: "rememberCountrySettings") as? Bool == nil {
+            print("default setting found nil")
+            UserDefaults.standard.set(true, forKey: "rememberCountrySettings")
+        }
+        else {
+            print("default setting loaded successfully")
+        }
+        
         
         
         

@@ -9,11 +9,29 @@ import Foundation
 
 class NewsManager {
     
-//    func fetchNews(_ url: String) {
-//
-//    }
-    
     func performRequest(_ apiCall: String, callback: @escaping (Data?) -> Void) {
+        if let colonIndex = apiCall.firstIndex(of: ":") {
+            if apiCall[apiCall.startIndex..<colonIndex] == "http" {
+                print("https used!")
+                self.performRequestHelper("https" + apiCall[colonIndex..<apiCall.endIndex]) { (data) in
+                    callback(data)
+                }
+            }
+            else if apiCall[apiCall.startIndex..<colonIndex] == "https" {
+                self.performRequestHelper(apiCall) { (data) in
+                    callback(data)
+                }
+            }
+            else {
+                callback(nil)
+            }
+        }
+        else {
+            callback(nil)
+        }
+    }
+    
+    func performRequestHelper(_ apiCall: String, callback: @escaping (Data?) -> Void) {
         if let url = URL(string: apiCall) {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, response, error) in
@@ -24,21 +42,6 @@ class NewsManager {
                 else {
                     print("Error occured in session.dataTask")
                     print(error.debugDescription)
-                    
-                    if let colonIndex = apiCall.firstIndex(of: ":") {
-                        if apiCall[apiCall.startIndex..<colonIndex] == "http" {
-                            print("https used!")
-                            self.performRequest("https" + apiCall[colonIndex..<apiCall.endIndex]) { (data) in
-                                callback(data)
-                            }
-                        }
-                        else {
-                            callback(nil)
-                        }
-                    }
-                    else {
-                        callback(nil)
-                    }
                 }
             }
             task.resume()
@@ -48,9 +51,4 @@ class NewsManager {
             callback(nil)
         }
     }
-    
-    
-    
-    
-    
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftyJSON
+import SafariServices
 
 class WorldCountryViewController: UIViewController {
     @IBOutlet weak var worldCountryCollectionView: UICollectionView!
@@ -21,7 +22,6 @@ class WorldCountryViewController: UIViewController {
     var apiToCall: String = Settings.worldApiURL
     var lastLoadedApi: String = Settings.worldApiURL
     private var loadNews: DispatchWorkItem?
-    
     
     
     override func viewDidLoad() {
@@ -61,7 +61,7 @@ class WorldCountryViewController: UIViewController {
             print("last loaded api was not equal to global api")
             worldCountryCollectionView.isHidden = true
             activityIndicator.isHidden = false
-            navigationItem.title = Settings.currentCountry.name
+            navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : "World"
             DispatchQueue.main.async {
                 self.lastLoadedApi = Settings.worldApiURL
                 self.newsManager.performRequest(Settings.worldApiURL) { (data) in
@@ -69,8 +69,10 @@ class WorldCountryViewController: UIViewController {
                     self.fetchNews(data)
                 }
             }
+//            lastLoadedApi = Settings.worldApiURL
+//            apiToCall = Settings.worldApiURL
+//            viewDidLoad()
         }
-        
         tabBarController?.delegate = self
     }
     
@@ -98,9 +100,6 @@ class WorldCountryViewController: UIViewController {
             self.worldCountryCollectionView.isHidden = false
         }
     }
-    
-    
-
 }
 
 
@@ -140,6 +139,22 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         cell.delegate = self
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        if let cell = collectionView.cellForItem(at: indexPath) as? NewsCell {
+            if let url = URL(string: cell.newsURL!) {
+                let vc = SFSafariViewController(url: url)
+                vc.overrideUserInterfaceStyle = .dark
+                present(vc, animated: true)
+            }
+            else {
+                let alert = UIAlertController(title: "Unable to open article", message: "The news URL is invalid.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alert, animated: true)
+            }
+        }
+    }
 }
 
 
@@ -147,9 +162,16 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
 
 extension WorldCountryViewController: NewsCellDelegate {
     func presentShareScreen(_ cell: NewsCell) {
-        let shareText = cell.newsURL
-        let vc = UIActivityViewController(activityItems: [URL(string: shareText!)!], applicationActivities: [])
-        present(vc, animated: true)
+        if let url = URL(string: cell.newsURL!) {
+            let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
+            vc.overrideUserInterfaceStyle = .dark
+            present(vc, animated: true)
+        }
+        else {
+            let alert = UIAlertController(title: "Error sharing article", message: "The news URL is invalid.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+        }
     }
 }
 
@@ -158,22 +180,12 @@ extension WorldCountryViewController: NewsCellDelegate {
 extension WorldCountryViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         print("shouldSelect fired in worldCountryVC")
-
         if tabBarController.selectedViewController == viewController {
             if navigationController?.topViewController is WorldCountryViewController {
                 worldCountryCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: UICollectionView.ScrollPosition(rawValue: 0), animated: true)
                 return false
             }
         }
-
         return true
     }
-
-
-//    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-//        let tabBarIndex = tabBarController.selectedIndex
-//        print(tabBarIndex)
-//        print("scrolled to top")
-//        self.worldCountryCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: UICollectionView.ScrollPosition(rawValue: 0), animated: true)
-//    }
 }

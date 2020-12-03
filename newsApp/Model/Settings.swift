@@ -53,6 +53,6 @@ class Settings {
         }
     }
     
-    
+//    static var rememberCountrySettings: 
     
 }

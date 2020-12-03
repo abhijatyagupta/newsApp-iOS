@@ -11,6 +11,7 @@ class CountryTableViewController: UITableViewController {
     
 //    private let countries: [ String] = ["Argentina","Australia", "Austria", "Belgium", "Brazil", "Bulgaria", "Canada", "China", "Colombia", "Cuba", "Czechia", "Egypt", "France", "Germany", "Greece", "Hong Kong", "Hungary", "India", "Indonesia", "Ireland", "Israel", "Italy", "Japan", "Latvia", "Lithuania", "Malaysia", "Mexico", "Morocco", "Netherlands", "New Zealand", "Nigeria", "Norway", "Philippines", "Poland", "Portugal", "Romania", "Russia", "Saudi Arabia", "Serbia", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Sweden", "Switzerland", "Taiwan", "Thailand", "Turkey", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Venezuela"]
     
+    private var NSTVController: NewsstandTableViewController?
     
     private let countries: [Country] = [Country("Argentina", "ar"), Country("Australia", "au"),
                                     Country("Austria", "at"), Country("Belgium", "be"),
@@ -44,10 +45,22 @@ class CountryTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
+        NSTVController = self.presentingViewController?.children[0].children[0] as? NewsstandTableViewController
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        if !Settings.isCountrySet {
+            DispatchQueue.main.async {
+                self.NSTVController?.countrySwitch.setOn(false, animated: true)
+                self.NSTVController?.countrySwitchDidToggle((self.NSTVController?.countrySwitch)!)
+            }
+        }
+    }
     
-
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        dismiss(animated: true)
+    }
+    
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,8 +71,6 @@ class CountryTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "countryCell", for: indexPath)
         cell.textLabel?.text = countries[indexPath.row].name
         cell.accessoryType = cell.textLabel?.text == Settings.currentCountry.name ? .checkmark : .none
-        
-        
         return cell
     }
    
@@ -67,22 +78,9 @@ class CountryTableViewController: UITableViewController {
         Settings.isCountrySet = true
         Settings.currentCountry = countries[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
-        if let NSTVController = self.presentingViewController?.children[0].children[0] as? NewsstandTableViewController {
-            DispatchQueue.main.async {
-                NSTVController.countryRefresh()
-            }
+        DispatchQueue.main.async {
+            self.NSTVController?.countryRefresh()
         }
         self.dismiss(animated: true)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
