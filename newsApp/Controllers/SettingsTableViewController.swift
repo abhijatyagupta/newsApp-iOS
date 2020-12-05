@@ -13,10 +13,13 @@ class SettingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
+        
+        rememberCountrySettingsSwitch.setOn(UserDefaults.standard.bool(forKey: K.rCSKey), animated: false)
+        
     }
     
-    @IBAction func rememberCountrySettingsSwitchTapped(_ sender: UISwitch) {
-        UserDefaults.standard.set(rememberCountrySettingsSwitch.isOn ? true : false, forKey: "rememberCountrySettings")
+    @IBAction func rememberCountrySettingsSwitchDidToggle(_ sender: UISwitch) {
+        UserDefaults.standard.set(rememberCountrySettingsSwitch.isOn ? true : false, forKey: K.rCSKey)
     }
     
 }

@@ -77,6 +77,8 @@ class CountryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         Settings.isCountrySet = true
         Settings.currentCountry = countries[indexPath.row]
+        UserDefaults.standard.set(Settings.currentCountry.name, forKey: K.countryKey)
+        UserDefaults.standard.set(Settings.currentCountry.code, forKey: K.countryCodeKey)
         tableView.deselectRow(at: indexPath, animated: true)
         DispatchQueue.main.async {
             self.NSTVController?.countryRefresh()

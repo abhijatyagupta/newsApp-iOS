@@ -298,7 +298,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kR3-TG-vnx">
                                                     <rect key="frame" x="278" y="6.5" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="rememberCountrySettingsSwitchTapped:" destination="X2e-Lr-ke0" eventType="valueChanged" id="1mc-r1-iFZ"/>
+                                                        <action selector="rememberCountrySettingsSwitchDidToggle:" destination="X2e-Lr-ke0" eventType="valueChanged" id="1mc-r1-iFZ"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>

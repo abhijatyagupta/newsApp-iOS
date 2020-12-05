@@ -18,8 +18,9 @@ class WorldCountryViewController: UIViewController {
     private var newsImages = [Int : UIImage]()
     private var articles: [JSON] = []
     
+    var didAppearRanOnce: Bool = false
     var parentCategory: Bool = false
-    var apiToCall: String = Settings.worldApiURL
+    var apiToCall: String = ""
     var lastLoadedApi: String = Settings.worldApiURL
     private var loadNews: DispatchWorkItem?
     
@@ -27,6 +28,10 @@ class WorldCountryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
+        
+        if apiToCall.count < 1 {
+            apiToCall = Settings.worldApiURL
+        }
         
         worldCountryCollectionView.delegate = self
         worldCountryCollectionView.dataSource = self
@@ -57,7 +62,7 @@ class WorldCountryViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         print("view appeared!")
-        if !parentCategory && lastLoadedApi != Settings.worldApiURL {
+        if !parentCategory && lastLoadedApi != Settings.worldApiURL && didAppearRanOnce {
             print("last loaded api was not equal to global api")
             worldCountryCollectionView.isHidden = true
             activityIndicator.isHidden = false
@@ -74,6 +79,8 @@ class WorldCountryViewController: UIViewController {
 //            viewDidLoad()
         }
         tabBarController?.delegate = self
+        didAppearRanOnce = true
+        
     }
     
     

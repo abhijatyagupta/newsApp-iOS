@@ -11,6 +11,7 @@ class NewsstandTableViewController: UITableViewController {
     
     private let categories: [String] = ["Sports", "Entertainment", "Business", "Technology", "Health", "Science", "General"]
     private var selectedCategory: String = ""
+    private let defaults = UserDefaults.standard
     
     @IBOutlet weak var countrySwitch: UISwitch!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
@@ -22,11 +23,22 @@ class NewsstandTableViewController: UITableViewController {
         overrideUserInterfaceStyle = .dark
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
-        countrySwitchDidToggle(countrySwitch)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-//        tabBarController?.delegate = self
+        
+        if defaults.bool(forKey: K.rCSKey), let countryName = UserDefaults.standard.object(forKey: K.countryKey) as? String? {
+            if countryName != nil {
+                countrySwitch.setOn(true, animated: false)
+                Settings.isCountrySet = true
+                let countryToSet = Country(countryName!, defaults.string(forKey: K.countryCodeKey)!)
+                Settings.currentCountry = countryToSet
+                countrySwitchDidToggle(countrySwitch)
+            }
+            else {
+                countrySwitch.setOn(false, animated: false)
+            }
+        }
+        else {
+            countrySwitch.setOn(false, animated: false)
+        }
     }
     
     @IBAction func countrySwitchDidToggle(_ sender: UISwitch) {
@@ -36,6 +48,8 @@ class NewsstandTableViewController: UITableViewController {
         }
         else {
             Settings.isCountrySet = false
+            UserDefaults.standard.setValue(nil, forKey: K.countryKey)
+            Settings.currentCountry = Country("", "")
             tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
         }
     }

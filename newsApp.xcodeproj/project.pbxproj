@@ -15,6 +15,7 @@
 		AC4D9CEF254EEECD00942DA8 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC4D9CEE254EEECD00942DA8 /* Secrets.plist */; };
 		AC5365FA25520E6F00061FDA /* NewsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5365F925520E6F00061FDA /* NewsManager.swift */; };
 		AC5D2A3F2572773200031C56 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D2A3E2572773200031C56 /* SettingsTableViewController.swift */; };
+		AC5D2A582579523600031C56 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5D2A572579522F00031C56 /* Constants.swift */; };
 		AC6046D4252A15F3007CEB56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6046D3252A15F3007CEB56 /* AppDelegate.swift */; };
 		AC6046D6252A15F3007CEB56 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6046D5252A15F3007CEB56 /* SceneDelegate.swift */; };
 		AC6046DB252A15F3007CEB56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC6046D9252A15F3007CEB56 /* Main.storyboard */; };
@@ -60,6 +61,7 @@
 		AC4D9CEE254EEECD00942DA8 /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		AC5365F925520E6F00061FDA /* NewsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsManager.swift; sourceTree = "<group>"; };
 		AC5D2A3E2572773200031C56 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		AC5D2A572579522F00031C56 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AC6046D3252A15F3007CEB56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC6046D5252A15F3007CEB56 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AC6046DA252A15F3007CEB56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				AC6046DC252A15F4007CEB56 /* Assets.xcassets */,
 				AC6046E1252A15F5007CEB56 /* Info.plist */,
 				AC4D9CEE254EEECD00942DA8 /* Secrets.plist */,
+				AC5D2A572579522F00031C56 /* Constants.swift */,
 			);
 			path = newsApp;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				AC6046D4252A15F3007CEB56 /* AppDelegate.swift in Sources */,
 				AC6046D6252A15F3007CEB56 /* SceneDelegate.swift in Sources */,
 				AC467AB0252BB018003089D5 /* NewsstandTableViewController.swift in Sources */,
+				AC5D2A582579523600031C56 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
