@@ -24,21 +24,14 @@ class NewsstandTableViewController: UITableViewController {
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
         
-        if defaults.bool(forKey: K.rCSKey), let countryName = UserDefaults.standard.object(forKey: K.countryKey) as? String? {
-            if countryName != nil {
-                countrySwitch.setOn(true, animated: false)
-                Settings.isCountrySet = true
-                let countryToSet = Country(countryName!, defaults.string(forKey: K.countryCodeKey)!)
-                Settings.currentCountry = countryToSet
-                countrySwitchDidToggle(countrySwitch)
-            }
-            else {
-                countrySwitch.setOn(false, animated: false)
-            }
+        if Settings.isCountrySet {
+            countrySwitch.setOn(true, animated: false)
+            countrySwitchDidToggle(countrySwitch)
         }
         else {
             countrySwitch.setOn(false, animated: false)
         }
+        
     }
     
     @IBAction func countrySwitchDidToggle(_ sender: UISwitch) {

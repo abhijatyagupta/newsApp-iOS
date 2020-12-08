@@ -26,6 +26,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.set(nil, forKey: K.countryKey)
             
         }
+        else if let countryName = defaults.object(forKey: K.countryKey) as? String? {
+            if countryName != nil {
+                Settings.isCountrySet = true
+                let countryToSet = Country(countryName!, defaults.string(forKey: K.countryCodeKey)!)
+                Settings.currentCountry = countryToSet
+            }
+        }
         
         return true
     }
