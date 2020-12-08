@@ -48,5 +48,15 @@ class Settings {
     
     static var currentCountry: Country = Country("", "")
     
+    static var initialScreen: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: K.initialScreenKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: K.initialScreenKey)
+        }
+        
+    }
+    
     
 }

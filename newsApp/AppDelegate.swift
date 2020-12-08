@@ -20,15 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if defaults.object(forKey: K.rCSKey) as? Bool == nil {
             defaults.set(true, forKey: K.rCSKey)
             defaults.set(nil, forKey: K.countryKey)
+            defaults.set(0, forKey: K.initialScreenKey)
         }
         else if !defaults.bool(forKey: K.rCSKey) {
             defaults.set(nil, forKey: K.countryKey)
+            
         }
-        
-        
-        
-        
-        
         
         return true
     }

@@ -25,10 +25,6 @@ class NewsCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.cornerRadius = 20
-//        bodyView.layer.cornerRadius = 20
-//        bodyView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-//        newsImageView.layer.cornerRadius = 20
-//        newsImageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         realFakeButton.layer.cornerRadius = 7.5
     
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC01D48B257FDD8F0036A1EA /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC01D48A257FDD8F0036A1EA /* TabBarController.swift */; };
 		AC3ED70425405C29007BED8B /* WorldCountryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3ED70325405C29007BED8B /* WorldCountryViewController.swift */; };
 		AC467AB0252BB018003089D5 /* NewsstandTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC467AAF252BB018003089D5 /* NewsstandTableViewController.swift */; };
 		AC467AC9252BC530003089D5 /* CountryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC467AC8252BC530003089D5 /* CountryTableViewController.swift */; };
@@ -21,6 +22,7 @@
 		AC6046DB252A15F3007CEB56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC6046D9252A15F3007CEB56 /* Main.storyboard */; };
 		AC6046DD252A15F4007CEB56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC6046DC252A15F4007CEB56 /* Assets.xcassets */; };
 		AC6046E0252A15F5007CEB56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC6046DE252A15F4007CEB56 /* LaunchScreen.storyboard */; };
+		ACDD7DC3257BD7590027795F /* SetIntitalScreenTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDD7DC2257BD7590027795F /* SetIntitalScreenTableViewController.swift */; };
 		ACEDF7D825306FCB00F3E4F8 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEDF7D725306FCB00F3E4F8 /* Category.swift */; };
 		ACEDF81F2535D7DD00F3E4F8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEDF81E2535D7DD00F3E4F8 /* Settings.swift */; };
 		ACEDF834253887B400F3E4F8 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEDF833253887B400F3E4F8 /* Country.swift */; };
@@ -50,6 +52,7 @@
 		4BDCBACE45A169507B06F6DC /* Pods-newsApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsApp.release.xcconfig"; path = "Target Support Files/Pods-newsApp/Pods-newsApp.release.xcconfig"; sourceTree = "<group>"; };
 		763DB5C5856A18A1D3EAD04F /* Pods_newsApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_newsApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		851DF7E0CF276C2438F2D188 /* Pods-newsAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsAppTests.debug.xcconfig"; path = "Target Support Files/Pods-newsAppTests/Pods-newsAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AC01D48A257FDD8F0036A1EA /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		AC27F0C9256171D5006FE9FE /* newsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = newsAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC27F0CA256171D5006FE9FE /* newsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = newsAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC3ED70325405C29007BED8B /* WorldCountryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCountryViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +71,7 @@
 		AC6046DC252A15F4007CEB56 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC6046DF252A15F4007CEB56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC6046E1252A15F5007CEB56 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ACDD7DC2257BD7590027795F /* SetIntitalScreenTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetIntitalScreenTableViewController.swift; sourceTree = "<group>"; };
 		ACEDF7D725306FCB00F3E4F8 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		ACEDF81E2535D7DD00F3E4F8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		ACEDF833253887B400F3E4F8 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
@@ -139,10 +143,12 @@
 			isa = PBXGroup;
 			children = (
 				AC4D9C922542FA7600942DA8 /* NewsCell.swift */,
+				AC01D48A257FDD8F0036A1EA /* TabBarController.swift */,
 				AC467AC8252BC530003089D5 /* CountryTableViewController.swift */,
 				AC467AAF252BB018003089D5 /* NewsstandTableViewController.swift */,
 				AC3ED70325405C29007BED8B /* WorldCountryViewController.swift */,
 				AC5D2A3E2572773200031C56 /* SettingsTableViewController.swift */,
+				ACDD7DC2257BD7590027795F /* SetIntitalScreenTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -433,6 +439,8 @@
 				AC3ED70425405C29007BED8B /* WorldCountryViewController.swift in Sources */,
 				AC6046D4252A15F3007CEB56 /* AppDelegate.swift in Sources */,
 				AC6046D6252A15F3007CEB56 /* SceneDelegate.swift in Sources */,
+				ACDD7DC3257BD7590027795F /* SetIntitalScreenTableViewController.swift in Sources */,
+				AC01D48B257FDD8F0036A1EA /* TabBarController.swift in Sources */,
 				AC467AB0252BB018003089D5 /* NewsstandTableViewController.swift in Sources */,
 				AC5D2A582579523600031C56 /* Constants.swift in Sources */,
 			);

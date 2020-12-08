@@ -9,4 +9,5 @@ struct K {
     static let rCSKey = "rememberCountrySettings"
     static let countryKey = "country"
     static let countryCodeKey = "countryCode"
+    static let initialScreenKey = "initialScreen"
 }
