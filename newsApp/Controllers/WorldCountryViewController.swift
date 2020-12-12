@@ -13,15 +13,15 @@ class WorldCountryViewController: UIViewController {
     @IBOutlet weak var worldCountryCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private let searchController = UISearchController(searchResultsController: nil)
-    
     private let newsManager = NewsManager()
     private var newsImages = [Int : UIImage]()
     private var articles: [JSON] = []
-    
-    var didAppearRanOnce: Bool = false
+    private var currentPage: Int = 1
+    private var maxPages: Int = 5
+    private var didAppearRanOnce: Bool = false
     var parentCategory: Bool = false
     var apiToCall: String = ""
-    var lastLoadedApi: String = Settings.worldApiURL
+    private var lastLoadedApi: String = Settings.worldApiURL
     private var loadNews: DispatchWorkItem?
     
     
@@ -54,7 +54,7 @@ class WorldCountryViewController: UIViewController {
             self.lastLoadedApi = self.apiToCall
             self.newsManager.performRequest(self.apiToCall) { (data) in
                 print("data received!!")
-                self.fetchNews(data)
+                self.parseNewsData(data)
             }
         }
         DispatchQueue.main.async(execute: loadNews!)
@@ -64,6 +64,7 @@ class WorldCountryViewController: UIViewController {
         print("view appeared!")
         if !parentCategory && lastLoadedApi != Settings.worldApiURL && didAppearRanOnce {
             print("last loaded api was not equal to global api")
+            currentPage = 1
             worldCountryCollectionView.isHidden = true
             activityIndicator.isHidden = false
             navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : "World"
@@ -71,7 +72,7 @@ class WorldCountryViewController: UIViewController {
                 self.lastLoadedApi = Settings.worldApiURL
                 self.newsManager.performRequest(Settings.worldApiURL) { (data) in
                     print("data received!!")
-                    self.fetchNews(data)
+                    self.parseNewsData(data)
                 }
             }
 //            lastLoadedApi = Settings.worldApiURL
@@ -91,20 +92,48 @@ class WorldCountryViewController: UIViewController {
     
     
     
-    func fetchNews(_ data: Data?) {
+    func parseNewsData(_ data: Data?) {
         if let safeData = data {
             do {
                 let newsJSON: JSON = try JSON(data: safeData)
                 articles.removeAll()
                 newsImages.removeAll()
                 articles = newsJSON["articles"].arrayValue
-            } catch { print(error) }
+                maxPages = Int(ceil(newsJSON["totalResults"].doubleValue/20))
+            }
+            catch { print("caught in parseNewsData: \(error)") }
         }
         DispatchQueue.main.async {
             print("appear settings will apply")
             self.worldCountryCollectionView.reloadData()
             self.activityIndicator.isHidden = true
             self.worldCountryCollectionView.isHidden = false
+        }
+    }
+    
+    func loadNextPage(_ page: Int) {
+        newsManager.performRequest((parentCategory ? apiToCall : Settings.worldApiURL) + "&page=\(page)") { (data) in
+            if let safeData = data {
+                do {
+                    let newsJSON: JSON = try JSON(data: safeData)
+                    let articlesCountBeforeAppend = self.articles.count
+                    self.articles += newsJSON["articles"].arrayValue
+                    var indexPaths: [IndexPath] = []
+                    for i in articlesCountBeforeAppend..<self.articles.count {
+                        print(i)
+                        indexPaths.append(IndexPath(row: i, section: 0))
+                    }
+                    DispatchQueue.main.async {
+                        self.worldCountryCollectionView.insertItems(at: indexPaths)
+                    }
+                }
+                catch {
+                    print("error parsing json object for next page: \(error)")
+                }
+            }
+            else {
+                print("next page didn't load")
+            }
         }
     }
 }
@@ -162,6 +191,31 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
             }
         }
     }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height
+        if (bottomEdge >= scrollView.contentSize.height) {
+            print("bottom reached!!")
+            if currentPage < maxPages {
+                currentPage += 1
+                loadNextPage(currentPage)
+//                worldCountryCollectionView.insertItems(at: [IndexPath(row: articles.count, section: 0)])
+            }
+        }
+    }
+    
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
+//            print("bottom reached!!")
+//        }
+//    }
+    
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if indexPath.row == 19 {
+//            print("in willDisplay cell: \(collectionView.contentOffset.y)")
+//        }
+//    }
 }
 
 

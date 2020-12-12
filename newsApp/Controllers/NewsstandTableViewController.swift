@@ -11,7 +11,6 @@ class NewsstandTableViewController: UITableViewController {
     
     private let categories: [String] = ["Sports", "Entertainment", "Business", "Technology", "Health", "Science", "General"]
     private var selectedCategory: String = ""
-    private let defaults = UserDefaults.standard
     
     @IBOutlet weak var countrySwitch: UISwitch!
     @IBOutlet weak var categoryCollectionView: UICollectionView!

@@ -31,7 +31,7 @@ class NewsManager {
         }
     }
     
-    func performRequestHelper(_ apiCall: String, callback: @escaping (Data?) -> Void) {
+    private func performRequestHelper(_ apiCall: String, callback: @escaping (Data?) -> Void) {
         if let url = URL(string: apiCall) {
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, response, error) in
