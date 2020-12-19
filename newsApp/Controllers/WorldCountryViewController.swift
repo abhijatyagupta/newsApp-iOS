@@ -23,6 +23,7 @@ class WorldCountryViewController: UIViewController {
     var apiToCall: String = ""
     private var lastLoadedApi: String = Settings.worldApiURL
     private var loadNews: DispatchWorkItem?
+    private var backgroundActivitiesToSuspend: [DispatchWorkItem] = []
     
     fileprivate var loadMoreActivityIndicator: LoadMoreActivityIndicator!
     
@@ -55,11 +56,12 @@ class WorldCountryViewController: UIViewController {
         
         loadNews = DispatchWorkItem {
             self.lastLoadedApi = self.apiToCall
-            self.newsManager.performRequest(self.apiToCall) { (data) in
+            self.requestPerformer(url: self.apiToCall) { (data) in
                 print("data received!!")
                 self.parseNewsData(data)
             }
         }
+        
         DispatchQueue.main.async(execute: loadNews!)
     }
     
@@ -75,7 +77,7 @@ class WorldCountryViewController: UIViewController {
             navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : "World"
             DispatchQueue.main.async {
                 self.lastLoadedApi = Settings.worldApiURL
-                self.newsManager.performRequest(Settings.worldApiURL) { (data) in
+                self.requestPerformer(url: Settings.worldApiURL) { (data) in
                     print("data received!!")
                     self.parseNewsData(data)
                 }
@@ -115,7 +117,7 @@ class WorldCountryViewController: UIViewController {
     }
     
     func loadNextPage(_ page: Int) {
-        newsManager.performRequest((parentCategory ? apiToCall : Settings.worldApiURL) + "&page=\(page)") { (data) in
+        requestPerformer(url: (parentCategory ? apiToCall : Settings.worldApiURL) + "&page=\(page)") { (data) in
             if let safeData = data {
                 do {
                     let newsJSON: JSON = try JSON(data: safeData)
@@ -147,7 +149,7 @@ class WorldCountryViewController: UIViewController {
     
     
     func loadImages(articlesArray: [JSON], index: Int, newImagesCount: Int, imageArrayCount: Int) {
-        newsManager.performRequest(articlesArray[index]["urlToImage"].stringValue) { (data) in
+        requestPerformer(url: articlesArray[index]["urlToImage"].stringValue) { (data) in
             if let safeData = data {
                 self.newsImages[imageArrayCount + index] = UIImage(data: safeData)
             }
@@ -167,6 +169,17 @@ class WorldCountryViewController: UIViewController {
     func toggleCollectionViewAndActivityIndicator(shouldViewAppear: Bool) {
         activityIndicator.isHidden = shouldViewAppear ? true : false
         worldCountryCollectionView.isHidden = shouldViewAppear ? false : true
+    }
+    
+    
+    func requestPerformer(url: String, callback: @escaping (Data?) -> Void) {
+        DispatchQueue.main.async {
+            if self.navigationController?.topViewController is WorldCountryViewController {
+                self.newsManager.performRequest(url) { (data) in
+                    callback(data)
+                }
+            }
+        }
     }
 }
 
@@ -192,7 +205,7 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         }
 //        else  {
 //            DispatchQueue.main.async {
-//                self.newsManager.performRequest(self.articles[indexPath.row]["urlToImage"].stringValue) { (data) in
+//                self.requestPerformer(url: self.articles[indexPath.row]["urlToImage"].stringValue) { (data) in
 //                    DispatchQueue.main.async {
 //                        if let safeData = data {
 //                            cell.newsImageView.image = UIImage(data: safeData)
