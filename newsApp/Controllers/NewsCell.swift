@@ -26,10 +26,18 @@ class NewsCell: UICollectionViewCell {
         super.awakeFromNib()
         self.layer.cornerRadius = 20
         realFakeButton.layer.cornerRadius = 7.5
-    
     }
 
     @IBAction func shareButtonPressed(_ sender: UIButton) {
         delegate?.presentShareScreen(self)
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        if !activityIndicator.isHidden {
+            activityIndicator.startAnimating()
+        }
+    }
+    
+    
 }

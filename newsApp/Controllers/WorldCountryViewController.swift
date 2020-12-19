@@ -24,6 +24,8 @@ class WorldCountryViewController: UIViewController {
     private var lastLoadedApi: String = Settings.worldApiURL
     private var loadNews: DispatchWorkItem?
     
+    fileprivate var loadMoreActivityIndicator: LoadMoreActivityIndicator!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +38,8 @@ class WorldCountryViewController: UIViewController {
         worldCountryCollectionView.delegate = self
         worldCountryCollectionView.dataSource = self
         worldCountryCollectionView.register(UINib(nibName: "NewsCell", bundle: nil), forCellWithReuseIdentifier: "newsCell")
-        worldCountryCollectionView.isHidden = true
+        toggleCollectionViewAndActivityIndicator(shouldViewAppear: false)
+        loadMoreActivityIndicator = LoadMoreActivityIndicator(scrollView: worldCountryCollectionView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
         
         searchController.searchBar.placeholder = "Search topic"
         navigationItem.searchController = searchController
@@ -65,8 +68,7 @@ class WorldCountryViewController: UIViewController {
         if !parentCategory && lastLoadedApi != Settings.worldApiURL && didAppearRanOnce {
             print("last loaded api was not equal to global api")
             currentPage = 1
-            worldCountryCollectionView.isHidden = true
-            activityIndicator.isHidden = false
+            toggleCollectionViewAndActivityIndicator(shouldViewAppear: false)
             navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : "World"
             DispatchQueue.main.async {
                 self.lastLoadedApi = Settings.worldApiURL
@@ -99,15 +101,15 @@ class WorldCountryViewController: UIViewController {
                 articles.removeAll()
                 newsImages.removeAll()
                 articles = newsJSON["articles"].arrayValue
+                DispatchQueue.main.async {
+                    self.loadImages(articlesArray: self.articles, index: 0, newImagesCount: self.articles.count, imageArrayCount: self.newsImages.count)
+                    print("appear settings will apply")
+                    self.worldCountryCollectionView.reloadData()
+                    self.toggleCollectionViewAndActivityIndicator(shouldViewAppear: true)
+                }
                 maxPages = Int(ceil(newsJSON["totalResults"].doubleValue/20))
             }
             catch { print("caught in parseNewsData: \(error)") }
-        }
-        DispatchQueue.main.async {
-            print("appear settings will apply")
-            self.worldCountryCollectionView.reloadData()
-            self.activityIndicator.isHidden = true
-            self.worldCountryCollectionView.isHidden = false
         }
     }
     
@@ -118,10 +120,15 @@ class WorldCountryViewController: UIViewController {
                     let newsJSON: JSON = try JSON(data: safeData)
                     let articlesCountBeforeAppend = self.articles.count
                     self.articles += newsJSON["articles"].arrayValue
+                    DispatchQueue.main.async {
+                        self.loadImages(articlesArray: newsJSON["articles"].arrayValue, index: 0, newImagesCount: newsJSON["articles"].arrayValue.count, imageArrayCount: articlesCountBeforeAppend)
+                    }
                     var indexPaths: [IndexPath] = []
                     for i in articlesCountBeforeAppend..<self.articles.count {
-                        print(i)
                         indexPaths.append(IndexPath(row: i, section: 0))
+                    }
+                    DispatchQueue.main.async { [weak self] in
+                        self?.loadMoreActivityIndicator.stop()
                     }
                     DispatchQueue.main.async {
                         self.worldCountryCollectionView.insertItems(at: indexPaths)
@@ -135,6 +142,30 @@ class WorldCountryViewController: UIViewController {
                 print("next page didn't load")
             }
         }
+    }
+    
+    
+    func loadImages(articlesArray: [JSON], index: Int, newImagesCount: Int, imageArrayCount: Int) {
+        newsManager.performRequest(articlesArray[index]["urlToImage"].stringValue) { (data) in
+            if let safeData = data {
+                self.newsImages[imageArrayCount + index] = UIImage(data: safeData)
+            }
+            else {
+                self.newsImages[imageArrayCount + index] = UIImage(imageLiteralResourceName: "xb1.png")
+            }
+            DispatchQueue.main.async {
+                self.worldCountryCollectionView.reloadItems(at: [IndexPath(row: imageArrayCount + index, section: 0)])
+            }
+            if index + 1 < newImagesCount {
+                self.loadImages(articlesArray: articlesArray, index: index + 1, newImagesCount: newImagesCount, imageArrayCount: imageArrayCount)
+            }
+        }
+    }
+    
+    
+    func toggleCollectionViewAndActivityIndicator(shouldViewAppear: Bool) {
+        activityIndicator.isHidden = shouldViewAppear ? true : false
+        worldCountryCollectionView.isHidden = shouldViewAppear ? false : true
     }
 }
 
@@ -153,25 +184,27 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         cell.newsURL = articles[indexPath.row]["url"].stringValue
         
         if let image = newsImages[indexPath.row] {
-            cell.newsImageView.image = image
-            cell.activityIndicator.isHidden = true
-        }
-        else  {
             DispatchQueue.main.async {
-                self.newsManager.performRequest(self.articles[indexPath.row]["urlToImage"].stringValue) { (data) in
-                    DispatchQueue.main.async {
-                        if let safeData = data {
-                            cell.newsImageView.image = UIImage(data: safeData)
-                        }
-                        else {
-                            cell.newsImageView.image = UIImage(imageLiteralResourceName: "xb1.png")
-                        }
-                        cell.activityIndicator.isHidden = true
-                        self.newsImages[indexPath.row] = cell.newsImageView.image
-                    }
-                }
+                cell.newsImageView.image = image
+                cell.activityIndicator.isHidden = true
             }
         }
+//        else  {
+//            DispatchQueue.main.async {
+//                self.newsManager.performRequest(self.articles[indexPath.row]["urlToImage"].stringValue) { (data) in
+//                    DispatchQueue.main.async {
+//                        if let safeData = data {
+//                            cell.newsImageView.image = UIImage(data: safeData)
+//                        }
+//                        else {
+//                            cell.newsImageView.image = UIImage(imageLiteralResourceName: "xb1.png")
+//                        }
+//                        cell.activityIndicator.isHidden = true
+//                        self.newsImages[indexPath.row] = cell.newsImageView.image
+//                    }
+//                }
+//            }
+//        }
         cell.delegate = self
         return cell
     }
@@ -192,30 +225,47 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height
-        if (bottomEdge >= scrollView.contentSize.height) {
-            print("bottom reached!!")
-            if currentPage < maxPages {
-                currentPage += 1
-                loadNextPage(currentPage)
-//                worldCountryCollectionView.insertItems(at: [IndexPath(row: articles.count, section: 0)])
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 345, height: calculateHeightofCellAt(indexPath: indexPath))
+    }
+    
+    func calculateHeightofCellAt(indexPath: IndexPath) -> CGFloat {
+        let newsTitleHeight = computeFrameHeight(text: articles[indexPath.row]["title"].stringValue, isTitle: true).height
+        let newsDescriptionHeight = computeFrameHeight(text: articles[indexPath.row]["description"].stringValue, isTitle: false).height
+        return 309 + newsTitleHeight + newsDescriptionHeight
+    }
+    
+    
+    func computeFrameHeight(text: String, isTitle: Bool) -> CGRect {
+        let height: CGFloat = 9999
+        let size = CGSize(width: 305, height: height)
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: isTitle ? 20 : 15, weight: isTitle ? UIFont.Weight.semibold : UIFont.Weight.regular)]
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: attributes, context: nil)
+    }
+    
+    
+
+    //MARK: - Scroll View Methods
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        loadMoreActivityIndicator.start {
+            DispatchQueue.global(qos: .utility).async {
+                if self.currentPage < self.maxPages {
+                    self.currentPage += 1
+                    self.loadNextPage(self.currentPage)
+                }
+                else {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.loadMoreActivityIndicator.stop()
+                    }
+                }
+//                sleep(10)
             }
         }
     }
     
-    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
-//            print("bottom reached!!")
-//        }
-//    }
-    
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        if indexPath.row == 19 {
-//            print("in willDisplay cell: \(collectionView.contentOffset.y)")
-//        }
-//    }
 }
 
 

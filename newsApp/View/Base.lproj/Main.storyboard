@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UiG-hi-mHP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UiG-hi-mHP">
     <device id="retina4_7" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -18,30 +18,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="erX-Al-WC6">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="erX-Al-WC6">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="30" minimumInteritemSpacing="10" id="Rmt-JB-ZhL">
-                                    <size key="itemSize" width="345" height="452"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="30" minimumInteritemSpacing="10" id="xpQ-RL-b5p">
+                                    <size key="itemSize" width="345" height="351"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="15" maxX="0.0" maxY="15"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" id="Hu1-Ed-RFc">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Hu1-Ed-RFc">
+                                <rect key="frame" x="177.5" y="299" width="20" height="20"/>
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="Rqt-zg-aOJ"/>
+                        <viewLayoutGuide key="safeArea" id="Y8m-jQ-Ti7"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="erX-Al-WC6" firstAttribute="leading" secondItem="Rqt-zg-aOJ" secondAttribute="leading" id="1sM-q2-zcV"/>
-                            <constraint firstItem="erX-Al-WC6" firstAttribute="bottom" secondItem="Rqt-zg-aOJ" secondAttribute="bottom" id="AFd-5G-0Gg"/>
-                            <constraint firstItem="erX-Al-WC6" firstAttribute="trailing" secondItem="Rqt-zg-aOJ" secondAttribute="trailing" id="dyh-BY-Ei3"/>
-                            <constraint firstItem="erX-Al-WC6" firstAttribute="top" secondItem="vUu-rR-DiZ" secondAttribute="top" id="lGe-vW-n8A"/>
+                            <constraint firstItem="Hu1-Ed-RFc" firstAttribute="centerY" secondItem="vUu-rR-DiZ" secondAttribute="centerY" id="8Bz-N8-FVr"/>
+                            <constraint firstItem="Hu1-Ed-RFc" firstAttribute="centerX" secondItem="vUu-rR-DiZ" secondAttribute="centerX" id="9Ni-Cc-MHh"/>
+                            <constraint firstItem="erX-Al-WC6" firstAttribute="leading" secondItem="vUu-rR-DiZ" secondAttribute="leadingMargin" constant="-16" id="GgV-NG-5be"/>
+                            <constraint firstItem="erX-Al-WC6" firstAttribute="centerX" secondItem="Hu1-Ed-RFc" secondAttribute="centerX" id="LGn-ZD-yXv"/>
+                            <constraint firstItem="erX-Al-WC6" firstAttribute="centerY" secondItem="Hu1-Ed-RFc" secondAttribute="centerY" id="Qxg-fX-BBg"/>
+                            <constraint firstItem="erX-Al-WC6" firstAttribute="bottom" secondItem="vUu-rR-DiZ" secondAttribute="bottomMargin" id="fnQ-qA-XAU"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="World" id="fFX-E8-nzx"/>
@@ -253,18 +254,40 @@
         <!--Headlines root-->
         <scene sceneID="5Ps-0P-DSj">
             <objects>
-                <viewController id="L8L-Hg-eIm" userLabel="Headlines root" sceneMemberID="viewController">
+                <viewController id="L8L-Hg-eIm" userLabel="Headlines root" customClass="HeadlinesViewController" customModule="newsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6P1-8c-l3t">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="Q8F-tV-Bsi"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LDQ-7h-F9g">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6Gq-SD-7O4">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="WHy-JX-0WQ"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="LDQ-7h-F9g" firstAttribute="top" secondItem="6P1-8c-l3t" secondAttribute="top" id="38V-SJ-XZF"/>
+                            <constraint firstAttribute="trailing" secondItem="LDQ-7h-F9g" secondAttribute="trailing" id="B4d-Ra-wQB"/>
+                            <constraint firstAttribute="bottom" secondItem="LDQ-7h-F9g" secondAttribute="bottom" id="FCP-Fy-lQK"/>
+                            <constraint firstItem="LDQ-7h-F9g" firstAttribute="leading" secondItem="6P1-8c-l3t" secondAttribute="leading" id="jAt-7v-ffU"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Headlines" id="hNV-Jj-eYE"/>
+                    <navigationItem key="navigationItem" title="Headlines" largeTitleDisplayMode="never" id="hNV-Jj-eYE"/>
+                    <connections>
+                        <outlet property="headlinesCollectionView" destination="LDQ-7h-F9g" id="kfP-vK-RMG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2m-ub-JgP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="366" y="2625"/>
+            <point key="canvasLocation" x="365.60000000000002" y="2624.4377811094455"/>
         </scene>
         <!--Settings-->
         <scene sceneID="XLW-38-Vnd">
