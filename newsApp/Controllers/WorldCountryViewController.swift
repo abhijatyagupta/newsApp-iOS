@@ -95,8 +95,6 @@ class WorldCountryViewController: UIViewController {
         loadNews?.cancel()
     }
     
-    
-    
     func parseNewsData(_ data: Data?) {
         if let safeData = data {
             do {
