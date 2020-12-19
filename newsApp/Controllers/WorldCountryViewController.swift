@@ -68,7 +68,10 @@ class WorldCountryViewController: UIViewController {
         if !parentCategory && lastLoadedApi != Settings.worldApiURL && didAppearRanOnce {
             print("last loaded api was not equal to global api")
             currentPage = 1
-            toggleCollectionViewAndActivityIndicator(shouldViewAppear: false)
+            DispatchQueue.main.async {
+                self.worldCountryCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: UICollectionView.ScrollPosition(rawValue: 0), animated: false)
+                self.toggleCollectionViewAndActivityIndicator(shouldViewAppear: false)
+            }
             navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : "World"
             DispatchQueue.main.async {
                 self.lastLoadedApi = Settings.worldApiURL
