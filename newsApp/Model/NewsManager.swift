@@ -10,24 +10,19 @@ import Foundation
 class NewsManager {
     
     func performRequest(_ apiCall: String, callback: @escaping (Data?) -> Void) {
-        if let colonIndex = apiCall.firstIndex(of: ":") {
-            if apiCall[apiCall.startIndex..<colonIndex] == "http" {
-                print("https used!")
-                self.performRequestHelper("https" + apiCall[colonIndex..<apiCall.endIndex]) { (data) in
-                    callback(data)
-                }
-            }
-            else if apiCall[apiCall.startIndex..<colonIndex] == "https" {
-                self.performRequestHelper(apiCall) { (data) in
-                    callback(data)
-                }
-            }
-            else {
-                callback(nil)
+        if apiCall.count == 0 { callback(nil) }
+        
+        let urlValidation = URLValidation(url: apiCall)
+        
+        if urlValidation.isValidURL {
+            performRequestHelper(urlValidation.isHTTPSecure ? apiCall : urlValidation.fixedURL) { (data) in
+                callback(data)
             }
         }
         else {
-            callback(nil)
+            performRequestHelper(urlValidation.fixedURL) { (data) in
+                callback(data)
+            }
         }
     }
     
@@ -50,6 +45,60 @@ class NewsManager {
         else {
             print("in performRequest, error creating url object")
             callback(nil)
+        }
+    }
+    
+}
+
+
+private class URLValidation {
+    let url: String
+    var fixedURL: String = ""
+    let colonIndex: String.Index?
+    lazy var isHTTPSecure: Bool = {
+        return checkHTTPSecure()
+    }()
+    lazy var isValidURL: Bool = {
+        return checkValidURL()
+    }()
+    
+    init(url: String) {
+        self.url = url
+        colonIndex = url.firstIndex(of: ":")
+    }
+    
+    
+    private func checkHTTPSecure() -> Bool {
+        if let safeColonIndex = colonIndex {
+            if url[url.startIndex..<safeColonIndex] == "https" {
+                return true
+            }
+            else {
+                print("https used!!")
+                fixedURL = "https" + url[safeColonIndex..<url.endIndex]
+                return false
+            }
+        }
+        else {
+            return false
+        }
+    }
+    
+    private func checkValidURL() -> Bool {
+        if let safeColonIndex = colonIndex {
+            let beginIndex = url.index(safeColonIndex, offsetBy: 2)
+            let endIndex = 	url.index(safeColonIndex, offsetBy: 13)
+            if url[beginIndex..<endIndex] == "/localhost/" {
+                print("localhost url fixed!!")
+                fixedURL = "https://" + url[endIndex..<url.endIndex]
+                return false
+            }
+            else {
+                return true
+            }
+        }
+        else {
+            return false
         }
     }
 }

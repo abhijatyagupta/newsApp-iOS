@@ -12,7 +12,8 @@ import SafariServices
 class WorldCountryViewController: UIViewController {
     @IBOutlet weak var worldCountryCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    private let searchController = UISearchController(searchResultsController: nil)
+    @IBOutlet weak var recentSearchesTableView: UITableView!
+    private let searchController = SearchViewController(searchResultsController: nil)
     private let newsManager = NewsManager()
     private var newsImages = [Int : UIImage]()
     private var articles: [JSON] = []
@@ -23,8 +24,6 @@ class WorldCountryViewController: UIViewController {
     var apiToCall: String = ""
     private var lastLoadedApi: String = Settings.worldApiURL
     private var loadNews: DispatchWorkItem?
-    private var backgroundActivitiesToSuspend: [DispatchWorkItem] = []
-    
     fileprivate var loadMoreActivityIndicator: LoadMoreActivityIndicator!
     
     
@@ -38,13 +37,10 @@ class WorldCountryViewController: UIViewController {
         
         worldCountryCollectionView.delegate = self
         worldCountryCollectionView.dataSource = self
+        setupSearch()
         worldCountryCollectionView.register(UINib(nibName: "NewsCell", bundle: nil), forCellWithReuseIdentifier: "newsCell")
         toggleCollectionViewAndActivityIndicator(shouldViewAppear: false)
         loadMoreActivityIndicator = LoadMoreActivityIndicator(scrollView: worldCountryCollectionView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
-        
-        searchController.searchBar.placeholder = "Search topic"
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
         
         
         if !parentCategory {
@@ -97,7 +93,18 @@ class WorldCountryViewController: UIViewController {
         loadNews?.cancel()
     }
     
-    func parseNewsData(_ data: Data?) {
+    
+    private func setupSearch() {
+        recentSearchesTableView.delegate = self
+        recentSearchesTableView.dataSource = self
+        searchController.searchBar.placeholder = "Search topic"
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.delegate = self
+        
+    }
+    
+    private func parseNewsData(_ data: Data?) {
         if let safeData = data {
             do {
                 let newsJSON: JSON = try JSON(data: safeData)
@@ -110,13 +117,14 @@ class WorldCountryViewController: UIViewController {
                     self.worldCountryCollectionView.reloadData()
                     self.toggleCollectionViewAndActivityIndicator(shouldViewAppear: true)
                 }
-                maxPages = Int(ceil(newsJSON["totalResults"].doubleValue/20))
+                let totalResults: Double = newsJSON["totalResults"].doubleValue
+                maxPages = totalResults > 100 ? 5 : Int(ceil(totalResults/20))
             }
             catch { print("caught in parseNewsData: \(error)") }
         }
     }
     
-    func loadNextPage(_ page: Int) {
+    private func loadNextPage(_ page: Int) {
         requestPerformer(url: (parentCategory ? apiToCall : Settings.worldApiURL) + "&page=\(page)") { (data) in
             if let safeData = data {
                 do {
@@ -148,7 +156,7 @@ class WorldCountryViewController: UIViewController {
     }
     
     
-    func loadImages(articlesArray: [JSON], index: Int, newImagesCount: Int, imageArrayCount: Int) {
+    private func loadImages(articlesArray: [JSON], index: Int, newImagesCount: Int, imageArrayCount: Int) {
         requestPerformer(url: articlesArray[index]["urlToImage"].stringValue) { (data) in
             if let safeData = data {
                 self.newsImages[imageArrayCount + index] = UIImage(data: safeData)
@@ -244,14 +252,14 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         return CGSize(width: 345, height: calculateHeightofCellAt(indexPath: indexPath))
     }
     
-    func calculateHeightofCellAt(indexPath: IndexPath) -> CGFloat {
+    private func calculateHeightofCellAt(indexPath: IndexPath) -> CGFloat {
         let newsTitleHeight = computeFrameHeight(text: articles[indexPath.row]["title"].stringValue, isTitle: true).height
         let newsDescriptionHeight = computeFrameHeight(text: articles[indexPath.row]["description"].stringValue, isTitle: false).height
         return 309 + newsTitleHeight + newsDescriptionHeight
     }
     
     
-    func computeFrameHeight(text: String, isTitle: Bool) -> CGRect {
+    private func computeFrameHeight(text: String, isTitle: Bool) -> CGRect {
         let height: CGFloat = 9999
         let size = CGSize(width: 305, height: height)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
@@ -264,18 +272,12 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
     //MARK: - Scroll View Methods
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        loadMoreActivityIndicator.start {
-            DispatchQueue.global(qos: .utility).async {
-                if self.currentPage < self.maxPages {
+        if currentPage < maxPages {
+            loadMoreActivityIndicator.start {
+                DispatchQueue.global(qos: .utility).async {
                     self.currentPage += 1
                     self.loadNextPage(self.currentPage)
                 }
-                else {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.loadMoreActivityIndicator.stop()
-                    }
-                }
-//                sleep(10)
             }
         }
     }
@@ -314,3 +316,40 @@ extension WorldCountryViewController: UITabBarControllerDelegate {
         return true
     }
 }
+
+
+//MARK: - Search Bar Methods
+
+extension WorldCountryViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("search button was clicked")
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("you are editing text")
+        recentSearchesTableView.isHidden = false
+        UIView.animate(withDuration: 0.2) {
+            self.recentSearchesTableView.alpha = 1
+        } completion: { (animationIsComplete) in
+            self.worldCountryCollectionView.alpha = 0
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        worldCountryCollectionView.alpha = 1
+        UIView.animate(withDuration: 0.2) {
+            self.recentSearchesTableView.alpha = 0
+        } completion: { (animationIsComplete) in
+            if animationIsComplete {
+                self.recentSearchesTableView.isHidden = true
+            }
+        }
+    }
+    
+    
+    
+}
+
+
+
