@@ -26,6 +26,7 @@ class NewsManager {
         }
     }
     
+    
     private func performRequestHelper(_ apiCall: String, callback: @escaping (Data?) -> Void) {
         if let url = URL(string: apiCall) {
             let session = URLSession(configuration: .default)

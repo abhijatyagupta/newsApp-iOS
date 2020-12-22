@@ -13,7 +13,7 @@
         <!--World root-->
         <scene sceneID="u6X-gJ-vE2">
             <objects>
-                <viewController id="nj0-au-dEA" userLabel="World root" customClass="WorldCountryViewController" customModule="newsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="worldCountryViewController" id="nj0-au-dEA" userLabel="World root" customClass="WorldCountryViewController" customModule="newsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vUu-rR-DiZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -49,19 +49,47 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gcE-9q-dTC">
+                                <rect key="frame" x="0.0" y="96" width="375" height="522"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zxO-6c-J57">
+                                        <rect key="frame" x="127" y="148.5" width="121" height="104"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <imageReference key="image" image="exclamationmark.triangle" catalog="system" symbolScale="large"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="light"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No results found" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Luv-Rx-n5W">
+                                        <rect key="frame" x="124" y="275" width="126" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Y8m-jQ-Ti7"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="wk3-kh-62d" firstAttribute="leading" secondItem="Y8m-jQ-Ti7" secondAttribute="leading" id="05M-nb-q0R"/>
+                            <constraint firstItem="gcE-9q-dTC" firstAttribute="bottom" secondItem="Y8m-jQ-Ti7" secondAttribute="bottom" id="27r-5C-ETh"/>
                             <constraint firstItem="Hu1-Ed-RFc" firstAttribute="centerY" secondItem="vUu-rR-DiZ" secondAttribute="centerY" id="8Bz-N8-FVr"/>
                             <constraint firstItem="Hu1-Ed-RFc" firstAttribute="centerX" secondItem="vUu-rR-DiZ" secondAttribute="centerX" id="9Ni-Cc-MHh"/>
                             <constraint firstItem="erX-Al-WC6" firstAttribute="leading" secondItem="vUu-rR-DiZ" secondAttribute="leadingMargin" constant="-16" id="GgV-NG-5be"/>
+                            <constraint firstItem="wk3-kh-62d" firstAttribute="top" secondItem="Y8m-jQ-Ti7" secondAttribute="top" id="GhD-hc-Aql"/>
                             <constraint firstItem="erX-Al-WC6" firstAttribute="centerX" secondItem="Hu1-Ed-RFc" secondAttribute="centerX" id="LGn-ZD-yXv"/>
                             <constraint firstItem="wk3-kh-62d" firstAttribute="bottom" secondItem="Y8m-jQ-Ti7" secondAttribute="bottom" id="NPA-H6-Chq"/>
                             <constraint firstItem="erX-Al-WC6" firstAttribute="centerY" secondItem="Hu1-Ed-RFc" secondAttribute="centerY" id="Qxg-fX-BBg"/>
+                            <constraint firstItem="gcE-9q-dTC" firstAttribute="leading" secondItem="Y8m-jQ-Ti7" secondAttribute="leading" id="UA9-W5-75x"/>
+                            <constraint firstItem="wk3-kh-62d" firstAttribute="trailing" secondItem="Y8m-jQ-Ti7" secondAttribute="trailing" id="XIN-BS-o07"/>
+                            <constraint firstItem="wk3-kh-62d" firstAttribute="bottom" secondItem="Y8m-jQ-Ti7" secondAttribute="bottom" id="bho-qU-pHg"/>
                             <constraint firstItem="wk3-kh-62d" firstAttribute="leading" secondItem="Y8m-jQ-Ti7" secondAttribute="leading" id="cPE-d8-Dwi"/>
                             <constraint firstItem="erX-Al-WC6" firstAttribute="bottom" secondItem="vUu-rR-DiZ" secondAttribute="bottomMargin" id="fnQ-qA-XAU"/>
+                            <constraint firstItem="gcE-9q-dTC" firstAttribute="trailing" secondItem="Y8m-jQ-Ti7" secondAttribute="trailing" id="jqj-60-lPT"/>
                             <constraint firstItem="wk3-kh-62d" firstAttribute="top" secondItem="Y8m-jQ-Ti7" secondAttribute="top" id="kCq-Qi-QU9"/>
+                            <constraint firstItem="gcE-9q-dTC" firstAttribute="top" secondItem="Y8m-jQ-Ti7" secondAttribute="top" id="uYb-kO-qGl"/>
                             <constraint firstItem="wk3-kh-62d" firstAttribute="trailing" secondItem="Y8m-jQ-Ti7" secondAttribute="trailing" id="vUo-s7-sZa"/>
                         </constraints>
                     </view>
@@ -284,7 +312,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="8js-HM-G8y">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="testCell" id="8js-HM-G8y">
                                         <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8js-HM-G8y" id="f8a-uK-ymd">
@@ -305,6 +333,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Headlines" largeTitleDisplayMode="never" id="hNV-Jj-eYE"/>
+                    <connections>
+                        <outlet property="testTableView" destination="FeF-AQ-44J" id="Ysh-NK-3Tl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2m-ub-JgP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -637,6 +668,7 @@
         <segue reference="jt2-GV-C9M"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="exclamationmark.triangle" catalog="system" width="128" height="112"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="globe" catalog="system" width="128" height="121"/>
         <image name="newspaper" catalog="system" width="128" height="108"/>

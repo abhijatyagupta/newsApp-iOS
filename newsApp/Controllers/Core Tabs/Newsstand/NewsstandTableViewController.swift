@@ -33,6 +33,11 @@ class NewsstandTableViewController: UITableViewController {
         
     }
     
+    
+    override func viewDidAppear(_ animated: Bool) {
+        tabBarController?.delegate = self
+    }
+    
     @IBAction func countrySwitchDidToggle(_ sender: UISwitch) {
         if countrySwitch.isOn {
             tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)

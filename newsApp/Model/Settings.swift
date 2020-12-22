@@ -13,13 +13,19 @@ class Settings {
     
     public static var apiURL: String {
         get {
-            return "https://newsapi.org/v2/top-headlines?\(API_KEY)"
+            return "https://newsapi.org/v2/top-headlines?apiKey=\(API_KEY)"
         }
     }
     
     public static var worldApiURL: String {
         get {
-            return "https://newsapi.org/v2/top-headlines?\(API_KEY)&language=en" + (isCountrySet ? "\(API_COUNTRY)" : "")
+            return "https://newsapi.org/v2/top-headlines?apiKey=\(API_KEY)&language=en" + (isCountrySet ? "\(API_COUNTRY)" : "")
+        }
+    }
+    
+    public static var searchApiURL: String {
+        get {
+            return "https://newsapi.org/v2/everything?apiKey=\(API_KEY)"
         }
     }
     
@@ -27,14 +33,14 @@ class Settings {
     private static var API_KEY: String {
         if let path = Bundle.main.path(forResource: "Secrets", ofType: "plist") {
             if let key = NSDictionary(contentsOfFile: path)?.object(forKey: "API_KEY") as? String {
-                return "apiKey=\(key)"
+                return "\(key)"
             }
             else {
-                return "apiKey="
+                return ""
             }
         }
         else {
-            return "apiKey="
+            return ""
         }
     }
     
