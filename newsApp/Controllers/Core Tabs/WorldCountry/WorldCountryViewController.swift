@@ -45,7 +45,6 @@ class WorldCountryViewController: UIViewController {
         worldCountryCollectionView.register(UINib(nibName: "NewsCell", bundle: nil), forCellWithReuseIdentifier: "newsCell")
         toggleCollectionViewAndActivityIndicator(shouldViewAppear: false)
         loadMoreActivityIndicator = LoadMoreActivityIndicator(scrollView: worldCountryCollectionView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
-        recentSearchesTableView.keyboardDismissMode = .onDrag
         
         setTitle()
         
@@ -68,7 +67,7 @@ class WorldCountryViewController: UIViewController {
                 self.worldCountryCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: UICollectionView.ScrollPosition(rawValue: 0), animated: false)
                 self.toggleCollectionViewAndActivityIndicator(shouldViewAppear: false)
             }
-            navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : "World"
+            navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : K.UIText.worldString
             DispatchQueue.main.async {
                 self.lastLoadedApi = Settings.worldApiURL
                 self.requestPerformer(url: Settings.worldApiURL) { (data) in
@@ -82,10 +81,10 @@ class WorldCountryViewController: UIViewController {
         }
         tabBarController?.delegate = self
         didAppearRanOnce = true
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if !recentSearchesTableView.isHidden {
             print("search will become first responder")
             DispatchQueue.main.async {
@@ -117,7 +116,7 @@ class WorldCountryViewController: UIViewController {
     
     private func setTitle() {
         if !parentCategory {
-            navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : "World"
+            navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : K.UIText.worldString
         }
         else if Settings.isCountrySet, !isSearchResultInstance {
             navigationItem.title = "\(Settings.currentCountry.name)/\(navigationItem.title!)"
@@ -128,13 +127,12 @@ class WorldCountryViewController: UIViewController {
     private func setupSearch() {
         recentSearchesTableView.delegate = self
         recentSearchesTableView.dataSource = self
-        searchController.searchBar.placeholder = "Search topic"
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
+        recentSearchesTableView.keyboardDismissMode = .onDrag
+        searchController.searchBar.placeholder = K.UIText.searchPlaceholder
         searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
-        
-        
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     private func parseNewsData(_ data: Data?) {
@@ -242,7 +240,7 @@ class WorldCountryViewController: UIViewController {
 
     private func presentAlertWith(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: K.UIText.okString, style: .default))
         self.present(alert, animated: true)
     }
     
@@ -298,7 +296,7 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
                 present(vc, animated: true)
             }
             else {
-                presentAlertWith(title: "Unable to open article", message: "The news URL is invalid.")
+                presentAlertWith(title: K.UIText.articleOpenErrorTitle, message: K.UIText.articleOpenErrorMessage)
             }
         }
     }
@@ -336,12 +334,12 @@ extension WorldCountryViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return recentSearches.count == 0 ? "Recent searches will appear hear" : "Recent searches"
+        return recentSearches.count == 0 ? K.UIText.zeroRecentSearchHeader : K.UIText.recentSearchHeader
     }
     
     
     private func presentNewsFor(query: String) {
-        navigationItem.title = "Search"
+        navigationItem.title = K.UIText.searchString
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(identifier: "worldCountryViewController") as WorldCountryViewController
         vc.navigationItem.title = query
@@ -365,7 +363,7 @@ extension WorldCountryViewController: NewsCellDelegate {
             present(vc, animated: true)
         }
         else {
-            presentAlertWith(title: "Error sharing article", message: "The news URL is invalid.")
+            presentAlertWith(title: K.UIText.shareErrorTitle, message: K.UIText.shareErrorMessage)
         }
     }
 }
