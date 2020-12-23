@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.set(true, forKey: K.rCSKey)
             defaults.set(nil, forKey: K.countryKey)
             defaults.set(0, forKey: K.initialScreenKey)
+            let recentSearches: [String] = []
+            defaults.set(recentSearches, forKey: K.recentSearchesKey)
         }
         else if !defaults.bool(forKey: K.rCSKey) {
             defaults.set(nil, forKey: K.countryKey)

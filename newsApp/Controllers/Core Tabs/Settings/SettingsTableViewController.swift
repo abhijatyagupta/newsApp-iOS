@@ -36,4 +36,32 @@ class SettingsTableViewController: UITableViewController {
         initialScreenDisclosureText.text = initialScreens[Settings.initialScreen]
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                promptForConfirmation()
+            }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if section == 1 {
+            return K.UIText.historyFooter
+        }
+        return ""
+    }
+    
+    
+    private func promptForConfirmation() {
+        let alert = UIAlertController(title: K.UIText.clearHistoryMessage, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: K.UIText.deleteString, style: .destructive, handler: { (action) in
+            RecentSearches().reset()
+        }))
+        alert.addAction(UIAlertAction(title: K.UIText.cancelString, style: .cancel, handler: { (action) in
+            alert.dismiss(animated: true)
+        }))
+        present(alert, animated: true)
+    }
 }

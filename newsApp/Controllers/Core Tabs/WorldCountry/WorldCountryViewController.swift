@@ -13,6 +13,7 @@ class WorldCountryViewController: UIViewController {
     @IBOutlet weak var worldCountryCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var recentSearchesTableView: UITableView!
+    @IBOutlet weak var zeroResultsView: UIView!
     private let searchController = UISearchController()
     private let newsManager = NewsManager()
     private var newsImages = [Int : UIImage]()
@@ -24,8 +25,9 @@ class WorldCountryViewController: UIViewController {
     var isSearchResultInstance = false
     var apiToCall: String = ""
     private var lastLoadedApi: String = Settings.worldApiURL
-    private var loadNews: DispatchWorkItem?
     private var loadMoreActivityIndicator: LoadMoreActivityIndicator!
+    private let recentSearches = RecentSearches()
+    
 
     
     
@@ -43,16 +45,11 @@ class WorldCountryViewController: UIViewController {
         worldCountryCollectionView.register(UINib(nibName: "NewsCell", bundle: nil), forCellWithReuseIdentifier: "newsCell")
         toggleCollectionViewAndActivityIndicator(shouldViewAppear: false)
         loadMoreActivityIndicator = LoadMoreActivityIndicator(scrollView: worldCountryCollectionView, spacingFromLastCell: 10, spacingFromLastCellWhenLoadMoreActionStart: 60)
+        recentSearchesTableView.keyboardDismissMode = .onDrag
         
+        setTitle()
         
-        if !parentCategory {
-            navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : "World"
-        }
-        else if Settings.isCountrySet, !isSearchResultInstance {
-            navigationItem.title = "\(Settings.currentCountry.name)/\(navigationItem.title!)"
-        }
-        
-        loadNews = DispatchWorkItem {
+        DispatchQueue.main.async {
             self.lastLoadedApi = self.apiToCall
             print("news request sent")
             self.requestPerformer(url: self.apiToCall) { (data) in
@@ -60,8 +57,6 @@ class WorldCountryViewController: UIViewController {
                 self.parseNewsData(data)
             }
         }
-        
-        DispatchQueue.main.async(execute: loadNews!)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,23 +83,21 @@ class WorldCountryViewController: UIViewController {
         tabBarController?.delegate = self
         didAppearRanOnce = true
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         if !recentSearchesTableView.isHidden {
             print("search will become first responder")
             DispatchQueue.main.async {
+                if self.recentSearches.count == 0 {
+                    self.recentSearchesTableView.reloadData()
+                }
                 self.searchController.searchBar.becomeFirstResponder()
+                self.setTitle()
             }
         }
-        
     }
     
-//
-//    override func viewDidDisappear(_ animated: Bool) {
-//        if isSearchResultInstance {
-//            if let vc = presentingViewController as? WorldCountryViewController {
-//                vc.navigationItem.searchController?.searchBar.becomeFirstResponder()
-//            }
-//        }
-//    }
     
     //MARK: - Scroll View Methods
     
@@ -122,6 +115,16 @@ class WorldCountryViewController: UIViewController {
     //MARK: - Helper Methods
     
     
+    private func setTitle() {
+        if !parentCategory {
+            navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : "World"
+        }
+        else if Settings.isCountrySet, !isSearchResultInstance {
+            navigationItem.title = "\(Settings.currentCountry.name)/\(navigationItem.title!)"
+        }
+    }
+    
+    
     private func setupSearch() {
         recentSearchesTableView.delegate = self
         recentSearchesTableView.dataSource = self
@@ -130,6 +133,7 @@ class WorldCountryViewController: UIViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
+        
         
     }
     
@@ -140,6 +144,13 @@ class WorldCountryViewController: UIViewController {
                 articles.removeAll()
                 newsImages.removeAll()
                 articles = newsJSON["articles"].arrayValue
+                print("number of articles: \(articles.count)")
+                if articles.count == 0 {
+                    DispatchQueue.main.async {
+                        self.zeroResultsView.isHidden = false
+                    }
+                    return
+                }
                 DispatchQueue.main.async {
                     self.loadImages(articlesArray: self.articles, index: 0, newImagesCount: self.articles.count, imageArrayCount: self.newsImages.count)
                     print("appear settings will apply")
@@ -151,6 +162,11 @@ class WorldCountryViewController: UIViewController {
             }
             catch { print("caught in parseNewsData: \(error)") }
         }
+        else {
+            DispatchQueue.main.async {
+                self.zeroResultsView.isHidden = false
+            }
+        }
     }
     
     private func loadNextPage(_ page: Int) {
@@ -160,6 +176,7 @@ class WorldCountryViewController: UIViewController {
                     let newsJSON: JSON = try JSON(data: safeData)
                     let articlesCountBeforeAppend = self.articles.count
                     self.articles += newsJSON["articles"].arrayValue
+                    print("new articles: \(self.articles.count - articlesCountBeforeAppend)")
                     DispatchQueue.main.async {
                         self.loadImages(articlesArray: newsJSON["articles"].arrayValue, index: 0, newImagesCount: newsJSON["articles"].arrayValue.count, imageArrayCount: articlesCountBeforeAppend)
                     }
@@ -268,22 +285,6 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
                 cell.activityIndicator.isHidden = true
             }
         }
-//        else  {
-//            DispatchQueue.main.async {
-//                self.requestPerformer(url: self.articles[indexPath.row]["urlToImage"].stringValue) { (data) in
-//                    DispatchQueue.main.async {
-//                        if let safeData = data {
-//                            cell.newsImageView.image = UIImage(data: safeData)
-//                        }
-//                        else {
-//                            cell.newsImageView.image = UIImage(imageLiteralResourceName: "xb1.png")
-//                        }
-//                        cell.activityIndicator.isHidden = true
-//                        self.newsImages[indexPath.row] = cell.newsImageView.image
-//                    }
-//                }
-//            }
-//        }
         cell.delegate = self
         return cell
     }
@@ -317,14 +318,13 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
 
 extension WorldCountryViewController: UITableViewDelegate, UITableViewDataSource {
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 40
+        return recentSearches.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recentSearch", for: indexPath)
-        cell.textLabel?.text = "jsd"
+        cell.textLabel?.text = recentSearches.array[indexPath.row]
         return cell
     }
     
@@ -336,11 +336,12 @@ extension WorldCountryViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Recent Searches"
+        return recentSearches.count == 0 ? "Recent searches will appear hear" : "Recent searches"
     }
     
     
     private func presentNewsFor(query: String) {
+        navigationItem.title = "Search"
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(identifier: "worldCountryViewController") as WorldCountryViewController
         vc.navigationItem.title = query
@@ -392,14 +393,18 @@ extension WorldCountryViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("search button was clicked")
-        if let query = searchBar.searchTextField.text {
+        if let safeQuery = searchBar.searchTextField.text {
+            let query = safeQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+            recentSearches.add(search: query)
             presentNewsFor(query: query)
+            recentSearchesTableView.reloadData()
         }
         
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         print("you are editing text")
+        recentSearchesTableView.reloadData()
         recentSearchesTableView.isHidden = false
         UIView.animate(withDuration: 0.2) {
             self.recentSearchesTableView.alpha = 1
@@ -419,5 +424,7 @@ extension WorldCountryViewController: UISearchBarDelegate {
         }
     }
         
+    
+    
     
 }
