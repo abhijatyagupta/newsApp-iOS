@@ -436,23 +436,57 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Data" id="d3j-4w-IL1">
+                            <tableViewSection headerTitle="History" id="d3j-4w-IL1">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="dqe-ys-4pk">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="zmR-WH-5C6">
                                         <rect key="frame" x="16" y="242" width="343" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zmR-WH-5C6" id="dZ0-Sc-I8u">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search History" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="Sp3-Xl-sT0">
+                                                    <rect key="frame" x="16" y="12" width="112" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zh8-GT-ueV">
+                                                    <rect key="frame" x="278" y="6.5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="rememberCountrySettingsSwitchDidToggle:" destination="X2e-Lr-ke0" eventType="valueChanged" id="nkY-Xr-DEB"/>
+                                                        <action selector="searchHistorySwitchDidToggle:" destination="X2e-Lr-ke0" eventType="valueChanged" id="taH-b3-pHR"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Zh8-GT-ueV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Sp3-Xl-sT0" secondAttribute="trailing" constant="150" id="LlN-c9-V2i"/>
+                                                <constraint firstAttribute="trailing" secondItem="Zh8-GT-ueV" secondAttribute="trailing" constant="16" id="WzB-xG-EHF"/>
+                                                <constraint firstItem="Sp3-Xl-sT0" firstAttribute="leading" secondItem="dZ0-Sc-I8u" secondAttribute="leadingMargin" id="aAX-Ja-jAO"/>
+                                                <constraint firstItem="Sp3-Xl-sT0" firstAttribute="centerY" secondItem="dZ0-Sc-I8u" secondAttribute="centerY" id="laY-wl-OTD"/>
+                                                <constraint firstItem="Zh8-GT-ueV" firstAttribute="centerY" secondItem="dZ0-Sc-I8u" secondAttribute="centerY" id="oe6-Be-CP1"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="dqe-ys-4pk">
+                                        <rect key="frame" x="16" y="286" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dqe-ys-4pk" id="uR6-Xa-UUQ">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Clear recent search history" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAd-Cx-tTJ">
-                                                    <rect key="frame" x="16" y="11" width="205" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clear recent search history" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAd-Cx-tTJ">
+                                                    <rect key="frame" x="16" y="12" width="205" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" systemColor="systemBlueColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="DAd-Cx-tTJ" firstAttribute="leading" secondItem="uR6-Xa-UUQ" secondAttribute="leadingMargin" id="3DU-k3-cUy"/>
+                                                <constraint firstItem="DAd-Cx-tTJ" firstAttribute="centerY" secondItem="uR6-Xa-UUQ" secondAttribute="centerY" id="JbW-Nw-XiQ"/>
+                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="DAd-Cx-tTJ" secondAttribute="trailing" constant="106" id="x96-mg-Y43"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -467,6 +501,7 @@
                     <connections>
                         <outlet property="initialScreenDisclosureText" destination="HUU-PC-3hz" id="cO7-qo-uXL"/>
                         <outlet property="rememberCountrySettingsSwitch" destination="kR3-TG-vnx" id="BJB-Fo-ysp"/>
+                        <outlet property="searchHistorySwitch" destination="Zh8-GT-ueV" id="Ydd-JC-XRo"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QIi-eB-djH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

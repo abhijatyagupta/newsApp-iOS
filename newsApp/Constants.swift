@@ -11,7 +11,7 @@ struct K {
     static let countryCodeKey = "countryCode"
     static let initialScreenKey = "initialScreen"
     static let recentSearchesKey = "recentSearches"
-    
+    static let searchHistoryKey = "searchHistory"
     
     struct UIText {
         static let deleteString = "Delete"
@@ -20,15 +20,16 @@ struct K {
         static let okString = "OK"
         static let worldString = "World"
         
-        static let clearHistoryTitle = "Clear history?"
-        static let clearHistoryMessage = "Are you sure you want to delete recent search history?"
+        static let turnOff = "Turn Off"
+        static let turnOffAndDelete = "Turn Off and Delete"
+        static let turnOffHistoryTitle = "What would you like to do?"
+        static let turnOffHistoryMessage = "'Turn off and Delete', along with turning history off, will also delete current search history."
+        static let clearHistoryTitle = "Are you sure you want to delete recent search history?"
         static let historyFooter = "Recent history is stored for only past 10 queries."
-        static let zeroRecentSearchHeader = "Recent searches will appear hear"
         static let recentSearchHeader = "Recent searches"
         static let shareErrorTitle = "Error sharing article"
         static let shareErrorMessage = "The news URL is invalid."
         static let articleOpenErrorTitle = "Unable to open article"
-        static let articleOpenErrorMessage = "The news URL is invalid."
         static let searchPlaceholder = "Search topic"
     }
 }

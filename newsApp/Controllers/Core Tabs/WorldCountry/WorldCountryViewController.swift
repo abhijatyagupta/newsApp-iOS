@@ -296,7 +296,7 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
                 present(vc, animated: true)
             }
             else {
-                presentAlertWith(title: K.UIText.articleOpenErrorTitle, message: K.UIText.articleOpenErrorMessage)
+                presentAlertWith(title: K.UIText.articleOpenErrorTitle, message: K.UIText.shareErrorMessage)
             }
         }
     }
@@ -334,7 +334,7 @@ extension WorldCountryViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return recentSearches.count == 0 ? K.UIText.zeroRecentSearchHeader : K.UIText.recentSearchHeader
+        return recentSearches.count == 0 ? "" : K.UIText.recentSearchHeader
     }
     
     

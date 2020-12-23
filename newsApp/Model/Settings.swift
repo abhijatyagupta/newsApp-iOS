@@ -11,6 +11,7 @@ class Settings {
     
     //MARK: - API Settings
     
+    
     public static var apiURL: String {
         get {
             return "https://newsapi.org/v2/top-headlines?apiKey=\(API_KEY)"
@@ -62,6 +63,14 @@ class Settings {
             UserDefaults.standard.set(newValue, forKey: K.initialScreenKey)
         }
         
+    }
+    
+    static var rememberCountrySettings: Bool {
+        return UserDefaults.standard.bool(forKey: K.rCSKey)
+    }
+    
+    static var isSearchHistoryOn: Bool {
+        return UserDefaults.standard.bool(forKey: K.searchHistoryKey)
     }
     
     

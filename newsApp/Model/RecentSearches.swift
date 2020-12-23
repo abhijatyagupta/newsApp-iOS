@@ -8,7 +8,7 @@
 import UIKit
 
 class RecentSearches {
-    let defaults = UserDefaults.standard
+    private let defaults = UserDefaults.standard
     
     var count: Int {
         get {
@@ -24,6 +24,10 @@ class RecentSearches {
     }
     
     func add(search: String) {
+        if !Settings.isSearchHistoryOn {
+            return
+        }
+        
         var recentSearches = array
         if let index = recentSearches.firstIndex(of: search) {
             recentSearches.remove(at: index)
