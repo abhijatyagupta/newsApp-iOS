@@ -12,7 +12,7 @@ import SafariServices
 class WorldCountryViewController: UIViewController {
     @IBOutlet weak var worldCountryCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var recentSearchesTableView: UITableView!
+    @IBOutlet weak var recentSearchesTableView: RecentSearchesTableView!
     @IBOutlet weak var zeroResultsView: UIView!
     private let searchController = UISearchController()
     private let newsManager = NewsManager()
@@ -61,6 +61,11 @@ class WorldCountryViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         print("view appeared!")
         if !parentCategory && lastLoadedApi != Settings.worldApiURL && didAppearRanOnce {
+            if !zeroResultsView.isHidden {
+                DispatchQueue.main.async {
+                    self.zeroResultsView.isHidden = true
+                }
+            }
             print("last loaded api was not equal to global api")
             currentPage = 1
             DispatchQueue.main.async {
@@ -125,9 +130,10 @@ class WorldCountryViewController: UIViewController {
     
     
     private func setupSearch() {
-        recentSearchesTableView.delegate = self
-        recentSearchesTableView.dataSource = self
-        recentSearchesTableView.keyboardDismissMode = .onDrag
+//        recentSearchesTableView.delegate = self
+//        recentSearchesTableView.dataSource = self
+//        recentSearchesTableView.keyboardDismissMode = .onDrag
+        recentSearchesTableView.recentSearchesCustomDelegate = self
         searchController.searchBar.placeholder = K.UIText.searchPlaceholder
         searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -311,48 +317,6 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
 }
 
 
-
-//MARK: - Recent Searches TableView Methods
-
-extension WorldCountryViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recentSearches.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "recentSearch", for: indexPath)
-        cell.textLabel?.text = recentSearches.array[indexPath.row]
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        if let selectedQuery = tableView.cellForRow(at: indexPath)?.textLabel?.text {
-            presentNewsFor(query: selectedQuery)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return recentSearches.count == 0 ? "" : K.UIText.recentSearchHeader
-    }
-    
-    
-    private func presentNewsFor(query: String) {
-        navigationItem.title = K.UIText.searchString
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(identifier: "worldCountryViewController") as WorldCountryViewController
-        vc.navigationItem.title = query
-        vc.navigationItem.largeTitleDisplayMode = .never
-        vc.parentCategory = true
-        vc.isSearchResultInstance = true
-        vc.apiToCall = Settings.searchApiURL + "&q=\(query)"
-        show(vc, sender: self)
-    }
-    
-}
-
-
 //MARK: - Custom News Cell Delegate Method
 
 extension WorldCountryViewController: NewsCellDelegate {
@@ -385,6 +349,17 @@ extension WorldCountryViewController: UITabBarControllerDelegate {
 }
 
 
+//MARK: - Recent Searches TableView Methods
+
+extension WorldCountryViewController: RecentSearchesCustomDelegate {
+    func presentNewsFor(query: String) {
+        navigationItem.title = K.UIText.searchString
+        let vc = recentSearches.resultsViewControllerFor(query: query)
+        show(vc, sender: self)
+    }
+}
+
+
 //MARK: - Search Bar Methods
 
 extension WorldCountryViewController: UISearchBarDelegate {
@@ -392,9 +367,9 @@ extension WorldCountryViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("search button was clicked")
         if let safeQuery = searchBar.searchTextField.text {
-            let query = safeQuery.trimmingCharacters(in: .whitespacesAndNewlines)
-            recentSearches.add(search: query)
-            presentNewsFor(query: query)
+            let trimmedQuery = safeQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+            recentSearches.add(search: trimmedQuery)
+            presentNewsFor(query: trimmedQuery)
             recentSearchesTableView.reloadData()
         }
         

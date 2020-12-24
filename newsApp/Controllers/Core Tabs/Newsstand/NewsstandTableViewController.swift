@@ -7,10 +7,11 @@
 
 import UIKit
 
-class NewsstandTableViewController: UITableViewController {
+class NewsstandTableViewController: UITableViewController, UISearchBarDelegate {
     
     private let categories: [String] = ["Sports", "Entertainment", "Business", "Technology", "Health", "Science", "General"]
     private var selectedCategory: String = ""
+    private let searchController = UISearchController()
     
     @IBOutlet weak var countrySwitch: UISwitch!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
@@ -22,6 +23,11 @@ class NewsstandTableViewController: UITableViewController {
         overrideUserInterfaceStyle = .dark
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationController?.navigationBar.sizeToFit()
+        searchController.searchBar.placeholder = K.UIText.searchPlaceholder
+        searchController.searchBar.delegate = self
         
         if Settings.isCountrySet {
             countrySwitch.setOn(true, animated: false)
@@ -30,11 +36,11 @@ class NewsstandTableViewController: UITableViewController {
         else {
             countrySwitch.setOn(false, animated: false)
         }
-        
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         tabBarController?.delegate = self
     }
     

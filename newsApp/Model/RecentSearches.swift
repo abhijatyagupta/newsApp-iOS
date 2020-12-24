@@ -48,5 +48,16 @@ class RecentSearches {
         defaults.set(newArray, forKey: K.recentSearchesKey)
     }
     
+    func resultsViewControllerFor(query: String) -> WorldCountryViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "worldCountryViewController") as WorldCountryViewController
+        vc.navigationItem.title = query
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.parentCategory = true
+        vc.isSearchResultInstance = true
+        vc.apiToCall = Settings.searchApiURL + "&q=\(query)"
+        return vc
+    }
+    
 }
 
