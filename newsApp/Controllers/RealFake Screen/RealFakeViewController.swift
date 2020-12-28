@@ -18,6 +18,7 @@ class RealFakeViewController: UIViewController {
     @IBOutlet weak var markedFakeViewContainer: UIStackView!
     
     @IBOutlet weak var markTheNewsLabel: UILabel!
+    @IBOutlet weak var leftBarButton: UIBarButtonItem!
     
     @IBOutlet weak var unmarkedRealView: UIView!
     @IBOutlet weak var unmarkedFakeView: UIView!
@@ -63,14 +64,14 @@ class RealFakeViewController: UIViewController {
     
     
     @IBAction func unmarkedRealViewTapped(_ sender: UIView) {
-        markTheNewsLabel.text = K.UIText.newsMarked
+        changeBarButtonAndLabelTo(originalState: false)
         hideUnmarkedAnd(markedFakeViewContainer)
 
     }
     
     
     @IBAction func unmarkedFakeViewTapped(_ sender: UIView) {
-        markTheNewsLabel.text = K.UIText.newsMarked
+        changeBarButtonAndLabelTo(originalState: false)
         hideUnmarkedAnd(markedRealViewContainer)
     }
     
@@ -88,6 +89,30 @@ class RealFakeViewController: UIViewController {
     }
     
     
+    @IBAction func leftBarButtonTapped(_ sender: UIBarButtonItem) {
+        if leftBarButton.image == nil {
+            UIView.animate(withDuration: 0.3) {
+                self.markedViewContainer.alpha = 0
+            } completion: { (animationIsComplete) in
+                if animationIsComplete {
+                    self.markedViewContainer.isHidden = true
+                    self.markedRealViewContainer.isHidden = false
+                    self.markedFakeViewContainer.isHidden = false
+                    self.unmarkedViewContainer.isHidden = false
+                    UIView.animate(withDuration: 0.3) {
+                        self.unmarkedViewContainer.alpha = 1
+                    }
+                }
+            }
+
+        }
+        else {
+            shareButtonInRealViewTapped(shareButtonInRealView)
+        }
+    }
+    
+    
+    
     private func hideUnmarkedAnd(_ viewToHide: UIView) {
         UIView.animate(withDuration: 0.3) {
             self.unmarkedViewContainer.alpha = 0
@@ -95,12 +120,18 @@ class RealFakeViewController: UIViewController {
             if animationIsComplete {
                 self.unmarkedViewContainer.isHidden = true
                 viewToHide.isHidden = true
+                self.markedViewContainer.isHidden = false
                 UIView.animate(withDuration: 0.3) {
-                    self.markedViewContainer.isHidden = false
                     self.markedViewContainer.alpha = 1
                 }
             }
         }
+    }
+    
+    private func changeBarButtonAndLabelTo(originalState: Bool) {
+        markTheNewsLabel.text = originalState ? K.UIText.markThisNews : K.UIText.newsMarked
+        leftBarButton.title = originalState ? nil : K.UIText.undoMark
+        leftBarButton.image = originalState ? UIImage(systemName: "square.and.arrow.up") : nil
     }
     
     

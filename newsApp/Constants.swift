@@ -33,6 +33,8 @@ struct K {
         static let searchPlaceholder = "Search topic"
         static let publicViews = "Public Views"
         static let publicViewsFooter = "All public views are anonymous. Read guidelines on posting public views."
+        static let undoMark = "Undo mark"
+        static let markThisNews = "Mark this news as"
         static let newsMarked = "You marked this news as"
     }
 }

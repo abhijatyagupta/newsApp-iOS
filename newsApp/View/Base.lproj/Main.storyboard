@@ -499,6 +499,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Stats" id="IOm-2z-IaA">
+                        <barButtonItem key="leftBarButtonItem" image="square.and.arrow.up" catalog="system" id="VgL-MT-YEy">
+                            <connections>
+                                <action selector="leftBarButtonTapped:" destination="TYE-XE-Jna" id="t80-Jr-0Ua"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="yuA-pk-iag">
                             <connections>
                                 <action selector="doneClicked:" destination="TYE-XE-Jna" id="PJQ-m4-Pd1"/>
@@ -507,6 +512,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="fakeCountLabelForRealView" destination="dbz-CD-aaE" id="nek-tk-4d1"/>
+                        <outlet property="leftBarButton" destination="VgL-MT-YEy" id="gja-Ir-vIC"/>
                         <outlet property="markTheNewsLabel" destination="aM7-fs-XSf" id="cBh-oy-rhw"/>
                         <outlet property="markedFakeCount" destination="Pnk-3z-l9j" id="ZYd-jZ-18E"/>
                         <outlet property="markedFakeView" destination="deO-tb-Agq" id="apM-z6-duH"/>
@@ -1226,6 +1232,7 @@
         <image name="globe" catalog="system" width="128" height="121"/>
         <image name="newspaper" catalog="system" width="128" height="108"/>
         <image name="rectangle.stack" catalog="system" width="128" height="122"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
