@@ -29,14 +29,19 @@ class RecentSearches {
         }
         
         var recentSearches = array
-        if let index = recentSearches.firstIndex(of: search) {
-            recentSearches.remove(at: index)
-        }
+        remove(search: search)
         if count == 10 {
             recentSearches.remove(at: count - 1)
         }
         recentSearches.insert(search, at: 0)
         update(newArray: recentSearches)
+    }
+    
+    func remove(search: String) {
+        var recentSearches = array
+        if let index = recentSearches.firstIndex(of: search) {
+            recentSearches.remove(at: index)
+        }
     }
     
     func reset() {

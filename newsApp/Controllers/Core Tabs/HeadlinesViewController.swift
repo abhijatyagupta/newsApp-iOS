@@ -9,7 +9,7 @@ import UIKit
 
 class HeadlinesViewController: UIViewController {
     @IBOutlet weak var testTableView: UITableView!
-    private let searchController = SearchViewController(searchResultsController: nil)
+    private let searchController = UISearchController()
     
     
     override func viewDidLoad() {

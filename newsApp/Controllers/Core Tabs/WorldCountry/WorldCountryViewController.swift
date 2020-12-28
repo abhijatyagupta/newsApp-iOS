@@ -69,7 +69,7 @@ class WorldCountryViewController: UIViewController {
             print("last loaded api was not equal to global api")
             currentPage = 1
             DispatchQueue.main.async {
-                self.worldCountryCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: UICollectionView.ScrollPosition(rawValue: 0), animated: false)
+                self.scrollToTop()
                 self.toggleCollectionViewAndActivityIndicator(shouldViewAppear: false)
             }
             navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : K.UIText.worldString
@@ -128,11 +128,12 @@ class WorldCountryViewController: UIViewController {
         }
     }
     
+    private func scrollToTop() {
+        worldCountryCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: UICollectionView.ScrollPosition(rawValue: 0), animated: false)
+    }
+    
     
     private func setupSearch() {
-//        recentSearchesTableView.delegate = self
-//        recentSearchesTableView.dataSource = self
-//        recentSearchesTableView.keyboardDismissMode = .onDrag
         recentSearchesTableView.recentSearchesCustomDelegate = self
         searchController.searchBar.placeholder = K.UIText.searchPlaceholder
         searchController.searchBar.delegate = self
@@ -156,7 +157,7 @@ class WorldCountryViewController: UIViewController {
                     return
                 }
                 DispatchQueue.main.async {
-                    self.loadImages(articlesArray: self.articles, index: 0, newImagesCount: self.articles.count, imageArrayCount: self.newsImages.count)
+                    self.loadImages(self.articles, 0, self.articles.count, self.newsImages.count)
                     print("appear settings will apply")
                     self.worldCountryCollectionView.reloadData()
                     self.toggleCollectionViewAndActivityIndicator(shouldViewAppear: true)
@@ -179,10 +180,11 @@ class WorldCountryViewController: UIViewController {
                 do {
                     let newsJSON: JSON = try JSON(data: safeData)
                     let articlesCountBeforeAppend = self.articles.count
-                    self.articles += newsJSON["articles"].arrayValue
+                    let newArticles = newsJSON["articles"].arrayValue
+                    self.articles += newArticles
                     print("new articles: \(self.articles.count - articlesCountBeforeAppend)")
                     DispatchQueue.main.async {
-                        self.loadImages(articlesArray: newsJSON["articles"].arrayValue, index: 0, newImagesCount: newsJSON["articles"].arrayValue.count, imageArrayCount: articlesCountBeforeAppend)
+                        self.loadImages(newArticles, 0, newArticles.count, articlesCountBeforeAppend)
                     }
                     var indexPaths: [IndexPath] = []
                     for i in articlesCountBeforeAppend..<self.articles.count {
@@ -206,23 +208,15 @@ class WorldCountryViewController: UIViewController {
     }
     
     
-    private func loadImages(articlesArray: [JSON], index: Int, newImagesCount: Int, imageArrayCount: Int) {
-        requestPerformer(url: articlesArray[index]["urlToImage"].stringValue) { (data) in
-            if let safeData = data {
-                DispatchQueue.main.async {
-                    self.newsImages[imageArrayCount + index] = UIImage(data: safeData)
-                }
-            }
-            else {
-                DispatchQueue.main.async {
-                    self.newsImages[imageArrayCount + index] = UIImage(imageLiteralResourceName: "xb1.png")
-                }
-            }
+    private func loadImages(_ articlesArray: [JSON], _ index: Int, _ newImagesCount: Int, _ imageArrayCount: Int) {
+        let imageURL = articlesArray[index]["urlToImage"].stringValue
+        requestPerformer(url: imageURL) { (data) in
             DispatchQueue.main.async {
+                self.newsImages[imageArrayCount + index] = data == nil ? UIImage(imageLiteralResourceName: "xb1.png") : UIImage(data: data!)
                 self.worldCountryCollectionView.reloadItems(at: [IndexPath(row: imageArrayCount + index, section: 0)])
             }
             if index + 1 < newImagesCount {
-                self.loadImages(articlesArray: articlesArray, index: index + 1, newImagesCount: newImagesCount, imageArrayCount: imageArrayCount)
+                self.loadImages(articlesArray, index + 1, newImagesCount, imageArrayCount)
             }
         }
     }
@@ -244,11 +238,11 @@ class WorldCountryViewController: UIViewController {
         }
     }
 
-    private func presentAlertWith(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: K.UIText.okString, style: .default))
-        self.present(alert, animated: true)
-    }
+//    private func presentAlertWith(title: String, message: String) {
+//        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: K.UIText.okString, style: .default))
+//        self.present(alert, animated: true)
+//    }
     
     private func calculateHeightofCellAt(indexPath: IndexPath) -> CGFloat {
         let newsTitleHeight = computeFrameHeight(text: articles[indexPath.row]["title"].stringValue, isTitle: true).height
@@ -302,7 +296,8 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
                 present(vc, animated: true)
             }
             else {
-                presentAlertWith(title: K.UIText.articleOpenErrorTitle, message: K.UIText.shareErrorMessage)
+                let alert = cell.alertForUnavailableNews(title: K.UIText.articleOpenErrorTitle, message: K.UIText.shareErrorMessage)
+                present(alert, animated: true)
             }
         }
     }
@@ -320,6 +315,19 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
 //MARK: - Custom News Cell Delegate Method
 
 extension WorldCountryViewController: NewsCellDelegate {
+    func showRealFakeScreen(_ cell: NewsCell) {
+        performSegue(withIdentifier: "showRealFakeScreen", sender: cell)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showRealFakeScreen" {
+            let parentVC = segue.destination as! UINavigationController
+            let vc = parentVC.children[0] as! RealFakeViewController
+            let cell = sender as! NewsCell
+            vc.cellForCurrentNews = cell
+        }
+    }
+    
     func presentShareScreen(_ cell: NewsCell) {
         if let url = URL(string: cell.newsURL!) {
             let vc = UIActivityViewController(activityItems: [url], applicationActivities: [])
@@ -327,7 +335,8 @@ extension WorldCountryViewController: NewsCellDelegate {
             present(vc, animated: true)
         }
         else {
-            presentAlertWith(title: K.UIText.shareErrorTitle, message: K.UIText.shareErrorMessage)
+            let alert = cell.alertForUnavailableNews(title: K.UIText.shareErrorTitle, message: K.UIText.shareErrorMessage)
+            present(alert, animated: true)
         }
     }
 }
@@ -340,7 +349,7 @@ extension WorldCountryViewController: UITabBarControllerDelegate {
         print("shouldSelect fired in worldCountryVC")
         if tabBarController.selectedViewController == viewController {
             if navigationController?.topViewController is WorldCountryViewController {
-                worldCountryCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: UICollectionView.ScrollPosition(rawValue: 0), animated: true)
+                scrollToTop()
                 return false
             }
         }
@@ -349,7 +358,7 @@ extension WorldCountryViewController: UITabBarControllerDelegate {
 }
 
 
-//MARK: - Recent Searches TableView Methods
+//MARK: - Custom Recent Searches Delegate Method
 
 extension WorldCountryViewController: RecentSearchesCustomDelegate {
     func presentNewsFor(query: String) {

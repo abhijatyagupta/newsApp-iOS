@@ -9,6 +9,7 @@ import UIKit
 
 protocol NewsCellDelegate: class {
     func presentShareScreen(_ cell: NewsCell)
+    func showRealFakeScreen(_ cell: NewsCell)
 }
 
 
@@ -20,6 +21,18 @@ class NewsCell: UICollectionViewCell {
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var newsDescription: UILabel!
     @IBOutlet weak var realFakeButton: UIButton!
+    @IBOutlet weak var realLabel: UILabel!
+    @IBOutlet weak var fakeLabel: UILabel!
+    var realCount: Int = 0 {
+        didSet {
+            realLabel.text = "\(realCount) REAL"
+        }
+    }
+    var fakeCount: Int = 0 {
+        didSet {
+            fakeLabel.text = "\(fakeCount) FAKE"
+        }
+    }
     var newsURL: String?
     
     override func awakeFromNib() {
@@ -32,11 +45,22 @@ class NewsCell: UICollectionViewCell {
         delegate?.presentShareScreen(self)
     }
     
+    @IBAction func realFakeButtonPressed(_ sender: UIButton) {
+        delegate?.showRealFakeScreen(self)
+    }
+    
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         if !activityIndicator.isHidden {
             activityIndicator.startAnimating()
         }
+    }
+    
+    func alertForUnavailableNews(title: String, message: String) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: K.UIText.okString, style: .default))
+        return alert
     }
     
     

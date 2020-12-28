@@ -23,11 +23,11 @@ class NewsstandTableViewController: UITableViewController, UISearchBarDelegate {
         overrideUserInterfaceStyle = .dark
         categoryCollectionView.delegate = self
         categoryCollectionView.dataSource = self
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        navigationController?.navigationBar.sizeToFit()
-        searchController.searchBar.placeholder = K.UIText.searchPlaceholder
-        searchController.searchBar.delegate = self
+//        navigationItem.searchController = searchController
+//        navigationItem.hidesSearchBarWhenScrolling = false
+//        navigationController?.navigationBar.sizeToFit()
+//        searchController.searchBar.placeholder = K.UIText.searchPlaceholder
+//        searchController.searchBar.delegate = self
         
         if Settings.isCountrySet {
             countrySwitch.setOn(true, animated: false)
@@ -118,7 +118,6 @@ extension NewsstandTableViewController: UICollectionViewDelegate, UICollectionVi
             vc.navigationItem.title = selectedCategory
             vc.parentCategory = true
             vc.apiToCall = Settings.worldApiURL + "&category=\(selectedCategory)&country=us"
-            
         }
     }
     

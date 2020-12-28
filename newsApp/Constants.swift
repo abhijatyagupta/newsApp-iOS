@@ -31,5 +31,8 @@ struct K {
         static let shareErrorMessage = "The news URL is invalid."
         static let articleOpenErrorTitle = "Unable to open article"
         static let searchPlaceholder = "Search topic"
+        static let publicViews = "Public Views"
+        static let publicViewsFooter = "All public views are anonymous. Read guidelines on posting public views."
+        static let newsMarked = "You marked this news as"
     }
 }
