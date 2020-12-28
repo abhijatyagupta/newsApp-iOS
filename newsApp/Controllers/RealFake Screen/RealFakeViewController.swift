@@ -104,7 +104,7 @@ class RealFakeViewController: UIViewController {
                     }
                 }
             }
-
+            changeBarButtonAndLabelTo(originalState: true)
         }
         else {
             shareButtonInRealViewTapped(shareButtonInRealView)
