@@ -7,6 +7,8 @@ target 'newsApp' do
   # Pods for newsApp
 
 pod 'SwiftyJSON'
+pod 'Firebase/Auth'
+pod 'Firebase/Firestore'
 
   target 'newsAppTests' do
     inherit! :search_paths
