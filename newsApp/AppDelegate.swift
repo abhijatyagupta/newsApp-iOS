@@ -37,6 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Settings.currentCountry = countryToSet
             }
         }
+        
+        
         FirebaseApp.configure()
         
         return true

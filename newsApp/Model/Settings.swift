@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class Settings {
     
@@ -71,6 +72,11 @@ class Settings {
     
     static var isSearchHistoryOn: Bool {
         return UserDefaults.standard.bool(forKey: K.searchHistoryKey)
+    }
+    
+    
+    static var isUserSignedIn: Bool {
+        return Auth.auth().currentUser != nil
     }
     
     
