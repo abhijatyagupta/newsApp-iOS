@@ -11,6 +11,8 @@
 		AC01D48B257FDD8F0036A1EA /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC01D48A257FDD8F0036A1EA /* TabBarController.swift */; };
 		AC2F43BD259BAA9E00DD74CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC2F43BC259BAA9E00DD74CF /* GoogleService-Info.plist */; };
 		AC2F4440259CB66D00DD74CF /* MarkedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2F443F259CB66D00DD74CF /* MarkedViewController.swift */; };
+		AC2F4448259CEE8200DD74CF /* SignedOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2F4447259CEE8200DD74CF /* SignedOutView.swift */; };
+		AC2F4450259CF73700DD74CF /* SignedOutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC2F444F259CF73700DD74CF /* SignedOutView.xib */; };
 		AC3DAA4D2594DBE100F2FAC1 /* RecentSearchesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3DAA4C2594DBE100F2FAC1 /* RecentSearchesTableView.swift */; };
 		AC3ED70425405C29007BED8B /* WorldCountryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3ED70325405C29007BED8B /* WorldCountryViewController.swift */; };
 		AC467AB0252BB018003089D5 /* NewsstandTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC467AAF252BB018003089D5 /* NewsstandTableViewController.swift */; };
@@ -68,6 +70,8 @@
 		AC27F0CA256171D5006FE9FE /* newsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = newsAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC2F43BC259BAA9E00DD74CF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AC2F443F259CB66D00DD74CF /* MarkedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkedViewController.swift; sourceTree = "<group>"; };
+		AC2F4447259CEE8200DD74CF /* SignedOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedOutView.swift; sourceTree = "<group>"; };
+		AC2F444F259CF73700DD74CF /* SignedOutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SignedOutView.xib; sourceTree = "<group>"; };
 		AC3DAA4C2594DBE100F2FAC1 /* RecentSearchesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchesTableView.swift; sourceTree = "<group>"; };
 		AC3ED70325405C29007BED8B /* WorldCountryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldCountryViewController.swift; sourceTree = "<group>"; };
 		AC467AAF252BB018003089D5 /* NewsstandTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsstandTableViewController.swift; sourceTree = "<group>"; };
@@ -146,6 +150,7 @@
 				AC4D9C932542FA7600942DA8 /* NewsCell.xib */,
 				ACAF5E82258A3DED00F6026B /* LoadMoreActivityIndicator.swift */,
 				AC3DAA4C2594DBE100F2FAC1 /* RecentSearchesTableView.swift */,
+				ACBD7D3D259D017300BE2FF6 /* Signed Out View */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -209,6 +214,15 @@
 				AC6557FB25952B2C00345F73 /* RealFakeViewController.swift */,
 			);
 			path = "RealFake Screen";
+			sourceTree = "<group>";
+		};
+		ACBD7D3D259D017300BE2FF6 /* Signed Out View */ = {
+			isa = PBXGroup;
+			children = (
+				AC2F4447259CEE8200DD74CF /* SignedOutView.swift */,
+				AC2F444F259CF73700DD74CF /* SignedOutView.xib */,
+			);
+			path = "Signed Out View";
 			sourceTree = "<group>";
 		};
 		ACE36303258F90C500C8C620 /* Core Tabs */ = {
@@ -374,6 +388,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC2F4450259CF73700DD74CF /* SignedOutView.xib in Resources */,
 				AC6046E0252A15F5007CEB56 /* LaunchScreen.storyboard in Resources */,
 				AC4D9C952542FA7600942DA8 /* NewsCell.xib in Resources */,
 				AC6046DD252A15F4007CEB56 /* Assets.xcassets in Resources */,
@@ -515,6 +530,7 @@
 				AC3DAA4D2594DBE100F2FAC1 /* RecentSearchesTableView.swift in Sources */,
 				ACEDF81F2535D7DD00F3E4F8 /* Settings.swift in Sources */,
 				ACEDC6322593867200AE66EC /* RecentSearches.swift in Sources */,
+				AC2F4448259CEE8200DD74CF /* SignedOutView.swift in Sources */,
 				AC2F4440259CB66D00DD74CF /* MarkedViewController.swift in Sources */,
 				AC467AC9252BC530003089D5 /* CountryTableViewController.swift in Sources */,
 				ACAF5E83258A3DED00F6026B /* LoadMoreActivityIndicator.swift in Sources */,
