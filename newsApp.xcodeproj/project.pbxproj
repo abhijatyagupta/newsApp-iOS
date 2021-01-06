@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		003938733B900BCCE1659420 /* Pods_newsApp_newsAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32005ED97659CBA2B28082B7 /* Pods_newsApp_newsAppUITests.framework */; };
 		AC01D48B257FDD8F0036A1EA /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC01D48A257FDD8F0036A1EA /* TabBarController.swift */; };
+		AC11B84C25A5ED3B0015F6B7 /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC11B84B25A5ED3B0015F6B7 /* PasswordTextField.swift */; };
 		AC2BE857259E4A9E004A3E08 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2BE855259E4A9E004A3E08 /* SignInViewController.swift */; };
 		AC2BE858259E4A9E004A3E08 /* SignInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC2BE856259E4A9E004A3E08 /* SignInViewController.xib */; };
 		AC2F43BD259BAA9E00DD74CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC2F43BC259BAA9E00DD74CF /* GoogleService-Info.plist */; };
@@ -68,6 +69,7 @@
 		76EF39D3E477FB9E6B61F768 /* Pods_newsAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_newsAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		851DF7E0CF276C2438F2D188 /* Pods-newsAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsAppTests.debug.xcconfig"; path = "Target Support Files/Pods-newsAppTests/Pods-newsAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AC01D48A257FDD8F0036A1EA /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		AC11B84B25A5ED3B0015F6B7 /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		AC27F0C9256171D5006FE9FE /* newsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = newsAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC27F0CA256171D5006FE9FE /* newsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = newsAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC2BE855259E4A9E004A3E08 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				ACAF5E82258A3DED00F6026B /* LoadMoreActivityIndicator.swift */,
 				AC3DAA4C2594DBE100F2FAC1 /* RecentSearchesTableView.swift */,
 				ACBD7D3D259D017300BE2FF6 /* Signed Out View */,
+				AC11B84B25A5ED3B0015F6B7 /* PasswordTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 				AC3DAA4D2594DBE100F2FAC1 /* RecentSearchesTableView.swift in Sources */,
 				ACEDF81F2535D7DD00F3E4F8 /* Settings.swift in Sources */,
 				ACEDC6322593867200AE66EC /* RecentSearches.swift in Sources */,
+				AC11B84C25A5ED3B0015F6B7 /* PasswordTextField.swift in Sources */,
 				AC2F4448259CEE8200DD74CF /* SignedOutView.swift in Sources */,
 				AC2F4440259CB66D00DD74CF /* MarkedViewController.swift in Sources */,
 				AC467AC9252BC530003089D5 /* CountryTableViewController.swift in Sources */,

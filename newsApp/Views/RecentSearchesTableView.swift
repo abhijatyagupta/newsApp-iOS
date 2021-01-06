@@ -25,7 +25,6 @@ class RecentSearchesTableView: UITableView, UITableViewDelegate, UITableViewData
     
     convenience init() {
         self.init()
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

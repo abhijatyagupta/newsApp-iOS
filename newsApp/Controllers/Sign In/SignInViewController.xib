@@ -11,7 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignInViewController" customModule="newsApp" customModuleProvider="target">
             <connections>
                 <outlet property="emailTextField" destination="MMD-Ss-l6Z" id="6W8-e4-3rf"/>
-                <outlet property="passwordTextField" destination="Scd-jb-FU8" id="hFL-HJ-kfr"/>
+                <outlet property="passwordTextField" destination="Scd-jb-FU8" id="fcf-Y5-inn"/>
                 <outlet property="signInButton" destination="2b6-oe-c4w" id="7PC-Ba-Ull"/>
                 <outlet property="signInSpinner" destination="PKG-cK-J8v" id="rZf-W2-Wxl"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -50,7 +50,7 @@
                                         <action selector="textFieldEditingDidChange:" destination="-1" eventType="editingChanged" id="eid-hI-Yqw"/>
                                     </connections>
                                 </textField>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Scd-jb-FU8">
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Scd-jb-FU8" customClass="PasswordTextField" customModule="newsApp" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="55" width="350" height="45"/>
                                     <color key="backgroundColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="0.29118377480000002" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     <constraints>
@@ -60,7 +60,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="go" secureTextEntry="YES" textContentType="password"/>
                                     <connections>
-                                        <action selector="textFieldEditingDidChange:" destination="-1" eventType="editingChanged" id="mHo-uZ-pUt"/>
+                                        <action selector="textFieldEditingDidChange:" destination="-1" eventType="editingChanged" id="25g-4z-miw"/>
                                     </connections>
                                 </textField>
                             </subviews>

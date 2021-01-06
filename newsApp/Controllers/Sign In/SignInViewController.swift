@@ -11,7 +11,7 @@ import Firebase
 class SignInViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var passwordTextField: PasswordTextField!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var signInSpinner: UIActivityIndicatorView!
     
@@ -46,20 +46,6 @@ class SignInViewController: UIViewController {
     private func configureTextFields() {
         emailTextField.delegate = self
         passwordTextField.delegate = self
-        addShowPasswordButton()
-    }
-    
-    private func addShowPasswordButton() {
-        let button = UIButton(frame: CGRect(x: 20, y: 0, width: ((passwordTextField.frame.height) * 0.70), height: ((passwordTextField.frame.height) * 0.70)))
-        button.setImage(UIImage(systemName: "eye.slash"), for: .normal)
-        button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(scale: .large), forImageIn: .normal)
-        button.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        button.addTarget(self, action: #selector(showPassword), for: .touchUpInside)
-        let rightView = UIView(frame: CGRect(x: 0, y: 0, width: button.frame.width + 35, height: button.frame.height))
-        rightView.backgroundColor = .clear
-        rightView.addSubview(button)
-        passwordTextField.rightViewMode = .always
-        passwordTextField.rightView = rightView
     }
     
     private func toggleSignInButtonAndSpinner(shouldButtonAppear: Bool) {
@@ -107,15 +93,6 @@ class SignInViewController: UIViewController {
         alert.overrideUserInterfaceStyle = .dark
         alert.addAction(UIAlertAction(title: K.UIText.tryAgain, style: .default))
         present(alert, animated: true)
-    }
-    
-    @objc private func showPassword() {
-        if let rightView = passwordTextField.rightView, let button = rightView.subviews[0] as? UIButton {
-            let white = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-            passwordTextField.isSecureTextEntry = !(button.tintColor == white)
-            button.setImage(UIImage(systemName: button.tintColor == white ? "eye" : "eye.slash"), for: .normal)
-            button.tintColor = button.tintColor == white ? #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1) : white
-        }
     }
 
     @IBAction func signInPressed(_ sender: UIButton) {
