@@ -223,8 +223,8 @@ class WorldCountryViewController: UIViewController {
     
     
     private func toggleCollectionViewAndActivityIndicator(shouldViewAppear: Bool) {
-        activityIndicator.isHidden = shouldViewAppear ? true : false
-        worldCountryCollectionView.isHidden = shouldViewAppear ? false : true
+        activityIndicator.isHidden = shouldViewAppear
+        worldCountryCollectionView.isHidden = !shouldViewAppear
     }
     
     

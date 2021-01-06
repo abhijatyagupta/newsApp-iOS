@@ -7,20 +7,24 @@
 
 import UIKit
 
-
+protocol SignedOutViewDelegate: class {
+    func signInTapped()
+    func signUpTapped()
+}
 
 class SignedOutView: UIView {
 
-    @IBOutlet weak var contentView: UIView!
+    @IBOutlet var superView: UIView!
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
+    var delegate: SignedOutViewDelegate?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         Bundle.main.loadNibNamed("SignedOutView", owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = self.bounds
+        addSubview(superView)
+        
     }
     
     override func awakeFromNib() {
@@ -34,9 +38,11 @@ class SignedOutView: UIView {
     
     
     @IBAction func signInTapped(_ sender: UIButton) {
+        delegate?.signInTapped()
     }
     
     @IBAction func signUpTapped(_ sender: UIButton) {
+        delegate?.signUpTapped()
     }
     
     

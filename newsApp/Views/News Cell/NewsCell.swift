@@ -59,6 +59,7 @@ class NewsCell: UICollectionViewCell {
     
     func alertForUnavailableNews(title: String, message: String) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.overrideUserInterfaceStyle = .dark
         alert.addAction(UIAlertAction(title: K.UIText.okString, style: .default))
         return alert
     }

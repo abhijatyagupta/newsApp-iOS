@@ -793,17 +793,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gGs-q4-B1I" userLabel="Signed Out View" customClass="SignedOutView" customModule="newsApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gIN-L3-x6p"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="gGs-q4-B1I" secondAttribute="bottom" id="Zgz-0n-agR"/>
-                            <constraint firstAttribute="trailing" secondItem="gGs-q4-B1I" secondAttribute="trailing" id="dXo-yS-Wlf"/>
-                            <constraint firstItem="gGs-q4-B1I" firstAttribute="top" secondItem="6P1-8c-l3t" secondAttribute="top" id="jne-hX-gJu"/>
-                            <constraint firstItem="gGs-q4-B1I" firstAttribute="leading" secondItem="6P1-8c-l3t" secondAttribute="leading" id="tKS-Yw-QVM"/>
+                            <constraint firstItem="gGs-q4-B1I" firstAttribute="top" secondItem="gIN-L3-x6p" secondAttribute="top" id="95s-LT-jjw"/>
+                            <constraint firstItem="gGs-q4-B1I" firstAttribute="trailing" secondItem="gIN-L3-x6p" secondAttribute="trailing" id="Yf0-rD-YbC"/>
+                            <constraint firstItem="gGs-q4-B1I" firstAttribute="bottom" secondItem="gIN-L3-x6p" secondAttribute="bottom" id="bVk-sa-mZv"/>
+                            <constraint firstItem="gGs-q4-B1I" firstAttribute="leading" secondItem="gIN-L3-x6p" secondAttribute="leading" id="gUh-b4-64V"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Marked News" largeTitleDisplayMode="never" id="hNV-Jj-eYE"/>

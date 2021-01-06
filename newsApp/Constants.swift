@@ -19,6 +19,7 @@ struct K {
         static let searchString = "Search"
         static let okString = "OK"
         static let worldString = "World"
+        static let errorString = "Error"
         
         static let turnOff = "Turn Off"
         static let turnOffAndDelete = "Turn Off and Delete"
@@ -36,5 +37,8 @@ struct K {
         static let undoMark = "Undo mark"
         static let markThisNews = "Mark this news as"
         static let newsMarked = "You marked this news as"
+        static let emailAddressPlaceholder = "Email address"
+        static let passwordPlaceholder = "Password"
+        static let tryAgain = "Try Again"
     }
 }

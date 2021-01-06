@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		003938733B900BCCE1659420 /* Pods_newsApp_newsAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32005ED97659CBA2B28082B7 /* Pods_newsApp_newsAppUITests.framework */; };
 		AC01D48B257FDD8F0036A1EA /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC01D48A257FDD8F0036A1EA /* TabBarController.swift */; };
+		AC2BE857259E4A9E004A3E08 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2BE855259E4A9E004A3E08 /* SignInViewController.swift */; };
+		AC2BE858259E4A9E004A3E08 /* SignInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC2BE856259E4A9E004A3E08 /* SignInViewController.xib */; };
 		AC2F43BD259BAA9E00DD74CF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC2F43BC259BAA9E00DD74CF /* GoogleService-Info.plist */; };
 		AC2F4440259CB66D00DD74CF /* MarkedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2F443F259CB66D00DD74CF /* MarkedViewController.swift */; };
 		AC2F4448259CEE8200DD74CF /* SignedOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2F4447259CEE8200DD74CF /* SignedOutView.swift */; };
@@ -68,6 +70,8 @@
 		AC01D48A257FDD8F0036A1EA /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		AC27F0C9256171D5006FE9FE /* newsAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = newsAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC27F0CA256171D5006FE9FE /* newsAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = newsAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC2BE855259E4A9E004A3E08 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		AC2BE856259E4A9E004A3E08 /* SignInViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SignInViewController.xib; sourceTree = "<group>"; };
 		AC2F43BC259BAA9E00DD74CF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AC2F443F259CB66D00DD74CF /* MarkedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkedViewController.swift; sourceTree = "<group>"; };
 		AC2F4447259CEE8200DD74CF /* SignedOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedOutView.swift; sourceTree = "<group>"; };
@@ -142,17 +146,35 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		AC467AA4252B7EF2003089D5 /* View */ = {
+		AC29BE2125A0559A003C1555 /* Sign In */ = {
+			isa = PBXGroup;
+			children = (
+				AC2BE855259E4A9E004A3E08 /* SignInViewController.swift */,
+				AC2BE856259E4A9E004A3E08 /* SignInViewController.xib */,
+			);
+			path = "Sign In";
+			sourceTree = "<group>";
+		};
+		AC2BE851259E496A004A3E08 /* News Cell */ = {
+			isa = PBXGroup;
+			children = (
+				AC4D9C932542FA7600942DA8 /* NewsCell.xib */,
+				AC4D9C922542FA7600942DA8 /* NewsCell.swift */,
+			);
+			path = "News Cell";
+			sourceTree = "<group>";
+		};
+		AC467AA4252B7EF2003089D5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				AC6046D9252A15F3007CEB56 /* Main.storyboard */,
 				AC6046DE252A15F4007CEB56 /* LaunchScreen.storyboard */,
-				AC4D9C932542FA7600942DA8 /* NewsCell.xib */,
+				AC2BE851259E496A004A3E08 /* News Cell */,
 				ACAF5E82258A3DED00F6026B /* LoadMoreActivityIndicator.swift */,
 				AC3DAA4C2594DBE100F2FAC1 /* RecentSearchesTableView.swift */,
 				ACBD7D3D259D017300BE2FF6 /* Signed Out View */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		AC467AA5252B7F02003089D5 /* Model */ = {
@@ -170,11 +192,11 @@
 		AC467AA6252B7F13003089D5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				AC4D9C922542FA7600942DA8 /* NewsCell.swift */,
 				AC01D48A257FDD8F0036A1EA /* TabBarController.swift */,
 				ACE36303258F90C500C8C620 /* Core Tabs */,
 				AC6558092595376500345F73 /* RealFake Screen */,
 				ACFFE04B25979DBB00B55AF2 /* PublicViews */,
+				AC29BE2125A0559A003C1555 /* Sign In */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -197,7 +219,7 @@
 				AC6046D3252A15F3007CEB56 /* AppDelegate.swift */,
 				AC6046D5252A15F3007CEB56 /* SceneDelegate.swift */,
 				AC467AA5252B7F02003089D5 /* Model */,
-				AC467AA4252B7EF2003089D5 /* View */,
+				AC467AA4252B7EF2003089D5 /* Views */,
 				AC467AA6252B7F13003089D5 /* Controllers */,
 				AC6046DC252A15F4007CEB56 /* Assets.xcassets */,
 				AC6046E1252A15F5007CEB56 /* Info.plist */,
@@ -388,6 +410,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC2BE858259E4A9E004A3E08 /* SignInViewController.xib in Resources */,
 				AC2F4450259CF73700DD74CF /* SignedOutView.xib in Resources */,
 				AC6046E0252A15F5007CEB56 /* LaunchScreen.storyboard in Resources */,
 				AC4D9C952542FA7600942DA8 /* NewsCell.xib in Resources */,
@@ -522,6 +545,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC2BE857259E4A9E004A3E08 /* SignInViewController.swift in Sources */,
 				ACEDF834253887B400F3E4F8 /* Country.swift in Sources */,
 				AC6557FC25952B2C00345F73 /* RealFakeViewController.swift in Sources */,
 				AC4D9C942542FA7600942DA8 /* NewsCell.swift in Sources */,

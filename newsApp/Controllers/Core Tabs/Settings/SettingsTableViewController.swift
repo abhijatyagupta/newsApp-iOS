@@ -81,6 +81,7 @@ class SettingsTableViewController: UITableViewController {
             alert.dismiss(animated: true)
             self.searchHistorySwitch.setOn(true, animated: true)
         }))
+        alert.overrideUserInterfaceStyle = .dark
         present(alert, animated: true)
     }
     
@@ -93,6 +94,7 @@ class SettingsTableViewController: UITableViewController {
         alert.addAction(UIAlertAction(title: K.UIText.cancelString, style: .cancel, handler: { (action) in
             alert.dismiss(animated: true)
         }))
+        alert.overrideUserInterfaceStyle = .dark
         present(alert, animated: true)
     }
 }
