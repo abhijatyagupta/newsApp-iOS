@@ -11,9 +11,12 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignInViewController" customModule="newsApp" customModuleProvider="target">
             <connections>
                 <outlet property="emailTextField" destination="MMD-Ss-l6Z" id="6W8-e4-3rf"/>
+                <outlet property="keyboardAdjustView" destination="o2j-kF-YTl" id="81H-uq-Bu1"/>
                 <outlet property="passwordTextField" destination="Scd-jb-FU8" id="fcf-Y5-inn"/>
+                <outlet property="signInBottomConstraint" destination="ZOx-mg-PnF" id="58n-q8-xL8"/>
                 <outlet property="signInButton" destination="2b6-oe-c4w" id="7PC-Ba-Ull"/>
                 <outlet property="signInSpinner" destination="PKG-cK-J8v" id="rZf-W2-Wxl"/>
+                <outlet property="signInTopConstraint" destination="CbD-iC-AfM" id="fpf-9L-dbP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -26,7 +29,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign In" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TzS-di-5qu">
-                            <rect key="frame" x="111.5" y="65" width="152" height="55"/>
+                            <rect key="frame" x="111.5" y="60" width="152" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="mtx-kt-akX"/>
                             </constraints>
@@ -35,7 +38,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VzH-Lw-lHr">
-                            <rect key="frame" x="12.5" y="180" width="350" height="100"/>
+                            <rect key="frame" x="12.5" y="175" width="350" height="100"/>
                             <subviews>
                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MMD-Ss-l6Z">
                                     <rect key="frame" x="0.0" y="0.0" width="350" height="45"/>
@@ -66,8 +69,8 @@
                             </subviews>
                         </stackView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R9v-hv-iXC">
-                            <rect key="frame" x="234" y="288" width="128" height="30"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                            <rect key="frame" x="249" y="283" width="113" height="28"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
                             <state key="normal" title="Forgot password?">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
@@ -76,7 +79,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" alpha="0.5" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2b6-oe-c4w">
-                            <rect key="frame" x="12.5" y="333" width="350" height="45"/>
+                            <rect key="frame" x="12.5" y="326" width="350" height="45"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="350" id="CC5-rc-ajR"/>
@@ -90,19 +93,27 @@
                             </connections>
                         </button>
                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="PKG-cK-J8v">
-                            <rect key="frame" x="177.5" y="345.5" width="20" height="20"/>
+                            <rect key="frame" x="177.5" y="338.5" width="20" height="20"/>
                         </activityIndicatorView>
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o2j-kF-YTl">
+                            <rect key="frame" x="0.0" y="371" width="375" height="296"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="R9v-hv-iXC" secondAttribute="trailing" constant="13" id="2yh-tE-W0R"/>
+                        <constraint firstAttribute="bottom" secondItem="o2j-kF-YTl" secondAttribute="bottom" id="6my-JS-Eqo"/>
+                        <constraint firstItem="o2j-kF-YTl" firstAttribute="leading" secondItem="iXg-Gk-q34" secondAttribute="leading" id="9Jh-Ck-qQv"/>
                         <constraint firstItem="VzH-Lw-lHr" firstAttribute="centerX" secondItem="iXg-Gk-q34" secondAttribute="centerX" id="BjP-Fx-a1s"/>
-                        <constraint firstItem="TzS-di-5qu" firstAttribute="top" secondItem="iXg-Gk-q34" secondAttribute="top" constant="65" id="CbD-iC-AfM"/>
+                        <constraint firstItem="TzS-di-5qu" firstAttribute="top" secondItem="iXg-Gk-q34" secondAttribute="top" constant="60" id="CbD-iC-AfM"/>
                         <constraint firstItem="TzS-di-5qu" firstAttribute="centerX" secondItem="iXg-Gk-q34" secondAttribute="centerX" id="Fc4-Ny-Hlc"/>
                         <constraint firstItem="R9v-hv-iXC" firstAttribute="top" secondItem="VzH-Lw-lHr" secondAttribute="bottom" constant="8" symbolic="YES" id="TVE-cD-H3r"/>
+                        <constraint firstAttribute="trailing" secondItem="o2j-kF-YTl" secondAttribute="trailing" id="Uiz-Nc-vRw"/>
                         <constraint firstItem="2b6-oe-c4w" firstAttribute="centerX" secondItem="iXg-Gk-q34" secondAttribute="centerX" id="VtQ-bW-Dta"/>
                         <constraint firstItem="2b6-oe-c4w" firstAttribute="top" secondItem="R9v-hv-iXC" secondAttribute="bottom" constant="15" id="ZIO-ge-IpW"/>
                         <constraint firstItem="VzH-Lw-lHr" firstAttribute="top" secondItem="TzS-di-5qu" secondAttribute="bottom" constant="60" id="ZOx-mg-PnF"/>
+                        <constraint firstItem="o2j-kF-YTl" firstAttribute="top" secondItem="2b6-oe-c4w" secondAttribute="bottom" id="ZaV-AX-M6y"/>
                         <constraint firstItem="PKG-cK-J8v" firstAttribute="centerX" secondItem="2b6-oe-c4w" secondAttribute="centerX" id="uzR-fh-uGj"/>
                         <constraint firstItem="PKG-cK-J8v" firstAttribute="centerY" secondItem="2b6-oe-c4w" secondAttribute="centerY" id="xeH-wA-hTj"/>
                     </constraints>

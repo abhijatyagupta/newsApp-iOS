@@ -53,18 +53,11 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.section == 1 {
+        if indexPath.section == 2 {
             if indexPath.row == 1 {
                 promptForConfirmation()
             }
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 1 {
-            return K.UIText.historyFooter
-        }
-        return ""
     }
     
     

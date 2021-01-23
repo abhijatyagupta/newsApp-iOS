@@ -20,6 +20,7 @@ struct K {
         static let okString = "OK"
         static let worldString = "World"
         static let errorString = "Error"
+        static let sentString = "Sent"
         
         static let turnOff = "Turn Off"
         static let turnOffAndDelete = "Turn Off and Delete"
@@ -40,5 +41,6 @@ struct K {
         static let emailAddressPlaceholder = "Email address"
         static let passwordPlaceholder = "Password"
         static let tryAgain = "Try Again"
+        static let sentSuccessful = "Reset link sent successfully"
     }
 }

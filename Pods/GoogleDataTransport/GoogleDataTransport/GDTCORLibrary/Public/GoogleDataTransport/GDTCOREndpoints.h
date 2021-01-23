@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Google
+ * Copyright 2018 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +15,21 @@
  */
 
 #import <Foundation/Foundation.h>
-
-#import "FirebaseAuth/Sources/Backend/FIRAuthRPCResponse.h"
+#import "GDTCORTargets.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** @class FIRGetProjectConfigResponse
-    @brief Represents the response from the getProjectConfig endpoint.
- */
-@interface FIRGetProjectConfigResponse : NSObject <FIRAuthRPCResponse>
+/* Class that manages the endpoints used by Google data transport library. */
+@interface GDTCOREndpoints : NSObject
 
-/** @property projectID
-    @brief The unique ID pertaining to the current project.
- */
-@property(nonatomic, strong, readonly, nullable) NSString *projectID;
+- (instancetype)init NS_UNAVAILABLE;
 
-/** @property authorizedDomains
-    @brief A list of domains allowlisted for the current project.
+/** Returns the upload URL for a target specified. If the target is not available, returns nil.
+ *
+ *  @param target GoogleDataTransport target for which the upload URL is being looked up for.
+ *  @return URL that will be used for uploading the events for the provided target.
  */
-@property(nonatomic, strong, readonly, nullable) NSArray *authorizedDomains;
++ (nullable NSURL *)uploadURLForTarget:(GDTCORTarget)target;
 
 @end
 

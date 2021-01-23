@@ -183,18 +183,14 @@ class WorldCountryViewController: UIViewController {
                     let newArticles = newsJSON["articles"].arrayValue
                     self.articles += newArticles
                     print("new articles: \(self.articles.count - articlesCountBeforeAppend)")
-                    DispatchQueue.main.async {
-                        self.loadImages(newArticles, 0, newArticles.count, articlesCountBeforeAppend)
-                    }
                     var indexPaths: [IndexPath] = []
                     for i in articlesCountBeforeAppend..<self.articles.count {
                         indexPaths.append(IndexPath(row: i, section: 0))
                     }
-                    DispatchQueue.main.async { [weak self] in
-                        self?.loadMoreActivityIndicator.stop()
-                    }
                     DispatchQueue.main.async {
+                        self.loadMoreActivityIndicator.stop()
                         self.worldCountryCollectionView.insertItems(at: indexPaths)
+                        self.loadImages(newArticles, 0, newArticles.count, articlesCountBeforeAppend)
                     }
                 }
                 catch {
