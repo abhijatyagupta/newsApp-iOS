@@ -21,6 +21,8 @@ struct K {
         static let worldString = "World"
         static let errorString = "Error"
         static let sentString = "Sent"
+        static let signUpString = "Sign Up"
+        static let createAccountButton = "CREATE ACCOUNT AND SIGN IN"
         
         static let turnOff = "Turn Off"
         static let turnOffAndDelete = "Turn Off and Delete"

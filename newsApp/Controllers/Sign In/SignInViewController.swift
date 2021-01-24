@@ -10,6 +10,8 @@ import Firebase
 
 class SignInViewController: UIViewController {
 
+    @IBOutlet weak var signInTitle: UILabel!
+    @IBOutlet weak var forgotPasswordButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: PasswordTextField!
     @IBOutlet weak var signInButton: UIButton!
@@ -19,6 +21,7 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var keyboardAdjustView: UIView!
     private var keyboardManager = KeyboardManager()
     private var keyboardAppearedAgain: Bool = true
+    var isSignUpController: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +34,12 @@ class SignInViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(calculateKeyboardHeight), name: UIResponder.keyboardWillShowNotification, object: nil)
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyBoard))
         view.addGestureRecognizer(tap)
+        
+        if isSignUpController {
+            signInTitle.text = K.UIText.signUpString
+            signInButton.setTitle(K.UIText.createAccountButton, for: .normal)
+            forgotPasswordButton.isHidden = true
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -123,7 +132,32 @@ class SignInViewController: UIViewController {
                         self.toggleSignInButtonAndSpinner(shouldButtonAppear: true)
                     }
                     self.presentSignInAlert(withMessage: signInError.localizedDescription)
+                    print("Error signing in:")
                     print(signInError)
+                }
+                else {
+                    self.dismiss(animated: true) {
+                        
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                self.toggleSignInButtonAndSpinner(shouldButtonAppear: false)
+            }
+        }
+    }
+    
+    private func signUp() {
+        if let email = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), let password = passwordTextField.text {
+            Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                if let signUpError = error {
+                    DispatchQueue.main.async {
+                        self.toggleSignInButtonAndSpinner(shouldButtonAppear: true)
+                    }
+                    
+                    self.presentSignInAlert(withMessage: signUpError.localizedDescription)
+                    print("Error signing up:")
+                    print(signUpError)
                 }
                 else {
                     self.dismiss(animated: true) {
@@ -147,7 +181,7 @@ class SignInViewController: UIViewController {
     @IBAction func signInPressed(_ sender: UIButton) {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-        signIn()
+        isSignUpController ? signUp() : signIn()
     }
     
     @IBAction func forgotPasswordPressed(_ sender: UIButton) {

@@ -11,11 +11,13 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignInViewController" customModule="newsApp" customModuleProvider="target">
             <connections>
                 <outlet property="emailTextField" destination="MMD-Ss-l6Z" id="6W8-e4-3rf"/>
+                <outlet property="forgotPasswordButton" destination="R9v-hv-iXC" id="c6V-Pa-gi8"/>
                 <outlet property="keyboardAdjustView" destination="o2j-kF-YTl" id="81H-uq-Bu1"/>
                 <outlet property="passwordTextField" destination="Scd-jb-FU8" id="fcf-Y5-inn"/>
                 <outlet property="signInBottomConstraint" destination="ZOx-mg-PnF" id="58n-q8-xL8"/>
                 <outlet property="signInButton" destination="2b6-oe-c4w" id="7PC-Ba-Ull"/>
                 <outlet property="signInSpinner" destination="PKG-cK-J8v" id="rZf-W2-Wxl"/>
+                <outlet property="signInTitle" destination="TzS-di-5qu" id="o30-JZ-A7z"/>
                 <outlet property="signInTopConstraint" destination="CbD-iC-AfM" id="fpf-9L-dbP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -127,7 +129,7 @@
                 <constraint firstItem="iXg-Gk-q34" firstAttribute="top" secondItem="2vt-Gy-2Jf" secondAttribute="top" id="nZc-YV-jrW"/>
                 <constraint firstItem="iXg-Gk-q34" firstAttribute="bottom" secondItem="2vt-Gy-2Jf" secondAttribute="bottom" id="sJY-8R-bFj"/>
             </constraints>
-            <point key="canvasLocation" x="132" y="131.78410794602701"/>
+            <point key="canvasLocation" x="-4097" y="141"/>
         </view>
     </objects>
     <resources>

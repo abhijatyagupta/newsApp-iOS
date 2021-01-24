@@ -29,7 +29,9 @@ class SignedOutViewController: UIViewController, SignedOutViewDelegate {
     }
     
     func signUpTapped() {
-        
+        let vc = SignInViewController()
+        vc.isSignUpController = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
 }

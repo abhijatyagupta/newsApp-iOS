@@ -32,7 +32,12 @@ extension MarkedViewController: SignedOutViewDelegate {
     }
     
     func signUpTapped() {
-        
+        let nvc = UINavigationController()
+        nvc.overrideUserInterfaceStyle = .dark
+        let vc = SignInViewController()
+        nvc.viewControllers.append(vc)
+        vc.isSignUpController = true
+        present(nvc, animated: true)
     }
     
     
