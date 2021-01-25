@@ -22,6 +22,8 @@ struct K {
         static let errorString = "Error"
         static let sentString = "Sent"
         static let signUpString = "Sign Up"
+        static let signInString = "Sign In"
+        static let signOutString = "Sign Out"
         static let createAccountButton = "CREATE ACCOUNT AND SIGN IN"
         
         static let turnOff = "Turn Off"
@@ -44,5 +46,11 @@ struct K {
         static let passwordPlaceholder = "Password"
         static let tryAgain = "Try Again"
         static let sentSuccessful = "Reset link sent successfully"
+        static let noUser = "No user found"
+        static let areYouSure = "Are you sure?"
+        static let deleteAccountFooter = "Deleting an account will unmark all the news you have marked till date. This action cannot be undone."
+        static let deleteSuccess = "Account successfully deleted."
+        static let signOutMessage = "You will be signed out."
+        static let passwordResetMessage = "A password reset link has been sent to your email."
     }
 }

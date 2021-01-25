@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MarkedViewController: UIViewController {
     
@@ -13,11 +14,27 @@ class MarkedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if !Settings.isUserSignedIn {
-            navigationController?.navigationBar.isHidden = true
-            signedOutView.delegate = self
-            signedOutView.isHidden = false
+        signedOutView.delegate = self
+        Auth.auth().addStateDidChangeListener { (Auth, user) in
+            if user != nil {
+                DispatchQueue.main.async {
+                    self.navigationController?.navigationBar.isHidden = false
+                    self.signedOutView.isHidden = true
+                }
+            }
+            else {
+                DispatchQueue.main.async {
+                    self.navigationController?.navigationBar.isHidden = true
+                    self.signedOutView.isHidden = false
+                }
+            }
         }
+        
+//        if !Settings.isUserSignedIn {
+//            navigationController?.navigationBar.isHidden = true
+//            signedOutView.delegate = self
+//            signedOutView.isHidden = false
+//        }
     }
 }
 

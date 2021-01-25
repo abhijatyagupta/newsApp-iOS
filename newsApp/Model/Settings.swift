@@ -79,5 +79,14 @@ class Settings {
         return Auth.auth().currentUser != nil
     }
     
+    static var userEmail: String {
+        if isUserSignedIn, let user = Auth.auth().currentUser {
+            if let email = user.email {
+                return email
+            }
+        }
+        return K.UIText.noUser
+    }
+    
     
 }

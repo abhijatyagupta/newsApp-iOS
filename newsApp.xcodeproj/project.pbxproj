@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		003938733B900BCCE1659420 /* Pods_newsApp_newsAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32005ED97659CBA2B28082B7 /* Pods_newsApp_newsAppUITests.framework */; };
 		8A04B16225B8A0A200C70549 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A04B16125B8A0A200C70549 /* KeyboardManager.swift */; };
+		8A5FE6D625BE0EDE00ACB3B7 /* UserAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5FE6D525BE0EDE00ACB3B7 /* UserAccountTableViewController.swift */; };
 		AC01D48B257FDD8F0036A1EA /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC01D48A257FDD8F0036A1EA /* TabBarController.swift */; };
 		AC11B84C25A5ED3B0015F6B7 /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC11B84B25A5ED3B0015F6B7 /* PasswordTextField.swift */; };
 		AC222F8425A735F200E7AF4F /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC222F8225A735F200E7AF4F /* ForgotPasswordViewController.swift */; };
@@ -73,6 +74,7 @@
 		76EF39D3E477FB9E6B61F768 /* Pods_newsAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_newsAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		851DF7E0CF276C2438F2D188 /* Pods-newsAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsAppTests.debug.xcconfig"; path = "Target Support Files/Pods-newsAppTests/Pods-newsAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8A04B16125B8A0A200C70549 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
+		8A5FE6D525BE0EDE00ACB3B7 /* UserAccountTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountTableViewController.swift; sourceTree = "<group>"; };
 		AC01D48A257FDD8F0036A1EA /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		AC11B84B25A5ED3B0015F6B7 /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		AC222F8225A735F200E7AF4F /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
@@ -151,6 +153,14 @@
 			path = Marked;
 			sourceTree = "<group>";
 		};
+		8A5FE6CE25BE0EA900ACB3B7 /* User Account */ = {
+			isa = PBXGroup;
+			children = (
+				8A5FE6D525BE0EDE00ACB3B7 /* UserAccountTableViewController.swift */,
+			);
+			path = "User Account";
+			sourceTree = "<group>";
+		};
 		9B540F6BB22A83E4936A7EDC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +237,7 @@
 				ACFFE04B25979DBB00B55AF2 /* PublicViews */,
 				AC29BE2125A0559A003C1555 /* Sign In */,
 				AC222F8925A735FA00E7AF4F /* Forgot Password */,
+				8A5FE6CE25BE0EA900ACB3B7 /* User Account */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -597,6 +608,7 @@
 				ACEDF7D825306FCB00F3E4F8 /* Category.swift in Sources */,
 				AC3ED70425405C29007BED8B /* WorldCountryViewController.swift in Sources */,
 				AC86553F25A64FAD00FFE58F /* SignedOutViewController.swift in Sources */,
+				8A5FE6D625BE0EDE00ACB3B7 /* UserAccountTableViewController.swift in Sources */,
 				AC6046D4252A15F3007CEB56 /* AppDelegate.swift in Sources */,
 				AC6046D6252A15F3007CEB56 /* SceneDelegate.swift in Sources */,
 				ACDD7DC3257BD7590027795F /* SetIntitalScreenTableViewController.swift in Sources */,

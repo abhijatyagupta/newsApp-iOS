@@ -160,9 +160,7 @@ class SignInViewController: UIViewController {
                     print(signUpError)
                 }
                 else {
-                    self.dismiss(animated: true) {
-                        
-                    }
+                    self.dismiss(animated: true)
                 }
             }
             DispatchQueue.main.async {
@@ -181,7 +179,12 @@ class SignInViewController: UIViewController {
     @IBAction func signInPressed(_ sender: UIButton) {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-        isSignUpController ? signUp() : signIn()
+        if self.isSignUpController {
+            signUp()
+        }
+        else {
+            signIn()
+        }
     }
     
     @IBAction func forgotPasswordPressed(_ sender: UIButton) {
@@ -215,7 +218,7 @@ extension SignInViewController: UITextFieldDelegate {
         else if textField == passwordTextField {
             if signInButton.isEnabled {
                 textField.resignFirstResponder()
-                signIn()
+                signInPressed(signInButton)
                 return true
             }
         }
