@@ -25,15 +25,16 @@ class NewsCell: UICollectionViewCell {
     @IBOutlet weak var fakeLabel: UILabel!
     var realCount: Int = 0 {
         didSet {
-            realLabel.text = "\(realCount) REAL"
+            DispatchQueue.main.async { self.realLabel.text = "\(self.realCount) REAL" }
         }
     }
     var fakeCount: Int = 0 {
         didSet {
-            fakeLabel.text = "\(fakeCount) FAKE"
+            DispatchQueue.main.async { self.fakeLabel.text = "\(self.fakeCount) FAKE" }
         }
     }
     var newsURL: String?
+    var publishedAt: String?
     
     override func awakeFromNib() {
         super.awakeFromNib()

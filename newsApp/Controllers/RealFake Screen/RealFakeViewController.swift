@@ -7,6 +7,7 @@
 
 import UIKit
 import SafariServices
+import Firebase
 
 class RealFakeViewController: UIViewController {
     @IBOutlet weak var newsTitleView: UIView!
@@ -33,17 +34,42 @@ class RealFakeViewController: UIViewController {
     @IBOutlet weak var markedFakeCount: UILabel!
     @IBOutlet weak var realCountLabelForFakeView: UILabel!
     @IBOutlet weak var publicViewsTableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    private let firestoreManager = FirestoreManager()
+    private var timeInterval = 0.3
+    var realCount = 0 {
+        didSet {
+            DispatchQueue.main.async {
+                self.unmarkedRealCount.text = "\(self.realCount)"
+                self.markedRealCount.text = "\(self.realCount)"
+            }
+        }
+    }
+    var fakeCount = 0 {
+        didSet {
+            DispatchQueue.main.async {
+                self.unmarkedFakeCount.text = "\(self.fakeCount)"
+                self.markedFakeCount.text = "\(self.fakeCount)"
+            }
+        }
+    }
+    
     var cellForCurrentNews: NewsCell!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.overrideUserInterfaceStyle = .dark
         overrideUserInterfaceStyle = .dark
+        realCount = cellForCurrentNews.realCount
+        fakeCount = cellForCurrentNews.fakeCount
         configureNewsTitle()
         configureUnmarkedView()
         configureRealMarkedView()
         configureFakeMarkedView()
         configurePublicViewsTableView()
     }
+    
+    //MARK: - IBActions
     
     @IBAction func doneClicked(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true)
@@ -63,16 +89,46 @@ class RealFakeViewController: UIViewController {
     
     
     
+//    @IBAction func unmarkedRealViewTapped(_ sender: UIView) {
+//        changeBarButtonAndLabelTo(originalState: false)
+//        hideUnmarkedAnd(markedFakeViewContainer)
+//        if cellForCurrentNews.fakeCount == 0 && cellForCurrentNews.realCount == 0 {
+//            addDocument(isMarkReal: true)
+//        }
+//        else {
+//            updateDocument(isMarkReal: true)
+//        }
+//    }
+    
     @IBAction func unmarkedRealViewTapped(_ sender: UIView) {
-        changeBarButtonAndLabelTo(originalState: false)
-        hideUnmarkedAnd(markedFakeViewContainer)
-
-    }
+        hideUnmarkedAnd(markedFakeViewContainer) {
+            self.toggleSpinner(shouldSpinnerAppear: true) {
+                self.registerUpdate(isMarkReal: true) {
+                    self.changeBarButtonAndLabelTo(originalState: false)
+                    UIView.animate(withDuration: self.timeInterval) {
+                        self.markedViewContainer.alpha = 1
+                    }
+                } failed: {
+                    self.showUnmarkedView()
+                }
+            }
+        }
+    }                                       
     
     
     @IBAction func unmarkedFakeViewTapped(_ sender: UIView) {
-        changeBarButtonAndLabelTo(originalState: false)
-        hideUnmarkedAnd(markedRealViewContainer)
+        hideUnmarkedAnd(markedRealViewContainer) {
+            self.toggleSpinner(shouldSpinnerAppear: true) {
+                self.registerUpdate(isMarkReal: false) {
+                    self.changeBarButtonAndLabelTo(originalState: false)
+                    UIView.animate(withDuration: self.timeInterval) {
+                        self.markedViewContainer.alpha = 1
+                    }
+                } failed: {
+                    self.showUnmarkedView()
+                }
+            }
+        }
     }
     
     
@@ -89,41 +145,121 @@ class RealFakeViewController: UIViewController {
     }
     
     
+//    @IBAction func leftBarButtonTapped(_ sender: UIBarButtonItem) {
+//        if leftBarButton.image == nil {
+//            UIView.animate(withDuration: timeInterval) {
+//                self.markedViewContainer.alpha = 0
+//            } completion: { (animationIsComplete) in
+//                if animationIsComplete {
+//                    self.showUnmarkedView()
+//                }
+//            }
+//            changeBarButtonAndLabelTo(originalState: true)
+//        }
+//        else {
+//            shareButtonInRealViewTapped(shareButtonInRealView)
+//        }
+//    }
+    
     @IBAction func leftBarButtonTapped(_ sender: UIBarButtonItem) {
         if leftBarButton.image == nil {
-            UIView.animate(withDuration: 0.3) {
-                self.markedViewContainer.alpha = 0
-            } completion: { (animationIsComplete) in
+            toggleMarkedView(shouldViewAppear: false) { animationIsComplete in
                 if animationIsComplete {
-                    self.markedViewContainer.isHidden = true
-                    self.markedRealViewContainer.isHidden = false
-                    self.markedFakeViewContainer.isHidden = false
-                    self.unmarkedViewContainer.isHidden = false
-                    UIView.animate(withDuration: 0.3) {
-                        self.unmarkedViewContainer.alpha = 1
+                    self.toggleSpinner(shouldSpinnerAppear: true) {
+                        self.deleteDocument {
+                            self.showUnmarkedView()
+                            self.changeBarButtonAndLabelTo(originalState: true)
+                        } failed: {
+                            self.toggleMarkedView(shouldViewAppear: true)
+                        }
                     }
                 }
             }
-            changeBarButtonAndLabelTo(originalState: true)
         }
         else {
             shareButtonInRealViewTapped(shareButtonInRealView)
         }
     }
     
+    //MARK: - Other Methods
     
+    private func registerUpdate(isMarkReal: Bool, succeed: @escaping () -> Void, failed: @escaping () -> Void) {
+        let document: [String : Any] = [
+            "url": cellForCurrentNews.newsURL as Any,
+            "fakeCount": isMarkReal ? 0 : 1,
+            "realCount": isMarkReal ? 1 : 0
+        ]
+        firestoreManager.add(document: document, toCollection: "markedNews", withName: cellForCurrentNews.publishedAt!) { error in
+            self.toggleSpinner(shouldSpinnerAppear: false)
+            if let error = error {
+                failed()
+                print(error)
+                self.presentAlert(withTitle: K.UIText.errorString, message: error.localizedDescription)
+            }
+            else {
+                print("data added successfully")
+                succeed()
+            }
+            
+        }
+    }
     
-    private func hideUnmarkedAnd(_ viewToHide: UIView) {
-        UIView.animate(withDuration: 0.3) {
+    private func updateDocument(isMarkReal: Bool) {
+        
+    }
+    
+    private func deleteDocument(succeed: @escaping () -> Void, failed: @escaping () -> Void) {
+        firestoreManager.delete(document: cellForCurrentNews.publishedAt!) { error in
+            self.toggleSpinner(shouldSpinnerAppear: false)
+            if let error = error {
+                failed()
+                print(error)
+                self.presentAlert(withTitle: K.UIText.errorString, message: error.localizedDescription)
+            }
+            else {
+                print("data successfully deleted")
+                succeed()
+            }
+        }
+    }
+    
+    private func toggleSpinner(shouldSpinnerAppear: Bool, callback: @escaping () -> Void = {}) {
+        UIView.animate(withDuration: timeInterval) {
+            self.activityIndicator.alpha = shouldSpinnerAppear ? 1 : 0
+        } completion: { (animationIsComplete) in
+            self.activityIndicator.isHidden = !shouldSpinnerAppear
+            callback()
+        }
+    }
+    
+    private func showUnmarkedView() {
+        self.markedViewContainer.isHidden = true
+        self.markedRealViewContainer.isHidden = false
+        self.markedFakeViewContainer.isHidden = false
+        self.unmarkedViewContainer.isHidden = false
+        UIView.animate(withDuration: timeInterval) {
+            self.unmarkedViewContainer.alpha = 1
+        }
+    }
+    
+    private func toggleMarkedView(shouldViewAppear: Bool, completion: @escaping ((Bool) -> Void) = { _ in }) {
+        UIView.animate(withDuration: timeInterval) {
+            self.markedViewContainer.alpha = shouldViewAppear ? 1 : 0
+        } completion: { (animationIsComplete) in
+            completion(animationIsComplete)
+        }
+
+    }
+    
+    private func hideUnmarkedAnd(_ viewToHide: UIView, callback: @escaping () -> Void = {}) {
+        UIView.animate(withDuration: timeInterval) {
             self.unmarkedViewContainer.alpha = 0
         } completion: { (animationIsComplete) in
             if animationIsComplete {
                 self.unmarkedViewContainer.isHidden = true
                 viewToHide.isHidden = true
                 self.markedViewContainer.isHidden = false
-                UIView.animate(withDuration: 0.3) {
-                    self.markedViewContainer.alpha = 1
-                }
+                callback()
             }
         }
     }
@@ -134,6 +270,14 @@ class RealFakeViewController: UIViewController {
         leftBarButton.image = originalState ? UIImage(systemName: "square.and.arrow.up") : nil
     }
     
+    private func presentAlert(withTitle: String, message: String) {
+        let alert = UIAlertController(title: withTitle, message: message, preferredStyle: .alert)
+        alert.overrideUserInterfaceStyle = .dark
+        alert.addAction(UIAlertAction(title: K.UIText.tryAgain, style: .default))
+        present(alert, animated: true)
+    }
+    
+    //MARK: - Configure methods that run at viewDidLoad
     
     private func configureNewsTitle() {
         newsTitleView.layer.cornerRadius = 20
@@ -142,8 +286,6 @@ class RealFakeViewController: UIViewController {
     
     
     private func configureUnmarkedView() {
-        unmarkedRealCount.text = "\(cellForCurrentNews.realCount)"
-        unmarkedFakeCount.text = "\(cellForCurrentNews.fakeCount)"
         configureViewBorder(view: unmarkedRealView, color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
         configureViewBorder(view: unmarkedFakeView, color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
         viewsAreHiddenView.layer.cornerRadius = 20

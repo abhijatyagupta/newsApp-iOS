@@ -15,7 +15,7 @@ class WorldCountryViewController: UIViewController {
     @IBOutlet weak var recentSearchesTableView: RecentSearchesTableView!
     @IBOutlet weak var zeroResultsView: UIView!
     private let searchController = UISearchController()
-    private let newsManager = NewsManager()
+    private let networkManager = NetworkManager()
     private var newsImages = [Int : UIImage]()
     private var articles: [JSON] = []
     private var currentPage: Int = 1
@@ -27,8 +27,6 @@ class WorldCountryViewController: UIViewController {
     private var lastLoadedApi: String = Settings.worldApiURL
     private var loadMoreActivityIndicator: LoadMoreActivityIndicator!
     private let recentSearches = RecentSearches()
-    
-
     
     
     override func viewDidLoad() {
@@ -227,7 +225,7 @@ class WorldCountryViewController: UIViewController {
     private func requestPerformer(url: String, callback: @escaping (Data?) -> Void) {
         DispatchQueue.main.async {
             if self.navigationController?.topViewController is WorldCountryViewController {
-                self.newsManager.performRequest(url) { (data) in
+                self.networkManager.performRequest(url) { (data) in
                     callback(data)
                 }
             }
@@ -272,7 +270,7 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         cell.newsTitle.text = articles[indexPath.row]["title"].stringValue
         cell.newsDescription.text = articles[indexPath.row]["description"].stringValue
         cell.newsURL = articles[indexPath.row]["url"].stringValue
-        
+        cell.publishedAt = articles[indexPath.row]["publishedAt"].stringValue
         if let image = newsImages[indexPath.row] {
             DispatchQueue.main.async {
                 cell.newsImageView.image = image

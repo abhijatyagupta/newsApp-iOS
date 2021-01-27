@@ -471,11 +471,15 @@
                                             </view>
                                         </subviews>
                                     </stackView>
+                                    <activityIndicatorView hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="COk-vo-ego">
+                                        <rect key="frame" x="177.5" y="285.5" width="20" height="20"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="xOT-Vo-FdV" secondAttribute="trailing" constant="15" id="2Zi-56-koe"/>
                                     <constraint firstItem="xOT-Vo-FdV" firstAttribute="leading" secondItem="RAJ-lG-DbB" secondAttribute="leading" constant="15" id="7J0-HS-Nni"/>
                                     <constraint firstItem="R9q-Xr-ko4" firstAttribute="top" secondItem="aM7-fs-XSf" secondAttribute="bottom" constant="27.5" id="7ge-2U-3q9"/>
+                                    <constraint firstItem="COk-vo-ego" firstAttribute="centerX" secondItem="RAJ-lG-DbB" secondAttribute="centerX" id="8xC-nz-ko3"/>
                                     <constraint firstItem="aM7-fs-XSf" firstAttribute="top" secondItem="xOT-Vo-FdV" secondAttribute="bottom" constant="27.5" id="A4s-hl-roX"/>
                                     <constraint firstItem="X4I-ZW-Afe" firstAttribute="top" secondItem="aM7-fs-XSf" secondAttribute="bottom" constant="27.5" id="EB6-dw-HNG"/>
                                     <constraint firstItem="R9q-Xr-ko4" firstAttribute="leading" secondItem="RAJ-lG-DbB" secondAttribute="leading" constant="15.5" id="Jld-Fc-8Ml"/>
@@ -484,6 +488,7 @@
                                     <constraint firstItem="xOT-Vo-FdV" firstAttribute="top" secondItem="RAJ-lG-DbB" secondAttribute="top" constant="20" id="U6i-Nk-FaZ"/>
                                     <constraint firstAttribute="trailing" secondItem="R9q-Xr-ko4" secondAttribute="trailing" constant="15.5" id="eYo-4g-q4B"/>
                                     <constraint firstAttribute="bottom" secondItem="X4I-ZW-Afe" secondAttribute="bottom" id="iZY-IX-HoY"/>
+                                    <constraint firstItem="COk-vo-ego" firstAttribute="centerY" secondItem="RAJ-lG-DbB" secondAttribute="centerY" id="rDj-Bo-WfY"/>
                                     <constraint firstItem="X4I-ZW-Afe" firstAttribute="leading" secondItem="RAJ-lG-DbB" secondAttribute="leading" id="tR5-nG-dam"/>
                                     <constraint firstAttribute="trailing" secondItem="X4I-ZW-Afe" secondAttribute="trailing" id="umq-gn-muw"/>
                                 </constraints>
@@ -511,6 +516,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="COk-vo-ego" id="ESa-AM-DzR"/>
                         <outlet property="fakeCountLabelForRealView" destination="dbz-CD-aaE" id="nek-tk-4d1"/>
                         <outlet property="leftBarButton" destination="VgL-MT-YEy" id="gja-Ir-vIC"/>
                         <outlet property="markTheNewsLabel" destination="aM7-fs-XSf" id="cBh-oy-rhw"/>
@@ -536,7 +542,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dj3-qS-sHQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-586" y="4240"/>
+            <point key="canvasLocation" x="-586.39999999999998" y="4239.130434782609"/>
         </scene>
         <!--Public Views-->
         <scene sceneID="qnn-JM-CwZ">

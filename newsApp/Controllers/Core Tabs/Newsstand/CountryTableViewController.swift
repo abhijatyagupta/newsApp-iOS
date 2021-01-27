@@ -9,8 +9,6 @@ import UIKit
 
 class CountryTableViewController: UITableViewController {
     
-//    private let countries: [ String] = ["Argentina","Australia", "Austria", "Belgium", "Brazil", "Bulgaria", "Canada", "China", "Colombia", "Cuba", "Czechia", "Egypt", "France", "Germany", "Greece", "Hong Kong", "Hungary", "India", "Indonesia", "Ireland", "Israel", "Italy", "Japan", "Latvia", "Lithuania", "Malaysia", "Mexico", "Morocco", "Netherlands", "New Zealand", "Nigeria", "Norway", "Philippines", "Poland", "Portugal", "Romania", "Russia", "Saudi Arabia", "Serbia", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Sweden", "Switzerland", "Taiwan", "Thailand", "Turkey", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Venezuela"]
-    
     private var NSTVController: NewsstandTableViewController?
     
     private let countries: [Country] = [Country("Argentina", "ar"), Country("Australia", "au"),
@@ -44,6 +42,7 @@ class CountryTableViewController: UITableViewController {
      
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.overrideUserInterfaceStyle = .dark
         overrideUserInterfaceStyle = .dark
         NSTVController = self.presentingViewController?.children[0].children[0] as? NewsstandTableViewController
     }

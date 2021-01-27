@@ -179,12 +179,7 @@ class SignInViewController: UIViewController {
     @IBAction func signInPressed(_ sender: UIButton) {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
-        if self.isSignUpController {
-            signUp()
-        }
-        else {
-            signIn()
-        }
+        isSignUpController ? signUp() : signIn()
     }
     
     @IBAction func forgotPasswordPressed(_ sender: UIButton) {

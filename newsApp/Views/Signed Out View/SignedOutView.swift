@@ -24,7 +24,6 @@ class SignedOutView: UIView {
         super.init(coder: aDecoder)
         Bundle.main.loadNibNamed("SignedOutView", owner: self, options: nil)
         addSubview(superView)
-        
     }
     
     override func awakeFromNib() {
@@ -34,8 +33,6 @@ class SignedOutView: UIView {
         signUpButton.layer.borderWidth = 1
         signUpButton.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
-    
-    
     
     @IBAction func signInTapped(_ sender: UIButton) {
         delegate?.signInTapped()

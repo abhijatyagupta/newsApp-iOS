@@ -37,13 +37,8 @@ class Settings {
             if let key = NSDictionary(contentsOfFile: path)?.object(forKey: "API_KEY") as? String {
                 return "\(key)"
             }
-            else {
-                return ""
-            }
         }
-        else {
-            return ""
-        }
+        return ""
     }
     
     private static var API_COUNTRY: String {

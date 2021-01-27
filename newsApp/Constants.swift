@@ -50,6 +50,7 @@ struct K {
         static let areYouSure = "Are you sure?"
         static let deleteAccountFooter = "Deleting an account will unmark all the news you have marked till date. This action cannot be undone."
         static let deleteSuccess = "Account successfully deleted."
+        static let deleteAndSignOut = "Delete and sign out"
         static let signOutMessage = "You will be signed out."
         static let passwordResetMessage = "A password reset link has been sent to your email."
     }

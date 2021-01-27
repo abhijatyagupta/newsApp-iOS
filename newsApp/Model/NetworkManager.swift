@@ -7,13 +7,11 @@
 
 import Foundation
 
-class NewsManager {
+class NetworkManager {
     
     func performRequest(_ apiCall: String, callback: @escaping (Data?) -> Void) {
         if apiCall.count == 0 { callback(nil) }
-        
         let urlValidation = URLValidation(url: apiCall)
-        
         if urlValidation.isValidURL {
             performRequestHelper(urlValidation.isHTTPSecure ? apiCall : urlValidation.fixedURL) { (data) in
                 callback(data)
@@ -74,15 +72,10 @@ private class URLValidation {
             if url[url.startIndex..<safeColonIndex] == "https" {
                 return true
             }
-            else {
-                print("https used!!")
-                fixedURL = "https" + url[safeColonIndex..<url.endIndex]
-                return false
-            }
+            print("https used!!")
+            fixedURL = "https" + url[safeColonIndex..<url.endIndex]
         }
-        else {
-            return false
-        }
+        return false
     }
     
     private func checkValidURL() -> Bool {
@@ -94,12 +87,8 @@ private class URLValidation {
                 fixedURL = "https://" + url[endIndex..<url.endIndex]
                 return false
             }
-            else {
-                return true
-            }
+            return true
         }
-        else {
-            return false
-        }
+        return false
     }
 }

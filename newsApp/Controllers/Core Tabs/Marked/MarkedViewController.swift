@@ -16,26 +16,20 @@ class MarkedViewController: UIViewController {
         super.viewDidLoad()
         signedOutView.delegate = self
         Auth.auth().addStateDidChangeListener { (Auth, user) in
-            if user != nil {
-                DispatchQueue.main.async {
-                    self.navigationController?.navigationBar.isHidden = false
-                    self.signedOutView.isHidden = true
-                }
-            }
-            else {
-                DispatchQueue.main.async {
-                    self.navigationController?.navigationBar.isHidden = true
-                    self.signedOutView.isHidden = false
-                }
-            }
+            self.toggleSignedOutView(shouldViewAppear: user == nil)
         }
-        
-//        if !Settings.isUserSignedIn {
-//            navigationController?.navigationBar.isHidden = true
-//            signedOutView.delegate = self
-//            signedOutView.isHidden = false
-//        }
     }
+    
+    
+    private func toggleSignedOutView(shouldViewAppear: Bool) {
+        DispatchQueue.main.async {
+            self.navigationController?.navigationBar.isHidden = shouldViewAppear
+            self.signedOutView.isHidden = !shouldViewAppear
+        }
+    }
+    
+    
+    
 }
 
 

@@ -16,6 +16,7 @@ class UserAccountTableViewController: UITableViewController {
     @IBOutlet weak var deleteAccountLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .dark
         navigationItem.title = Settings.userEmail
     }
     
@@ -118,7 +119,7 @@ class UserAccountTableViewController: UITableViewController {
     
     private func deleteAlert() {
         let alert = UIAlertController(title: K.UIText.areYouSure, message: K.UIText.deleteAccountFooter, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: K.UIText.deleteString, style: .destructive, handler: { (action) in
+        alert.addAction(UIAlertAction(title: K.UIText.deleteAndSignOut, style: .destructive, handler: { (action) in
             self.deleteAccount()
             self.toggleDeleteAccountSpinner(spinnerShouldAppear: true)
         }))
