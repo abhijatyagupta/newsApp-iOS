@@ -54,4 +54,16 @@ struct K {
         static let signOutMessage = "You will be signed out."
         static let passwordResetMessage = "A password reset link has been sent to your email."
     }
+    
+    struct API {
+        static let articles = "articles"
+        static let title = "title"
+        static let description = "description"
+        static let url = "url"
+        static let urlToImage = "urlToImage"
+        static let totalResults = "totalResults"
+        static let publishedAt = "publishedAt"
+        static let source = "source"
+        static let name = "name"
+    }
 }

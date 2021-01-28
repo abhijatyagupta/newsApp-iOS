@@ -17,12 +17,14 @@ class NewsCell: UICollectionViewCell {
     var delegate: NewsCellDelegate?
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var realFakeActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var newsImageView: UIImageView!
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var newsDescription: UILabel!
     @IBOutlet weak var realFakeButton: UIButton!
-    @IBOutlet weak var realLabel: UILabel!
-    @IBOutlet weak var fakeLabel: UILabel!
+    @IBOutlet weak var realFakeStackView: UIStackView!
+    @IBOutlet private weak var realLabel: UILabel!
+    @IBOutlet private weak var fakeLabel: UILabel!
     var realCount: Int = 0 {
         didSet {
             DispatchQueue.main.async { self.realLabel.text = "\(self.realCount) REAL" }
@@ -34,7 +36,7 @@ class NewsCell: UICollectionViewCell {
         }
     }
     var newsURL: String?
-    var publishedAt: String?
+    var documentID: String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,6 +57,9 @@ class NewsCell: UICollectionViewCell {
         super.prepareForReuse()
         if !activityIndicator.isHidden {
             activityIndicator.startAnimating()
+        }
+        if !realFakeActivityIndicator.isHidden {
+            realFakeActivityIndicator.startAnimating()
         }
     }
     

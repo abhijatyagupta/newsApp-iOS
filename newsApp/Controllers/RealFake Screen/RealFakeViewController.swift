@@ -36,7 +36,7 @@ class RealFakeViewController: UIViewController {
     @IBOutlet weak var publicViewsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private let firestoreManager = FirestoreManager()
-    private var timeInterval = 0.3
+    private var timeInterval = 0.2
     var realCount = 0 {
         didSet {
             DispatchQueue.main.async {
@@ -69,6 +69,18 @@ class RealFakeViewController: UIViewController {
         configurePublicViewsTableView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //attach listener
+        attachListener()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        //detach listener
+        firestoreManager.detachSnapshotListener()
+    }
+    
     //MARK: - IBActions
     
     @IBAction func doneClicked(_ sender: UIBarButtonItem) {
@@ -87,18 +99,6 @@ class RealFakeViewController: UIViewController {
         }
     }
     
-    
-    
-//    @IBAction func unmarkedRealViewTapped(_ sender: UIView) {
-//        changeBarButtonAndLabelTo(originalState: false)
-//        hideUnmarkedAnd(markedFakeViewContainer)
-//        if cellForCurrentNews.fakeCount == 0 && cellForCurrentNews.realCount == 0 {
-//            addDocument(isMarkReal: true)
-//        }
-//        else {
-//            updateDocument(isMarkReal: true)
-//        }
-//    }
     
     @IBAction func unmarkedRealViewTapped(_ sender: UIView) {
         hideUnmarkedAnd(markedFakeViewContainer) {
@@ -144,29 +144,18 @@ class RealFakeViewController: UIViewController {
         }
     }
     
-    
-//    @IBAction func leftBarButtonTapped(_ sender: UIBarButtonItem) {
-//        if leftBarButton.image == nil {
-//            UIView.animate(withDuration: timeInterval) {
-//                self.markedViewContainer.alpha = 0
-//            } completion: { (animationIsComplete) in
-//                if animationIsComplete {
-//                    self.showUnmarkedView()
-//                }
-//            }
-//            changeBarButtonAndLabelTo(originalState: true)
-//        }
-//        else {
-//            shareButtonInRealViewTapped(shareButtonInRealView)
-//        }
-//    }
-    
     @IBAction func leftBarButtonTapped(_ sender: UIBarButtonItem) {
         if leftBarButton.image == nil {
             toggleMarkedView(shouldViewAppear: false) { animationIsComplete in
                 if animationIsComplete {
                     self.toggleSpinner(shouldSpinnerAppear: true) {
-                        self.deleteDocument {
+//                        self.deleteDocument {
+//                            self.showUnmarkedView()
+//                            self.changeBarButtonAndLabelTo(originalState: true)
+//                        } failed: {
+//                            self.toggleMarkedView(shouldViewAppear: true)
+//                        }
+                        self.undoMark(wasMarkReal: self.markedFakeViewContainer.isHidden) {
                             self.showUnmarkedView()
                             self.changeBarButtonAndLabelTo(originalState: true)
                         } failed: {
@@ -181,15 +170,15 @@ class RealFakeViewController: UIViewController {
         }
     }
     
-    //MARK: - Other Methods
+    //MARK: - Firestore Methods
     
     private func registerUpdate(isMarkReal: Bool, succeed: @escaping () -> Void, failed: @escaping () -> Void) {
         let document: [String : Any] = [
-            "url": cellForCurrentNews.newsURL as Any,
-            "fakeCount": isMarkReal ? 0 : 1,
-            "realCount": isMarkReal ? 1 : 0
+            "url" : cellForCurrentNews.newsURL as Any,
+            "fakeCount": fakeCount + (isMarkReal ? 0 : 1),
+            "realCount": realCount + (isMarkReal ? 1 : 0)
         ]
-        firestoreManager.add(document: document, toCollection: "markedNews", withName: cellForCurrentNews.publishedAt!) { error in
+        firestoreManager.add(document: document, toCollection: "markedNews", withName: cellForCurrentNews.documentID!) { error in
             self.toggleSpinner(shouldSpinnerAppear: false)
             if let error = error {
                 failed()
@@ -204,12 +193,26 @@ class RealFakeViewController: UIViewController {
         }
     }
     
-    private func updateDocument(isMarkReal: Bool) {
-        
+    private func undoMark(wasMarkReal: Bool, succeed: @escaping () -> Void, failed: @escaping () -> Void) {
+        let data: [AnyHashable : Any] = [
+            (wasMarkReal ? "realCount" : "fakeCount") : (wasMarkReal ? realCount - 1 : fakeCount - 1)
+        ]
+        firestoreManager.update(document: cellForCurrentNews.documentID!, withData: data) { error in
+            self.toggleSpinner(shouldSpinnerAppear: false)
+            if let error = error {
+                failed()
+                print(error)
+                self.presentAlert(withTitle: K.UIText.errorString, message: error.localizedDescription)
+            }
+            else {
+                print("mark undid")
+                succeed()
+            }
+        }
     }
     
     private func deleteDocument(succeed: @escaping () -> Void, failed: @escaping () -> Void) {
-        firestoreManager.delete(document: cellForCurrentNews.publishedAt!) { error in
+        firestoreManager.delete(document: cellForCurrentNews.documentID!) { error in
             self.toggleSpinner(shouldSpinnerAppear: false)
             if let error = error {
                 failed()
@@ -223,12 +226,32 @@ class RealFakeViewController: UIViewController {
         }
     }
     
+    
+    //MARK: - Helper Methods
+    
     private func toggleSpinner(shouldSpinnerAppear: Bool, callback: @escaping () -> Void = {}) {
         UIView.animate(withDuration: timeInterval) {
             self.activityIndicator.alpha = shouldSpinnerAppear ? 1 : 0
         } completion: { (animationIsComplete) in
             self.activityIndicator.isHidden = !shouldSpinnerAppear
             callback()
+        }
+    }
+    
+    private func attachListener() {
+        firestoreManager.addSnapshotListener(forDocument: cellForCurrentNews.documentID!) { (document, error) in
+            if let error = error {
+                print("listener detached due to error:")
+                print(error)
+                print("re-attaching listener..")
+                self.attachListener()
+            }
+            else if let data = document?.data() {
+                self.realCount = data["realCount"] as? Int ?? 0
+                self.fakeCount = data["fakeCount"] as? Int ?? 0
+                self.cellForCurrentNews.realCount = self.realCount
+                self.cellForCurrentNews.fakeCount = self.fakeCount
+            }
         }
     }
     
@@ -337,6 +360,4 @@ extension RealFakeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
 }

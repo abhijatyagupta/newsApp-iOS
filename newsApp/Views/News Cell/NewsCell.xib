@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -51,7 +52,7 @@
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDd-fK-C9u">
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wDd-fK-C9u">
                                 <rect key="frame" x="222.5" y="273.5" width="90" height="55"/>
                                 <color key="backgroundColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -71,7 +72,7 @@
                                     <action selector="shareButtonPressed:" destination="W5k-Jm-6eJ" eventType="touchUpInside" id="vbv-65-P7c"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="y2P-jm-A8r">
+                            <stackView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="y2P-jm-A8r">
                                 <rect key="frame" x="232.5" y="279.5" width="70" height="43"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 REAL" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eRr-g8-8as">
@@ -102,6 +103,9 @@
                                     <constraint firstAttribute="height" constant="43" id="UXA-Yv-5Il"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Bg8-TH-hhi">
+                                <rect key="frame" x="257.5" y="291" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.16470588235294117" green="0.16470588235294117" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -113,12 +117,14 @@
                             <constraint firstAttribute="trailing" secondItem="plk-kx-LI1" secondAttribute="trailing" id="AZf-vE-cvj"/>
                             <constraint firstItem="pVn-0B-pQU" firstAttribute="leading" secondItem="Tjz-oY-XnL" secondAttribute="leading" constant="20" symbolic="YES" id="ECn-1S-lmm"/>
                             <constraint firstAttribute="trailing" secondItem="wDd-fK-C9u" secondAttribute="trailing" constant="32.5" id="J9V-5v-nnD"/>
+                            <constraint firstItem="Bg8-TH-hhi" firstAttribute="centerY" secondItem="wDd-fK-C9u" secondAttribute="centerY" id="Q8x-h4-AlA"/>
                             <constraint firstAttribute="bottom" secondItem="wDd-fK-C9u" secondAttribute="bottom" constant="22.5" id="QeZ-qz-rWF"/>
                             <constraint firstItem="y2P-jm-A8r" firstAttribute="centerX" secondItem="wDd-fK-C9u" secondAttribute="centerX" id="SGs-C2-Vys"/>
                             <constraint firstItem="kKw-Uz-Lgi" firstAttribute="leading" secondItem="Tjz-oY-XnL" secondAttribute="leading" constant="20" symbolic="YES" id="VJX-vy-IVL"/>
                             <constraint firstItem="y2P-jm-A8r" firstAttribute="centerY" secondItem="wDd-fK-C9u" secondAttribute="centerY" id="YZF-MZ-gXA"/>
                             <constraint firstItem="plk-kx-LI1" firstAttribute="top" secondItem="Tjz-oY-XnL" secondAttribute="top" id="bpf-SQ-WcG"/>
                             <constraint firstItem="plk-kx-LI1" firstAttribute="leading" secondItem="Tjz-oY-XnL" secondAttribute="leading" id="fAo-Mg-gde"/>
+                            <constraint firstItem="Bg8-TH-hhi" firstAttribute="centerX" secondItem="wDd-fK-C9u" secondAttribute="centerX" id="km2-08-WRn"/>
                             <constraint firstAttribute="trailing" secondItem="pVn-0B-pQU" secondAttribute="trailing" constant="20" symbolic="YES" id="lds-2z-350"/>
                             <constraint firstItem="pVn-0B-pQU" firstAttribute="top" secondItem="plk-kx-LI1" secondAttribute="bottom" constant="22.5" id="rXf-vB-u1O"/>
                             <constraint firstItem="wDd-fK-C9u" firstAttribute="top" secondItem="kKw-Uz-Lgi" secondAttribute="bottom" constant="17" id="u4L-hJ-A7u"/>
@@ -141,7 +147,9 @@
                 <outlet property="newsDescription" destination="kKw-Uz-Lgi" id="LdX-uX-2ij"/>
                 <outlet property="newsImageView" destination="plk-kx-LI1" id="8Eq-G3-Rvm"/>
                 <outlet property="newsTitle" destination="pVn-0B-pQU" id="Oxl-LE-i7o"/>
+                <outlet property="realFakeActivityIndicator" destination="Bg8-TH-hhi" id="Rg6-Ez-VBl"/>
                 <outlet property="realFakeButton" destination="wDd-fK-C9u" id="3nS-HL-f3U"/>
+                <outlet property="realFakeStackView" destination="y2P-jm-A8r" id="AWE-Sf-nzg"/>
                 <outlet property="realLabel" destination="eRr-g8-8as" id="Nce-Ee-Js9"/>
             </connections>
             <point key="canvasLocation" x="-850.00000000000011" y="-36.495535714285715"/>

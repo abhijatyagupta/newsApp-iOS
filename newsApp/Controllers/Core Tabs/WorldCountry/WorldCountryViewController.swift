@@ -27,6 +27,7 @@ class WorldCountryViewController: UIViewController {
     private var lastLoadedApi: String = Settings.worldApiURL
     private var loadMoreActivityIndicator: LoadMoreActivityIndicator!
     private let recentSearches = RecentSearches()
+    private let firestoreManager = FirestoreManager()
     
     
     override func viewDidLoad() {
@@ -146,7 +147,7 @@ class WorldCountryViewController: UIViewController {
                 let newsJSON: JSON = try JSON(data: safeData)
                 articles.removeAll()
                 newsImages.removeAll()
-                articles = newsJSON["articles"].arrayValue
+                articles = newsJSON[K.API.articles].arrayValue
                 print("number of articles: \(articles.count)")
                 if articles.count == 0 {
                     DispatchQueue.main.async {
@@ -160,7 +161,7 @@ class WorldCountryViewController: UIViewController {
                     self.worldCountryCollectionView.reloadData()
                     self.toggleCollectionViewAndActivityIndicator(shouldViewAppear: true)
                 }
-                let totalResults: Double = newsJSON["totalResults"].doubleValue
+                let totalResults: Double = newsJSON[K.API.totalResults].doubleValue
                 maxPages = totalResults > 100 ? 5 : Int(ceil(totalResults/20))
             }
             catch { print("caught in parseNewsData: \(error)") }
@@ -178,7 +179,7 @@ class WorldCountryViewController: UIViewController {
                 do {
                     let newsJSON: JSON = try JSON(data: safeData)
                     let articlesCountBeforeAppend = self.articles.count
-                    let newArticles = newsJSON["articles"].arrayValue
+                    let newArticles = newsJSON[K.API.articles].arrayValue
                     self.articles += newArticles
                     print("new articles: \(self.articles.count - articlesCountBeforeAppend)")
                     var indexPaths: [IndexPath] = []
@@ -203,7 +204,7 @@ class WorldCountryViewController: UIViewController {
     
     
     private func loadImages(_ articlesArray: [JSON], _ index: Int, _ newImagesCount: Int, _ imageArrayCount: Int) {
-        let imageURL = articlesArray[index]["urlToImage"].stringValue
+        let imageURL = articlesArray[index][K.API.urlToImage].stringValue
         requestPerformer(url: imageURL) { (data) in
             DispatchQueue.main.async {
                 self.newsImages[imageArrayCount + index] = data == nil ? UIImage(imageLiteralResourceName: "xb1.png") : UIImage(data: data!)
@@ -239,8 +240,8 @@ class WorldCountryViewController: UIViewController {
 //    }
     
     private func calculateHeightofCellAt(indexPath: IndexPath) -> CGFloat {
-        let newsTitleHeight = computeFrameHeight(text: articles[indexPath.row]["title"].stringValue, isTitle: true).height
-        let newsDescriptionHeight = computeFrameHeight(text: articles[indexPath.row]["description"].stringValue, isTitle: false).height
+        let newsTitleHeight = computeFrameHeight(text: articles[indexPath.row][K.API.title].stringValue, isTitle: true).height
+        let newsDescriptionHeight = computeFrameHeight(text: articles[indexPath.row][K.API.description].stringValue, isTitle: false).height
         return 309 + newsTitleHeight + newsDescriptionHeight
     }
     
@@ -267,14 +268,32 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "newsCell", for: indexPath) as! NewsCell
-        cell.newsTitle.text = articles[indexPath.row]["title"].stringValue
-        cell.newsDescription.text = articles[indexPath.row]["description"].stringValue
-        cell.newsURL = articles[indexPath.row]["url"].stringValue
-        cell.publishedAt = articles[indexPath.row]["publishedAt"].stringValue
+        let currentArticle = articles[indexPath.row]
+        cell.newsTitle.text = currentArticle[K.API.title].stringValue
+        cell.newsDescription.text = currentArticle[K.API.description].stringValue
+        cell.newsURL = currentArticle[K.API.url].stringValue
+        cell.documentID = currentArticle[K.API.publishedAt].stringValue + " " + currentArticle[K.API.source][K.API.name].stringValue
         if let image = newsImages[indexPath.row] {
             DispatchQueue.main.async {
                 cell.newsImageView.image = image
                 cell.activityIndicator.isHidden = true
+            }
+        }
+        DispatchQueue.main.async {
+            self.firestoreManager.get(document: cell.documentID!) { (document, error) in
+                if let document = document, document.exists {
+                    print("document found for news: \(cell.newsTitle.text!)")
+                    if let data = document.data() {
+                        cell.realCount = data["realCount"] as? Int ?? 0
+                        cell.fakeCount = data["fakeCount"] as? Int ?? 0
+                    }
+                }
+                else {
+                    print("document does not exists")
+                }
+                cell.realFakeActivityIndicator.isHidden = true
+                cell.realFakeStackView.isHidden = false
+                cell.realFakeButton.isUserInteractionEnabled = true
             }
         }
         cell.delegate = self
@@ -316,7 +335,7 @@ extension WorldCountryViewController: NewsCellDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showRealFakeScreen" {
             let parentVC = segue.destination as! UINavigationController
-            let vc = parentVC.children[0] as! RealFakeViewController
+            let vc = parentVC.children.first as! RealFakeViewController
             let cell = sender as! NewsCell
             vc.cellForCurrentNews = cell
         }
