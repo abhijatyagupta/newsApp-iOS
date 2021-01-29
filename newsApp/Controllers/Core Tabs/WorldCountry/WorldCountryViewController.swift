@@ -280,6 +280,7 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
             }
         }
         DispatchQueue.main.async {
+            //optimise this so this doesnt get triggered every time
             self.firestoreManager.get(document: cell.documentID!) { (document, error) in
                 if let document = document, document.exists {
                     print("document found for news: \(cell.newsTitle.text!)")
@@ -290,6 +291,8 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
                 }
                 else {
                     print("document does not exists")
+                    cell.realCount = 0
+                    cell.fakeCount = 0
                 }
                 cell.realFakeActivityIndicator.isHidden = true
                 cell.realFakeStackView.isHidden = false
@@ -328,6 +331,10 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
 //MARK: - Custom News Cell Delegate Method
 
 extension WorldCountryViewController: NewsCellDelegate {
+    func showSignedOutView(_ cell: NewsCell) {
+        performSegue(withIdentifier: "signedOutSegue", sender: cell)
+    }
+    
     func showRealFakeScreen(_ cell: NewsCell) {
         performSegue(withIdentifier: "showRealFakeScreen", sender: cell)
     }

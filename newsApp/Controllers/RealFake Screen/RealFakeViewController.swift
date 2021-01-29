@@ -42,6 +42,8 @@ class RealFakeViewController: UIViewController {
             DispatchQueue.main.async {
                 self.unmarkedRealCount.text = "\(self.realCount)"
                 self.markedRealCount.text = "\(self.realCount)"
+                self.cellForCurrentNews.realCount = self.realCount
+                self.realCountLabelForFakeView.text = "\(self.realCount) \(K.UIText.realCountForFakeView)"
             }
         }
     }
@@ -50,6 +52,8 @@ class RealFakeViewController: UIViewController {
             DispatchQueue.main.async {
                 self.unmarkedFakeCount.text = "\(self.fakeCount)"
                 self.markedFakeCount.text = "\(self.fakeCount)"
+                self.cellForCurrentNews.fakeCount = self.fakeCount
+                self.fakeCountLabelForRealView.text = "\(self.fakeCount) \(K.UIText.fakeCountForRealView)"
             }
         }
     }
@@ -149,12 +153,6 @@ class RealFakeViewController: UIViewController {
             toggleMarkedView(shouldViewAppear: false) { animationIsComplete in
                 if animationIsComplete {
                     self.toggleSpinner(shouldSpinnerAppear: true) {
-//                        self.deleteDocument {
-//                            self.showUnmarkedView()
-//                            self.changeBarButtonAndLabelTo(originalState: true)
-//                        } failed: {
-//                            self.toggleMarkedView(shouldViewAppear: true)
-//                        }
                         self.undoMark(wasMarkReal: self.markedFakeViewContainer.isHidden) {
                             self.showUnmarkedView()
                             self.changeBarButtonAndLabelTo(originalState: true)
@@ -194,6 +192,10 @@ class RealFakeViewController: UIViewController {
     }
     
     private func undoMark(wasMarkReal: Bool, succeed: @escaping () -> Void, failed: @escaping () -> Void) {
+        if (realCount == 0 && fakeCount == 1) || (realCount == 1 && fakeCount == 0) {
+            deleteDocument(succeed: succeed, failed: failed)
+            return
+        }
         let data: [AnyHashable : Any] = [
             (wasMarkReal ? "realCount" : "fakeCount") : (wasMarkReal ? realCount - 1 : fakeCount - 1)
         ]
@@ -222,6 +224,8 @@ class RealFakeViewController: UIViewController {
             else {
                 print("data successfully deleted")
                 succeed()
+                self.realCount = 0
+                self.fakeCount = 0
             }
         }
     }
@@ -247,10 +251,9 @@ class RealFakeViewController: UIViewController {
                 self.attachListener()
             }
             else if let data = document?.data() {
+                print("listened")
                 self.realCount = data["realCount"] as? Int ?? 0
                 self.fakeCount = data["fakeCount"] as? Int ?? 0
-                self.cellForCurrentNews.realCount = self.realCount
-                self.cellForCurrentNews.fakeCount = self.fakeCount
             }
         }
     }

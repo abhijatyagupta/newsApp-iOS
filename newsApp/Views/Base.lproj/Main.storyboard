@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UiG-hi-mHP">
     <device id="retina4_7" orientation="portrait" appearance="dark"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -111,6 +112,7 @@
                         <outlet property="worldCountryCollectionView" destination="erX-Al-WC6" id="SMd-l4-x4o"/>
                         <outlet property="zeroResultsView" destination="gcE-9q-dTC" id="ZPV-5Y-FC6"/>
                         <segue destination="m7Z-ye-OIB" kind="presentation" identifier="showRealFakeScreen" id="We5-7d-Fz3"/>
+                        <segue destination="8qm-QX-cHd" kind="presentation" identifier="signedOutSegue" id="Ozc-eC-Utb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hRk-kN-HOr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1386,10 +1388,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZyW-M2-v7g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2191" y="3086"/>
+            <point key="canvasLocation" x="2190" y="3086"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="Ozc-eC-Utb"/>
         <segue reference="jt2-GV-C9M"/>
     </inferredMetricsTieBreakers>
     <resources>

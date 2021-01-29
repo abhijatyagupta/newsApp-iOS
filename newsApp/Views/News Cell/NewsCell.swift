@@ -10,6 +10,7 @@ import UIKit
 protocol NewsCellDelegate: class {
     func presentShareScreen(_ cell: NewsCell)
     func showRealFakeScreen(_ cell: NewsCell)
+    func showSignedOutView(_ cell: NewsCell)
 }
 
 
@@ -49,7 +50,7 @@ class NewsCell: UICollectionViewCell {
     }
     
     @IBAction func realFakeButtonPressed(_ sender: UIButton) {
-        delegate?.showRealFakeScreen(self)
+        Settings.isUserSignedIn ? delegate?.showRealFakeScreen(self) : delegate?.showSignedOutView(self)
     }
     
     

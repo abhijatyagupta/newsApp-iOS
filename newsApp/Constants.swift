@@ -53,6 +53,8 @@ struct K {
         static let deleteAndSignOut = "Delete and sign out"
         static let signOutMessage = "You will be signed out."
         static let passwordResetMessage = "A password reset link has been sent to your email."
+        static let realCountForFakeView = "PEOPLE MARKED THIS NEWS AS REAL"
+        static let fakeCountForRealView = "PEOPLE MARKED THIS NEWS AS FAKE"
     }
     
     struct API {
