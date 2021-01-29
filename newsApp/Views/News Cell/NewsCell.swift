@@ -37,12 +37,15 @@ class NewsCell: UICollectionViewCell {
         }
     }
     var newsURL: String?
+    var imageURL: String?
     var documentID: String?
+    let firestoreManagerForCell = FirestoreManager()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.cornerRadius = 20
         realFakeButton.layer.cornerRadius = 7.5
+        print("awaken")
     }
 
     @IBAction func shareButtonPressed(_ sender: UIButton) {

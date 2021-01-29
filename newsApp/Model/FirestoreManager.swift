@@ -11,7 +11,7 @@ class FirestoreManager {
     private var documentReference: DocumentReference?
     private var snapshotListener: ListenerRegistration?
     
-    func add(document: [String : Any], toCollection collection: String, withName documentName: String, callback: @escaping (Error?) -> Void = { _ in }) {
+    func add(document: [String : Any], toCollection collection: String = "markedNews", withName documentName: String, callback: @escaping (Error?) -> Void = { _ in }) {
         db.collection(collection).document(documentName).setData(document) { error in
             callback(error)
         }
@@ -37,6 +37,7 @@ class FirestoreManager {
     
     func addSnapshotListener(forDocument document: String, fromCollection collection: String = "markedNews", callback: @escaping (DocumentSnapshot?, Error?) -> Void = { _, _  in }) {
         snapshotListener = db.collection(collection).document(document).addSnapshotListener { (document, error) in
+            print("listener attached")
             callback(document, error)
         }
     }

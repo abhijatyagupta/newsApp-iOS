@@ -205,10 +205,14 @@ class WorldCountryViewController: UIViewController {
     
     private func loadImages(_ articlesArray: [JSON], _ index: Int, _ newImagesCount: Int, _ imageArrayCount: Int) {
         let imageURL = articlesArray[index][K.API.urlToImage].stringValue
+        let row = imageArrayCount + index
         requestPerformer(url: imageURL) { (data) in
             DispatchQueue.main.async {
-                self.newsImages[imageArrayCount + index] = data == nil ? UIImage(imageLiteralResourceName: "xb1.png") : UIImage(data: data!)
-                self.worldCountryCollectionView.reloadItems(at: [IndexPath(row: imageArrayCount + index, section: 0)])
+                self.newsImages[row] = data == nil ? UIImage(imageLiteralResourceName: "xb1.png") : UIImage(data: data!)
+                if let cell = self.worldCountryCollectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? NewsCell {
+                    cell.imageURL = imageURL
+                }
+                self.worldCountryCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
             }
             if index + 1 < newImagesCount {
                 self.loadImages(articlesArray, index + 1, newImagesCount, imageArrayCount)
@@ -254,7 +258,30 @@ class WorldCountryViewController: UIViewController {
         return NSString(string: text).boundingRect(with: size, options: options, attributes: attributes, context: nil)
     }
     
-    
+    private func attachListenerTo(cell: NewsCell) {
+        if let documentID = cell.documentID {
+            cell.firestoreManagerForCell.addSnapshotListener(forDocument: documentID) { (document, error) in
+                if let error = error {
+//                    print("error attaching listener to cell")
+                    print(error)
+//                    print("re-attaching listener..")
+                    self.attachListenerTo(cell: cell)
+                }
+                else if let data = document?.data() {
+                    cell.realCount = data["realCount"] as? Int ?? 0
+                    cell.fakeCount = data["fakeCount"] as? Int ?? 0
+//                    print("listener attached to cell")
+                }
+                else {
+                    cell.realCount = 0
+                    cell.fakeCount = 0
+                }
+                cell.realFakeActivityIndicator.isHidden = true
+                cell.realFakeStackView.isHidden = false
+                cell.realFakeButton.isUserInteractionEnabled = true
+            }
+        }
+    }
     
 }
 
@@ -279,26 +306,29 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
                 cell.activityIndicator.isHidden = true
             }
         }
-        DispatchQueue.main.async {
-            //optimise this so this doesnt get triggered every time
-            self.firestoreManager.get(document: cell.documentID!) { (document, error) in
-                if let document = document, document.exists {
-                    print("document found for news: \(cell.newsTitle.text!)")
-                    if let data = document.data() {
-                        cell.realCount = data["realCount"] as? Int ?? 0
-                        cell.fakeCount = data["fakeCount"] as? Int ?? 0
-                    }
-                }
-                else {
-                    print("document does not exists")
-                    cell.realCount = 0
-                    cell.fakeCount = 0
-                }
-                cell.realFakeActivityIndicator.isHidden = true
-                cell.realFakeStackView.isHidden = false
-                cell.realFakeButton.isUserInteractionEnabled = true
-            }
-        }
+//        cell.realFakeActivityIndicator.isHidden = true
+//        cell.realFakeStackView.isHidden = false
+//        cell.realFakeButton.isUserInteractionEnabled = true
+//        DispatchQueue.main.async {
+//            //optimise this so this doesnt get triggered every time
+//            self.firestoreManager.get(document: cell.documentID!) { (document, error) in
+//                if let document = document, document.exists {
+//                    print("document found for news: \(cell.newsTitle.text!)")
+//                    if let data = document.data() {
+//                        cell.realCount = data["realCount"] as? Int ?? 0
+//                        cell.fakeCount = data["fakeCount"] as? Int ?? 0
+//                    }
+//                }
+//                else {
+////                    print("document does not exists")
+//                    cell.realCount = 0
+//                    cell.fakeCount = 0
+//                }
+//                cell.realFakeActivityIndicator.isHidden = true
+//                cell.realFakeStackView.isHidden = false
+//                cell.realFakeButton.isUserInteractionEnabled = true
+//            }
+//        }
         cell.delegate = self
         return cell
     }
@@ -323,8 +353,22 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         return CGSize(width: 345, height: calculateHeightofCellAt(indexPath: indexPath))
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        print("cell will display")
+        if let cell = cell as? NewsCell {
+            attachListenerTo(cell: cell)
+        }
+    }
     
-    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        print("cell ended displaying")
+        if let cell = cell as? NewsCell {
+            cell.firestoreManagerForCell.detachSnapshotListener()
+            cell.realFakeActivityIndicator.isHidden = false
+            cell.realFakeStackView.isHidden = true
+            cell.realFakeButton.isUserInteractionEnabled = false
+        }
+    }
 }
 
 
@@ -394,7 +438,6 @@ extension WorldCountryViewController: RecentSearchesCustomDelegate {
 extension WorldCountryViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("search button was clicked")
         if let safeQuery = searchBar.searchTextField.text {
             let trimmedQuery = safeQuery.trimmingCharacters(in: .whitespacesAndNewlines)
             recentSearches.add(search: trimmedQuery)
@@ -405,7 +448,6 @@ extension WorldCountryViewController: UISearchBarDelegate {
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("you are editing text")
         recentSearchesTableView.reloadData()
         recentSearchesTableView.isHidden = false
         UIView.animate(withDuration: 0.2) {
