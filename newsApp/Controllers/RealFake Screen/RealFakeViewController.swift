@@ -216,6 +216,8 @@ class RealFakeViewController: UIViewController {
     
     private func undoMark(wasMarkReal: Bool, succeeded: @escaping () -> Void, failed: @escaping () -> Void) {
         deleteDocument(fromCollection: Settings.userEmail, succeeded: succeeded, failed: failed)
+        print("realCount: \(realCount)")
+        print("fakeCount: \(fakeCount)")
         if (realCount == 0 && fakeCount == 1) || (realCount == 1 && fakeCount == 0) {
             deleteDocument(succeeded: succeeded, failed: failed)
             return
@@ -248,8 +250,6 @@ class RealFakeViewController: UIViewController {
             else {
                 print("data successfully deleted from \(collection)")
                 succeeded()
-                self.realCount = 0
-                self.fakeCount = 0
             }
         }
     }
@@ -328,10 +328,17 @@ class RealFakeViewController: UIViewController {
                 print("re-attaching listener..")
                 self.attachListener()
             }
-            else if let data = document?.data() {
-                print("listened")
-                self.realCount = data["realCount"] as? Int ?? 0
-                self.fakeCount = data["fakeCount"] as? Int ?? 0
+            else if let doesDocumentExists = document?.exists {
+                if !doesDocumentExists {
+                    print("document does not exist")
+                    self.realCount = 0
+                    self.fakeCount = 0
+                }
+                else if let data = document?.data() {
+                    print("listened")
+                    self.realCount = data["realCount"] as? Int ?? 0
+                    self.fakeCount = data["fakeCount"] as? Int ?? 0
+                }
             }
         }
     }

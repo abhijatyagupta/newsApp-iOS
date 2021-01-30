@@ -259,6 +259,7 @@ class WorldCountryViewController: UIViewController {
     }
     
     private func attachListenerTo(cell: NewsCell) {
+        print("attempt to attach listener to cell")
         if let documentID = cell.documentID {
             cell.firestoreManagerForCell.addSnapshotListener(forDocument: documentID) { (document, error) in
                 if let error = error {
@@ -267,14 +268,15 @@ class WorldCountryViewController: UIViewController {
 //                    print("re-attaching listener..")
                     self.attachListenerTo(cell: cell)
                 }
-                else if let data = document?.data() {
-                    cell.realCount = data["realCount"] as? Int ?? 0
-                    cell.fakeCount = data["fakeCount"] as? Int ?? 0
-//                    print("listener attached to cell")
-                }
-                else {
-                    cell.realCount = 0
-                    cell.fakeCount = 0
+                else if let doesDocumentExists = document?.exists {
+                    if !doesDocumentExists {
+                        cell.realCount = 0
+                        cell.fakeCount = 0
+                    }
+                    else if let data = document?.data() {
+                        cell.realCount = data["realCount"] as? Int ?? 0
+                        cell.fakeCount = data["fakeCount"] as? Int ?? 0
+                    }
                 }
                 cell.realFakeActivityIndicator.isHidden = true
                 cell.realFakeStackView.isHidden = false
