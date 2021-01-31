@@ -183,12 +183,13 @@ class RealFakeViewController: UIViewController {
             "realCount": realCount + (isMarkReal ? 1 : 0)
         ]
         let documentForUser: [String : Any] = [
-            "title": cellForCurrentNews.newsTitle.text as Any,
-            "description": cellForCurrentNews.newsDescription.text as Any,
-            "url": cellForCurrentNews.newsURL as Any,
-            "imageURL": cellForCurrentNews.imageURL as Any,
-            "id": cellForCurrentNews.documentID as Any,
-            "markedAs": isMarkReal ? "real" : "fake"
+            K.API.title: cellForCurrentNews.newsTitle.text as Any,
+            K.API.description: cellForCurrentNews.newsDescription.text as Any,
+            K.API.url: cellForCurrentNews.newsURL as Any,
+            K.API.urlToImage: cellForCurrentNews.imageURL as Any,
+            K.FStore.id: cellForCurrentNews.documentID as Any,
+            K.FStore.markedAs: isMarkReal ? "real" : "fake",
+            K.FStore.time: (Int64)(NSDate().timeIntervalSince1970 * 1000) as Any
         ]
         var addedToMarkedNews: Bool = false
         var addedToUserCollection: Bool = false
@@ -227,6 +228,7 @@ class RealFakeViewController: UIViewController {
         ]
         firestoreManager.update(document: cellForCurrentNews.documentID!, withData: data) { error in
             self.toggleSpinner(shouldSpinnerAppear: false)
+            print("updating db..")
             if let error = error {
                 failed()
                 print(error)
@@ -240,6 +242,7 @@ class RealFakeViewController: UIViewController {
     }
     
     private func deleteDocument(fromCollection collection: String = "markedNews", succeeded: @escaping () -> Void, failed: @escaping () -> Void) {
+        print("proceeding to delete document from \(collection)..")
         firestoreManager.delete(document: cellForCurrentNews.documentID!, fromCollection: collection) { error in
             self.toggleSpinner(shouldSpinnerAppear: false)
             if let error = error {

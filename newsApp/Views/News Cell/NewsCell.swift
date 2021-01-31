@@ -24,8 +24,8 @@ class NewsCell: UICollectionViewCell {
     @IBOutlet weak var newsDescription: UILabel!
     @IBOutlet weak var realFakeButton: UIButton!
     @IBOutlet weak var realFakeStackView: UIStackView!
-    @IBOutlet private weak var realLabel: UILabel!
-    @IBOutlet private weak var fakeLabel: UILabel!
+    @IBOutlet weak var realLabel: UILabel!
+    @IBOutlet weak var fakeLabel: UILabel!
     var realCount: Int = 0 {
         didSet {
             DispatchQueue.main.async { self.realLabel.text = "\(self.realCount) REAL" }

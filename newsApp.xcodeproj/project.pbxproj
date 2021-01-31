@@ -284,8 +284,8 @@
 		ACBD7D3D259D017300BE2FF6 /* Signed Out View */ = {
 			isa = PBXGroup;
 			children = (
-				AC2F4447259CEE8200DD74CF /* SignedOutView.swift */,
 				AC2F444F259CF73700DD74CF /* SignedOutView.xib */,
+				AC2F4447259CEE8200DD74CF /* SignedOutView.swift */,
 			);
 			path = "Signed Out View";
 			sourceTree = "<group>";

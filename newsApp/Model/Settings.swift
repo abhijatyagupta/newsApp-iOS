@@ -4,8 +4,6 @@
 //
 //  Created by Abhijatya Gupta on 13/10/20.
 //
-
-import UIKit
 import Firebase
 
 class Settings {

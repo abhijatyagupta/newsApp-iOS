@@ -68,4 +68,10 @@ struct K {
         static let source = "source"
         static let name = "name"
     }
+    
+    struct FStore {
+        static let id = "id"
+        static let markedAs = "markedAs"
+        static let time = "time"
+    }
 }

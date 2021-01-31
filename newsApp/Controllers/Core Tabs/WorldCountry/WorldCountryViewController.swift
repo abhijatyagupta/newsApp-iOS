@@ -70,6 +70,7 @@ class WorldCountryViewController: UIViewController {
             DispatchQueue.main.async {
                 self.scrollToTop()
                 self.toggleCollectionViewAndActivityIndicator(shouldViewAppear: false)
+                self.loadMoreActivityIndicator.stop()
             }
             navigationItem.title = Settings.isCountrySet ? Settings.currentCountry.name : K.UIText.worldString
             DispatchQueue.main.async {
@@ -79,9 +80,6 @@ class WorldCountryViewController: UIViewController {
                     self.parseNewsData(data)
                 }
             }
-//            lastLoadedApi = Settings.worldApiURL
-//            apiToCall = Settings.worldApiURL
-//            viewDidLoad()
         }
         tabBarController?.delegate = self
         didAppearRanOnce = true
@@ -209,9 +207,6 @@ class WorldCountryViewController: UIViewController {
         requestPerformer(url: imageURL) { (data) in
             DispatchQueue.main.async {
                 self.newsImages[row] = data == nil ? UIImage(imageLiteralResourceName: "xb1.png") : UIImage(data: data!)
-                if let cell = self.worldCountryCollectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? NewsCell {
-                    cell.imageURL = imageURL
-                }
                 self.worldCountryCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
             }
             if index + 1 < newImagesCount {
@@ -300,7 +295,8 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         let currentArticle = articles[indexPath.row]
         cell.newsTitle.text = currentArticle[K.API.title].stringValue
         cell.newsDescription.text = currentArticle[K.API.description].stringValue
-        cell.newsURL = currentArticle[K.API.url].stringValue
+        cell.newsURL = currentArticle[K.API.url].string
+        cell.imageURL = currentArticle[K.API.urlToImage].string
         cell.documentID = currentArticle[K.API.publishedAt].stringValue + " " + currentArticle[K.API.source][K.API.name].stringValue
         if let image = newsImages[indexPath.row] {
             DispatchQueue.main.async {

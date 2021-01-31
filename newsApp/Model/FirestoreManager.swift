@@ -35,11 +35,33 @@ class FirestoreManager {
         }
     }
     
+    func getAllDocuments(fromCollection collection: String, callback: @escaping (QuerySnapshot?, Error?) -> Void = { _, _ in }) {
+        db.collection(collection).getDocuments { (querySnapshot, error) in
+            callback(querySnapshot, error)
+        }
+    }
+    
     func addSnapshotListener(forDocument document: String, fromCollection collection: String = "markedNews", callback: @escaping (DocumentSnapshot?, Error?) -> Void = { _, _  in }) {
         snapshotListener = db.collection(collection).document(document).addSnapshotListener { (document, error) in
             print("listener attached")
             callback(document, error)
         }
+    }
+    
+    func addCollectionListener(forCollection collection: String, andOrderBy field: String? = nil, descending: Bool = false, callback: @escaping (QuerySnapshot?, Error?) -> Void = { _, _ in }) {
+        if let field = field {
+            snapshotListener = db.collection(collection)
+                .order(by: field, descending: descending)
+                .addSnapshotListener { (querySnapshot, error) in
+                    callback(querySnapshot, error)
+                }
+        }
+        else {
+            snapshotListener = db.collection(collection).addSnapshotListener { (querySnapshot, error) in
+                callback(querySnapshot, error)
+            }
+        }
+        
     }
     
     func detachSnapshotListener() {
