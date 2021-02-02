@@ -18,12 +18,12 @@ class MarkedViewController: UIViewController {
     @IBOutlet weak var markedCollectionView: UICollectionView!
     @IBOutlet weak var zeroResultsView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    private var titles: [String?] = []
-    private var descriptions: [String?] = []
-    private var urls: [String?] = []
-    private var imageUrls: [String?] = []
-    private var markedAses: [String] = []
-    private var ids: [String] = []
+    private var titles = [String?]()
+    private var descriptions = [String?]()
+    private var urls = [String?]()
+    private var imageUrls = [String?]()
+    private var markedAses = [String]()
+    private var ids = [String]()
     private var images = [Int : UIImage?]()
     private let firestoreManager = FirestoreManager()
     private let networkManager = NetworkManager()
@@ -194,24 +194,6 @@ extension MarkedViewController {
         }
     }
     
-    
-    private func addListenerToCollection() {
-        firestoreManager.addCollectionListener(forCollection: Settings.userEmail, andOrderBy: K.FStore.time, descending: true) { (querySnapshot, error) in
-            if error != nil {
-                print("error")
-                return
-            }
-            if let changes = querySnapshot?.documentChanges {
-                changes.forEach { diff in
-                    if diff.type == .added {
-                        self.addDocument(document: diff.document.data())
-                        self.markedCollectionView.insertItems(at: [IndexPath(row: self.titles.count - 1, section: 0)])
-                    }
-                }
-            }
-        }
-    }
-    
     private func addStateChangeListener() {
         Auth.auth().addStateDidChangeListener { (Auth, user) in
             self.firestoreManager.detachSnapshotListener()
@@ -224,45 +206,54 @@ extension MarkedViewController {
                 self.toggleSignedOutView(shouldViewAppear: true)
             }
             else {
-                self.firestoreManager.getAllDocuments(fromCollection: Settings.userEmail) { (querySnapshot, error) in
-                    if let error = error {
-                        print(error)
-                        self.activityIndicator.isHidden = true
-                        self.zeroResultsView.isHidden = false
-                        self.presentAlert(withTitle: K.UIText.errorString, message: error.localizedDescription)
-                    }
-                    else if let querySnapshot = querySnapshot {
-                        if querySnapshot.isEmpty {
-                            self.activityIndicator.isHidden = true
-                            self.zeroResultsView.isHidden = false
-                        }
-                        else {
-                            self.startPreparingMarkedView(querySnapshot: querySnapshot)
-                        }
-                    }
-                    else {
-                        self.activityIndicator.isHidden = true
-                        self.zeroResultsView.isHidden = true
-                    }
-                }
+                self.addListenerToCollection()
             }
         }
     }
     
     
-    private func startPreparingMarkedView(querySnapshot: QuerySnapshot) {
-        addListenerToCollection()
-        for document in querySnapshot.documents {
-            let data = document.data()
-            addDocument(document: data)
-        }
-        DispatchQueue.main.async {
-            self.loadImages(index: 0)
-            self.markedCollectionView.reloadData()
+    private func addListenerToCollection() {
+        firestoreManager.addCollectionListener(forCollection: Settings.userEmail, andOrderBy: K.FStore.time) { (querySnapshot, error) in
+            if error != nil {
+                print("error")
+                self.markedCollectionView.isHidden = true
+                self.activityIndicator.isHidden = true
+                self.zeroResultsView.isHidden = false
+                self.presentAlert(withTitle: K.UIText.errorString, message: error!.localizedDescription)
+                return
+            }
+            if let querySnapshot = querySnapshot {
+                let imageArrayCountBeforeAppend = self.images.count
+                var index = 0
+                var indexPaths = [IndexPath]()
+                querySnapshot.documentChanges.forEach { diff in
+                    if diff.type == .added {
+                        self.addDocument(document: diff.document.data())
+                        indexPaths.append(IndexPath(row: imageArrayCountBeforeAppend + index, section: 0))
+                        index += 1
+                    }
+                    if diff.type == .removed {
+                        let data = diff.document.data()
+                        self.removeDocument(atIndex: self.urls.firstIndex(of: (data[K.API.url] as? String)))
+                    }
+                }
+                if !querySnapshot.isEmpty {
+                    DispatchQueue.main.async {
+                        self.zeroResultsView.isHidden = true
+                        if indexPaths.count > 0 { self.markedCollectionView.insertItems(at: indexPaths) }
+                        self.activityIndicator.isHidden = true
+                        self.markedCollectionView.isHidden = false
+                        self.loadImages(index: imageArrayCountBeforeAppend)
+                    }
+                    return
+                }
+            }
+            self.markedCollectionView.isHidden = true
             self.activityIndicator.isHidden = true
-            self.markedCollectionView.isHidden = false
+            self.zeroResultsView.isHidden = false
         }
     }
+    
     
     private func loadImages(index: Int) {
         if index >= imageUrls.count { return }
@@ -270,14 +261,15 @@ extension MarkedViewController {
             networkManager.performRequest(imageURL) { (data) in
                 DispatchQueue.main.async {
                     self.images[index] = data == nil ? UIImage(imageLiteralResourceName: "xb1.png") : UIImage(data: data!)
+                    self.markedCollectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
                 }
             }
         }
         else {
             images[index] = UIImage(imageLiteralResourceName: "xb1.png")
-        }
-        DispatchQueue.main.async {
-            self.markedCollectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
+            DispatchQueue.main.async {
+                self.markedCollectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
+            }
         }
         loadImages(index: index + 1)
     }
@@ -289,6 +281,31 @@ extension MarkedViewController {
         imageUrls.append(document[K.API.urlToImage] as? String)
         markedAses.append(document[K.FStore.markedAs] as! String)
         ids.append(document[K.FStore.id] as! String)
+    }
+    
+    private func removeDocument(atIndex: Int?) {
+        if let index = atIndex {
+            titles.remove(at: index)
+            descriptions.remove(at: index)
+            urls.remove(at: index)
+            imageUrls.remove(at: index)
+            markedAses.remove(at: index)
+            ids.remove(at: index)
+            images.removeValue(forKey: index)
+            updateImageDictionary(startIndex: index+1)
+            markedCollectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
+        }
+    }
+    
+    //INEFFICIENT METHOD TO UPDATE KEYS IN DICTIONARY, MAYBE TRY USING SOME OTHER DATA STRUCTURE FOR STORING IMAGES
+    private func updateImageDictionary(startIndex: Int) {
+        var index = startIndex
+        while(index < images.count) {
+            let image = images[index]
+            images.removeValue(forKey: index)
+            images[index-1] = image
+            index += 1
+        }
     }
     
     private func presentAlert(withTitle: String, message: String, callback: @escaping () -> Void = {}) {
@@ -309,12 +326,7 @@ extension MarkedViewController {
         }
     }
     
-    
-    
 }
-
-
-
 
 
 //MARK: - Signed Out View Delegate Methods

@@ -21,6 +21,7 @@ class WorldCountryViewController: UIViewController {
     private var currentPage: Int = 1
     private var maxPages: Int = 5
     private var didAppearRanOnce: Bool = false
+    private var attachingListenerFirstTime: Bool = true
     var parentCategory: Bool = false
     var isSearchResultInstance = false
     var apiToCall: String = ""
@@ -97,6 +98,11 @@ class WorldCountryViewController: UIViewController {
                 self.setTitle()
             }
         }
+    }
+    
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        
     }
     
     
@@ -279,6 +285,28 @@ class WorldCountryViewController: UIViewController {
             }
         }
     }
+    
+//    private func attachListener() {
+//        firestoreManager.addCollectionListener(forCollection: K.FStore.markedNewsCollection) { (querySnapshot, error) in
+//            if let error = error {
+//                print("error attaching listener")
+//                print(error.localizedDescription)
+//            }
+//            else {
+//                if self.attachingListenerFirstTime {
+//                    self.attachingListenerFirstTime = false
+//                    return
+//                }
+//                if let querySnapshot = querySnapshot {
+//                    querySnapshot.documentChanges.forEach { diff in
+//                        if diff.type == .modified {
+//
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
     
 }
 

@@ -70,6 +70,7 @@ struct K {
     }
     
     struct FStore {
+        static let markedNewsCollection = "markedNews"
         static let id = "id"
         static let markedAs = "markedAs"
         static let time = "time"

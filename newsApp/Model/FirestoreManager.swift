@@ -11,25 +11,25 @@ class FirestoreManager {
     private var documentReference: DocumentReference?
     private var snapshotListener: ListenerRegistration?
     
-    func add(document: [String : Any], toCollection collection: String = "markedNews", withName documentName: String, callback: @escaping (Error?) -> Void = { _ in }) {
+    func add(document: [String : Any], toCollection collection: String = K.FStore.markedNewsCollection, withName documentName: String, callback: @escaping (Error?) -> Void = { _ in }) {
         db.collection(collection).document(documentName).setData(document) { error in
             callback(error)
         }
     }
     
-    func delete(document: String, fromCollection collection: String = "markedNews", callback: @escaping (Error?) -> Void = { _ in }) {
+    func delete(document: String, fromCollection collection: String = K.FStore.markedNewsCollection, callback: @escaping (Error?) -> Void = { _ in }) {
         db.collection(collection).document(document).delete() { error in
             callback(error)
         }
     }
     
-    func get(document: String, fromCollection collection: String = "markedNews", callback: @escaping (DocumentSnapshot?, Error?) -> Void = { _, _  in }) {
+    func get(document: String, fromCollection collection: String = K.FStore.markedNewsCollection, callback: @escaping (DocumentSnapshot?, Error?) -> Void = { _, _  in }) {
         db.collection(collection).document(document).getDocument { (document, error) in
             callback(document, error)
         }
     }
     
-    func update(document: String, fromCollection collection: String = "markedNews",  withData data: [AnyHashable : Any], callback: @escaping (Error?) -> Void = { _ in }) {
+    func update(document: String, fromCollection collection: String = K.FStore.markedNewsCollection,  withData data: [AnyHashable : Any], callback: @escaping (Error?) -> Void = { _ in }) {
         db.collection(collection).document(document).updateData(data) { error in
             callback(error)
         }
@@ -41,7 +41,7 @@ class FirestoreManager {
         }
     }
     
-    func addSnapshotListener(forDocument document: String, fromCollection collection: String = "markedNews", callback: @escaping (DocumentSnapshot?, Error?) -> Void = { _, _  in }) {
+    func addSnapshotListener(forDocument document: String, fromCollection collection: String = K.FStore.markedNewsCollection, callback: @escaping (DocumentSnapshot?, Error?) -> Void = { _, _  in }) {
         snapshotListener = db.collection(collection).document(document).addSnapshotListener { (document, error) in
             print("listener attached")
             callback(document, error)
