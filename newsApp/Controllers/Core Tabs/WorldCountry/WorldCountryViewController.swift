@@ -362,10 +362,15 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         cell.newsURL = currentArticle[K.API.url].string
         cell.imageURL = currentArticle[K.API.urlToImage].string
         if let image = newsImages[indexPath.row] {
+            print(indexPath.row)
             DispatchQueue.main.async {
                 cell.newsImageView.image = image
                 cell.activityIndicator.isHidden = true
             }
+        }
+        else {
+            cell.newsImageView.image = nil
+            cell.activityIndicator.isHidden = false
         }
         cell.delegate = self
         return cell
