@@ -295,16 +295,51 @@ class WorldCountryViewController: UIViewController {
 //            else {
 //                if self.attachingListenerFirstTime {
 //                    self.attachingListenerFirstTime = false
+//                    print("listener ran for the first time")
 //                    return
 //                }
 //                if let querySnapshot = querySnapshot {
+//                    print("snapshot received")
 //                    querySnapshot.documentChanges.forEach { diff in
-//                        if diff.type == .modified {
-//
+//                        let data = diff.document.data()
+//                        var index = 0
+//                        for i in 0..<self.articles.count {
+//                            if self.articles[i][K.API.url].string == data[K.API.url] as? String {
+//                                index = i
+//                                let realCount = diff.type == .removed ? 0 : data[K.FStore.realCount] as! Int
+//                                let fakeCount = diff.type == .removed ? 0 : data[K.FStore.fakeCount] as! Int
+//                                self.marks[index] = Mark(realCount: realCount, fakeCount: fakeCount)
+//                                self.worldCountryCollectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
+//                                break
+//                            }
 //                        }
 //                    }
 //                }
 //            }
+//        }
+//    }
+    
+    
+//    private func getRealFakeCountFor(documentId: String, index: Int, callback: @escaping () -> Void) {
+//        print("updating count")
+//        firestoreManager.get(document: documentId) { (document, error) in
+//            if let error = error {
+//                print("error getting document")
+//                print(error.localizedDescription)
+//                return
+//            }
+//            if let document = document {
+//                if let data = document.data(), document.exists {
+//                    let realCount = data[K.FStore.realCount] as! Int
+//                    let fakeCount = data[K.FStore.fakeCount] as! Int
+//                    let mark = Mark(realCount: realCount, fakeCount: fakeCount)
+//                    self.marks[index] = mark
+//                }
+//                else if !document.exists {
+//                    self.marks[index] = Mark(realCount: 0, fakeCount: 0)
+//                }
+//            }
+//            callback()
 //        }
 //    }
     
@@ -321,40 +356,17 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "newsCell", for: indexPath) as! NewsCell
         let currentArticle = articles[indexPath.row]
+        cell.documentID = currentArticle[K.API.publishedAt].stringValue + " " + currentArticle[K.API.source][K.API.name].stringValue
         cell.newsTitle.text = currentArticle[K.API.title].stringValue
         cell.newsDescription.text = currentArticle[K.API.description].stringValue
         cell.newsURL = currentArticle[K.API.url].string
         cell.imageURL = currentArticle[K.API.urlToImage].string
-        cell.documentID = currentArticle[K.API.publishedAt].stringValue + " " + currentArticle[K.API.source][K.API.name].stringValue
         if let image = newsImages[indexPath.row] {
             DispatchQueue.main.async {
                 cell.newsImageView.image = image
                 cell.activityIndicator.isHidden = true
             }
         }
-//        cell.realFakeActivityIndicator.isHidden = true
-//        cell.realFakeStackView.isHidden = false
-//        cell.realFakeButton.isUserInteractionEnabled = true
-//        DispatchQueue.main.async {
-//            //optimise this so this doesnt get triggered every time
-//            self.firestoreManager.get(document: cell.documentID!) { (document, error) in
-//                if let document = document, document.exists {
-//                    print("document found for news: \(cell.newsTitle.text!)")
-//                    if let data = document.data() {
-//                        cell.realCount = data["realCount"] as? Int ?? 0
-//                        cell.fakeCount = data["fakeCount"] as? Int ?? 0
-//                    }
-//                }
-//                else {
-////                    print("document does not exists")
-//                    cell.realCount = 0
-//                    cell.fakeCount = 0
-//                }
-//                cell.realFakeActivityIndicator.isHidden = true
-//                cell.realFakeStackView.isHidden = false
-//                cell.realFakeButton.isUserInteractionEnabled = true
-//            }
-//        }
         cell.delegate = self
         return cell
     }

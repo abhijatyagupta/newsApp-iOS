@@ -72,3 +72,13 @@ class FirestoreManager {
     }
     
 }
+
+//class Mark {
+//    var realCount: Int
+//    var fakeCount: Int
+//    
+//    init(realCount: Int, fakeCount: Int) {
+//        self.realCount = realCount
+//        self.fakeCount = fakeCount
+//    }
+//}

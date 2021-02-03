@@ -178,9 +178,9 @@ class RealFakeViewController: UIViewController {
     
     private func registerUpdate(isMarkReal: Bool, succeeded: @escaping () -> Void, failed: @escaping () -> Void) {
         let document: [String : Any] = [
-            "url" : cellForCurrentNews.newsURL as Any,
-            "fakeCount": fakeCount + (isMarkReal ? 0 : 1),
-            "realCount": realCount + (isMarkReal ? 1 : 0)
+            K.API.url : cellForCurrentNews.newsURL as Any,
+            K.FStore.fakeCount: fakeCount + (isMarkReal ? 0 : 1),
+            K.FStore.realCount: realCount + (isMarkReal ? 1 : 0)
         ]
         let documentForUser: [String : Any] = [
             K.API.title: cellForCurrentNews.newsTitle.text as Any,

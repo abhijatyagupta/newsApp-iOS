@@ -74,5 +74,7 @@ struct K {
         static let id = "id"
         static let markedAs = "markedAs"
         static let time = "time"
+        static let realCount = "realCount"
+        static let fakeCount = "fakeCount"
     }
 }
