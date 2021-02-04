@@ -37,12 +37,12 @@ class MarkedViewController: UIViewController {
         addStateChangeListener()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        //also add listener
-        if !zeroResultsView.isHidden {
-            
-        }
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//        //also add listener
+//        if !zeroResultsView.isHidden {
+//
+//        }
+//    }
     
 }
 
@@ -71,6 +71,10 @@ extension MarkedViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 cell.activityIndicator.isHidden = true
             }
         }
+        else {
+            cell.newsImageView.image = nil
+            cell.activityIndicator.isHidden = false
+        }
         cell.delegate = self
         return cell
     }
@@ -96,14 +100,14 @@ extension MarkedViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("cell will display")
+//        print("cell will display")
         if let cell = cell as? NewsCell {
             attachListenerTo(cell: cell)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("cell ended displaying")
+//        print("cell ended displaying")
         if let cell = cell as? NewsCell {
             cell.firestoreManagerForCell.detachSnapshotListener()
             cell.realFakeActivityIndicator.isHidden = false
@@ -170,7 +174,7 @@ extension MarkedViewController {
     }
     
     private func attachListenerTo(cell: NewsCell) {
-        print("attempt to attach listener to cell")
+//        print("attempt to attach listener to cell")
         if let documentID = cell.documentID {
             cell.firestoreManagerForCell.addSnapshotListener(forDocument: documentID) { (document, error) in
                 if let error = error {
@@ -237,6 +241,7 @@ extension MarkedViewController {
                         self.removeDocument(atIndex: self.urls.firstIndex(of: (data[K.API.url] as? String)))
                     }
                 }
+                print("items in section: \(self.markedCollectionView.numberOfItems(inSection: 0))")
                 if !querySnapshot.isEmpty {
                     DispatchQueue.main.async {
                         self.zeroResultsView.isHidden = true
@@ -244,8 +249,9 @@ extension MarkedViewController {
                         self.activityIndicator.isHidden = true
                         self.markedCollectionView.isHidden = false
                         self.loadImages(index: imageArrayCountBeforeAppend)
+                        print("now items in section: \(self.markedCollectionView.numberOfItems(inSection: 0))")
+                        return
                     }
-                    return
                 }
             }
             self.markedCollectionView.isHidden = true
@@ -261,6 +267,7 @@ extension MarkedViewController {
             networkManager.performRequest(imageURL) { (data) in
                 DispatchQueue.main.async {
                     self.images[index] = data == nil ? UIImage(imageLiteralResourceName: "xb1.png") : UIImage(data: data!)
+                    print("processed image for news with title: \(self.titles[index]!)")
                     self.markedCollectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
                 }
             }

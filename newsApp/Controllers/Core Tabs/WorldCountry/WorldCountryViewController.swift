@@ -260,7 +260,7 @@ class WorldCountryViewController: UIViewController {
     }
     
     private func attachListenerTo(cell: NewsCell) {
-        print("attempt to attach listener to cell")
+//        print("attempt to attach listener to cell")
         if let documentID = cell.documentID {
             cell.firestoreManagerForCell.addSnapshotListener(forDocument: documentID) { (document, error) in
                 if let error = error {
@@ -282,6 +282,30 @@ class WorldCountryViewController: UIViewController {
                 cell.realFakeActivityIndicator.isHidden = true
                 cell.realFakeStackView.isHidden = false
                 cell.realFakeButton.isUserInteractionEnabled = true
+            }
+        }
+    }
+    
+    private func attachCellListenerToUserCollection(cell: NewsCell, indexPath: IndexPath) {
+        cell.firestoreManagerForCell.secondListener = firestoreManager.getNewListener(forDocument: cell.documentID!, fromCollection: Settings.userEmail) { (document, error) in
+            if let error = error {
+                print("error attaching cell listener to user collection")
+                print(error)
+                return
+            }
+            if let document = document {
+                if document.exists, let data = document.data() {
+                    DispatchQueue.main.async {
+                        cell.realLabel.textColor = data[K.FStore.markedAs] as? String == "real" ? #colorLiteral(red: 0, green: 0.4780980349, blue: 1, alpha: 1) : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                        cell.fakeLabel.textColor = data[K.FStore.markedAs] as? String == "real" ? #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) : #colorLiteral(red: 0, green: 0.4780980349, blue: 1, alpha: 1)
+                    }
+                }
+                else if !document.exists {
+                    DispatchQueue.main.async {
+                        cell.realLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                        cell.fakeLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                    }
+                }
             }
         }
     }
@@ -362,7 +386,6 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
         cell.newsURL = currentArticle[K.API.url].string
         cell.imageURL = currentArticle[K.API.urlToImage].string
         if let image = newsImages[indexPath.row] {
-            print(indexPath.row)
             DispatchQueue.main.async {
                 cell.newsImageView.image = image
                 cell.activityIndicator.isHidden = true
@@ -397,16 +420,19 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("cell will display")
+//        print("cell will display")
         if let cell = cell as? NewsCell {
             attachListenerTo(cell: cell)
+//            print("attaching cell listener to user collection")
+            attachCellListenerToUserCollection(cell: cell, indexPath: indexPath)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("cell ended displaying")
+//        print("cell ended displaying")
         if let cell = cell as? NewsCell {
             cell.firestoreManagerForCell.detachSnapshotListener()
+            cell.firestoreManagerForCell.detach(thisListener: cell.firestoreManagerForCell.secondListener)
             cell.realFakeActivityIndicator.isHidden = false
             cell.realFakeStackView.isHidden = true
             cell.realFakeButton.isUserInteractionEnabled = false

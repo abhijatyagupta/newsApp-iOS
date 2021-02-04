@@ -10,6 +10,7 @@ class FirestoreManager {
     private let db = Firestore.firestore()
     private var documentReference: DocumentReference?
     private var snapshotListener: ListenerRegistration?
+    var secondListener: ListenerRegistration?
     
     func add(document: [String : Any], toCollection collection: String = K.FStore.markedNewsCollection, withName documentName: String, callback: @escaping (Error?) -> Void = { _ in }) {
         db.collection(collection).document(documentName).setData(document) { error in
@@ -43,7 +44,7 @@ class FirestoreManager {
     
     func addSnapshotListener(forDocument document: String, fromCollection collection: String = K.FStore.markedNewsCollection, callback: @escaping (DocumentSnapshot?, Error?) -> Void = { _, _  in }) {
         snapshotListener = db.collection(collection).document(document).addSnapshotListener { (document, error) in
-            print("listener attached")
+//            print("listener attached")
             callback(document, error)
         }
     }
@@ -67,7 +68,20 @@ class FirestoreManager {
     func detachSnapshotListener() {
         if let listener = snapshotListener {
             listener.remove()
-            print("listener detached!")
+//            print("listener detached!")
+        }
+    }
+    
+    func getNewListener(forDocument document: String, fromCollection collection: String, callback: @escaping (DocumentSnapshot?, Error?) -> Void = { _, _  in }) -> ListenerRegistration {
+        let listener = db.collection(collection).document(document).addSnapshotListener { (document, error) in
+            callback(document, error)
+        }
+        return listener
+    }
+    
+    func detach(thisListener listener: ListenerRegistration?) {
+        if let listener = listener {
+            listener.remove()
         }
     }
     
@@ -76,7 +90,7 @@ class FirestoreManager {
 //class Mark {
 //    var realCount: Int
 //    var fakeCount: Int
-//    
+//
 //    init(realCount: Int, fakeCount: Int) {
 //        self.realCount = realCount
 //        self.fakeCount = fakeCount
