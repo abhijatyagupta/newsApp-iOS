@@ -237,19 +237,18 @@ extension MarkedViewController {
                         index += 1
                     }
                     if diff.type == .removed {
-                        let data = diff.document.data()
-                        self.removeDocument(atIndex: self.urls.firstIndex(of: (data[K.API.url] as? String)))
+                        self.removeDocument(atIndex: self.ids.firstIndex(of: diff.document.documentID))
                     }
                 }
-                print("items in section: \(self.markedCollectionView.numberOfItems(inSection: 0))")
                 if !querySnapshot.isEmpty {
                     DispatchQueue.main.async {
                         self.zeroResultsView.isHidden = true
-                        if indexPaths.count > 0 { self.markedCollectionView.insertItems(at: indexPaths) }
+                        if indexPaths.count > 0 {
+                            self.markedCollectionView.insertItems(at: indexPaths)
+                        }
                         self.activityIndicator.isHidden = true
                         self.markedCollectionView.isHidden = false
                         self.loadImages(index: imageArrayCountBeforeAppend)
-                        print("now items in section: \(self.markedCollectionView.numberOfItems(inSection: 0))")
                         return
                     }
                 }
@@ -267,7 +266,6 @@ extension MarkedViewController {
             networkManager.performRequest(imageURL) { (data) in
                 DispatchQueue.main.async {
                     self.images[index] = data == nil ? UIImage(imageLiteralResourceName: "xb1.png") : UIImage(data: data!)
-                    print("processed image for news with title: \(self.titles[index]!)")
                     self.markedCollectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
                 }
             }
@@ -307,7 +305,7 @@ extension MarkedViewController {
     //INEFFICIENT METHOD TO UPDATE KEYS IN DICTIONARY, MAYBE TRY USING SOME OTHER DATA STRUCTURE FOR STORING IMAGES
     private func updateImageDictionary(startIndex: Int) {
         var index = startIndex
-        while(index < images.count) {
+        while(index <= images.count) {
             let image = images[index]
             images.removeValue(forKey: index)
             images[index-1] = image
