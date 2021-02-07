@@ -7,7 +7,7 @@
 import Firebase
 
 class FirestoreManager {
-    private let db = Firestore.firestore()
+    let db = Firestore.firestore()
     private var documentReference: DocumentReference?
     private var snapshotListener: ListenerRegistration?
     var secondListener: ListenerRegistration?

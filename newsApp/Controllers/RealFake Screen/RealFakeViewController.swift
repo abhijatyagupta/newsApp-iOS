@@ -224,7 +224,7 @@ class RealFakeViewController: UIViewController {
             return
         }
         let data: [AnyHashable : Any] = [
-            (wasMarkReal ? "realCount" : "fakeCount") : (wasMarkReal ? realCount - 1 : fakeCount - 1)
+            (wasMarkReal ? K.FStore.realCount : K.FStore.fakeCount) : (wasMarkReal ? realCount - 1 : fakeCount - 1)
         ]
         firestoreManager.update(document: cellForCurrentNews.documentID!, withData: data) { error in
             self.toggleSpinner(shouldSpinnerAppear: false)

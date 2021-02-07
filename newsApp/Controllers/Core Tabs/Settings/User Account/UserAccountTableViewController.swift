@@ -14,6 +14,7 @@ class UserAccountTableViewController: UITableViewController {
     @IBOutlet weak var resetPasswordLabel: UILabel!
     @IBOutlet weak var deleteAccountSpinner: UIActivityIndicatorView!
     @IBOutlet weak var deleteAccountLabel: UILabel!
+    private let firestoreManager = FirestoreManager()
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
@@ -78,12 +79,93 @@ class UserAccountTableViewController: UITableViewController {
         }
     }
     
-    private func deleteAccount() {
+    private func startDeletingDataOfAccount() {
+        firestoreManager.getAllDocuments(fromCollection: Settings.userEmail) { (querySnapshot, error) in
+            var documentsToDecrementFrom = [String]()
+            var marks = [String]()
+            if let error = error {
+                print("error deleting account")
+                print(error)
+            }
+            else if let querySnapshot = querySnapshot {
+                for document in querySnapshot.documents {
+                    documentsToDecrementFrom.append(document.documentID)
+                    marks.append(document.data()[K.FStore.markedAs] as! String)
+                    self.firestoreManager.delete(document: document.documentID, fromCollection: Settings.userEmail) { (error) in
+                        if let error = error {
+                            print("error deleting document \"\(document.documentID)\"")
+                            print(error.localizedDescription)
+                        }
+                        else {
+                            print("document \"\(document.documentID)\" successfully deleted")
+                        }
+                    }
+                }
+                self.undoMarksFromMainDB(documentsToUndoFrom: documentsToDecrementFrom, marksToUndo: marks, index: 0)
+            }
+        }
+    }
+    
+    private func undoMarksFromMainDB(documentsToUndoFrom: [String], marksToUndo: [String], index: Int) {
+        if (index >= marksToUndo.count) { return }
+        firestoreManager.get(document: documentsToUndoFrom[index]) { (document, error) in
+            if let error = error {
+                print("error fetching document to update")
+                print(error.localizedDescription)
+            }
+            else if let document = document, let data = document.data(), document.exists {
+                let realCount = data[K.FStore.realCount] as! Int
+                let fakeCount = data[K.FStore.fakeCount] as! Int
+                if (realCount == 0 && fakeCount == 1) || (realCount == 1 && fakeCount == 0) {
+                    self.firestoreManager.delete(document: document.documentID) { (error) in 
+                        if let error = error {
+                            print("error deleting document \(document.documentID)")
+                            print(error.localizedDescription)
+                        }
+                        else {
+                            print("document \(document.documentID) successfully deleted")
+                        }
+                        self.undoMarksFromMainDB(documentsToUndoFrom: documentsToUndoFrom, marksToUndo: marksToUndo, index: index+1)
+                        if index == marksToUndo.count - 1 {
+                            self.actualDeleteAccount()
+                        }
+                    }
+                    
+                }
+                else {
+                    let updatedData: [AnyHashable: Any] = [
+                        (marksToUndo[index] == "real" ? K.FStore.realCount : K.FStore.fakeCount): (marksToUndo[index] == "real" ? realCount - 1 : fakeCount - 1)
+                    ]
+                    self.firestoreManager.update(document: document.documentID, withData: updatedData) { (error) in
+                        if let error = error {
+                            print("error updating document")
+                            print(error.localizedDescription)
+                        }
+                        else {
+                            print("document \(document.documentID) successfully updated")
+                        }
+                        self.undoMarksFromMainDB(documentsToUndoFrom: documentsToUndoFrom, marksToUndo: marksToUndo, index: index+1)
+                        if index == marksToUndo.count - 1 {
+                            self.actualDeleteAccount()
+                        }
+                    }
+                }
+            }
+            else {
+                self.undoMarksFromMainDB(documentsToUndoFrom: documentsToUndoFrom, marksToUndo: marksToUndo, index: index+1)
+                if index == marksToUndo.count - 1 {
+                    self.actualDeleteAccount()
+                }
+            }
+        }
+    }
+    
+    
+    private func actualDeleteAccount() {
         if let user = Auth.auth().currentUser {
             user.delete { error in
                 self.toggleDeleteAccountSpinner(spinnerShouldAppear: false)
                 if let error = error {
-                    self.presentAlert(withTitle: K.UIText.errorString, message: error.localizedDescription)
                     print("error deleting account")
                     print(error)
                 }
@@ -91,6 +173,22 @@ class UserAccountTableViewController: UITableViewController {
                     self.presentAlert(withTitle: "", message: K.UIText.deleteSuccess) {
                         self.navigationController?.popViewController(animated: true)
                     }
+                }
+            }
+        }
+    }
+    
+    private func pseudoDelete(withEmail email: String) {
+        if let user = Auth.auth().currentUser {
+            user.updateEmail(to: Settings.userEmail) { (error) in
+                if let error = error {
+                    self.toggleDeleteAccountSpinner(spinnerShouldAppear: false)
+                    self.presentAlert(withTitle: K.UIText.errorString, message: K.UIText.reAuthenticationError)
+                    print("error in pseudo delete: \(error.localizedDescription)")
+                }
+                else {
+                    print("pseudoDelete ran, email updated, reauthentication not required")
+                    self.startDeletingDataOfAccount()
                 }
             }
         }
@@ -120,7 +218,7 @@ class UserAccountTableViewController: UITableViewController {
     private func deleteAlert() {
         let alert = UIAlertController(title: K.UIText.areYouSure, message: K.UIText.deleteAccountFooter, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: K.UIText.deleteAndSignOut, style: .destructive, handler: { (action) in
-            self.deleteAccount()
+            self.pseudoDelete(withEmail: Settings.userEmail)
             self.toggleDeleteAccountSpinner(spinnerShouldAppear: true)
         }))
         alert.addAction(UIAlertAction(title: K.UIText.cancelString, style: .cancel, handler: { (action) in

@@ -55,6 +55,7 @@ struct K {
         static let passwordResetMessage = "A password reset link has been sent to your email."
         static let realCountForFakeView = "PEOPLE MARKED THIS NEWS AS REAL"
         static let fakeCountForRealView = "PEOPLE MARKED THIS NEWS AS FAKE"
+        static let reAuthenticationError = "This operation is sensitive and requires recent authentication. Log in again before retrying this request."
     }
     
     struct API {

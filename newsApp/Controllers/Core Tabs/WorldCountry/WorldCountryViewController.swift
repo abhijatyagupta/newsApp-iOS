@@ -420,16 +420,15 @@ extension WorldCountryViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        print("cell will display")
         if let cell = cell as? NewsCell {
             attachListenerTo(cell: cell)
-//            print("attaching cell listener to user collection")
-            attachCellListenerToUserCollection(cell: cell, indexPath: indexPath)
+            if Settings.isUserSignedIn {
+                attachCellListenerToUserCollection(cell: cell, indexPath: indexPath)
+            }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        print("cell ended displaying")
         if let cell = cell as? NewsCell {
             cell.firestoreManagerForCell.detachSnapshotListener()
             cell.firestoreManagerForCell.detach(thisListener: cell.firestoreManagerForCell.secondListener)
