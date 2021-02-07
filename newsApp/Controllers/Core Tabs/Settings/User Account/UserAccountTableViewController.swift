@@ -87,7 +87,8 @@ class UserAccountTableViewController: UITableViewController {
                 print("error deleting account")
                 print(error)
             }
-            else if let querySnapshot = querySnapshot {
+            else if let querySnapshot = querySnapshot, !querySnapshot.isEmpty {
+                print("processing querySnapshot")
                 for document in querySnapshot.documents {
                     documentsToDecrementFrom.append(document.documentID)
                     marks.append(document.data()[K.FStore.markedAs] as! String)
@@ -103,11 +104,17 @@ class UserAccountTableViewController: UITableViewController {
                 }
                 self.undoMarksFromMainDB(documentsToUndoFrom: documentsToDecrementFrom, marksToUndo: marks, index: 0)
             }
+            else {
+                self.undoMarksFromMainDB(documentsToUndoFrom: documentsToDecrementFrom, marksToUndo: marks, index: 0)
+            }
         }
     }
     
     private func undoMarksFromMainDB(documentsToUndoFrom: [String], marksToUndo: [String], index: Int) {
-        if (index >= marksToUndo.count) { return }
+        if (index >= marksToUndo.count) {
+            self.actualDeleteAccount()
+            return
+        }
         firestoreManager.get(document: documentsToUndoFrom[index]) { (document, error) in
             if let error = error {
                 print("error fetching document to update")
@@ -145,9 +152,6 @@ class UserAccountTableViewController: UITableViewController {
                             print("document \(document.documentID) successfully updated")
                         }
                         self.undoMarksFromMainDB(documentsToUndoFrom: documentsToUndoFrom, marksToUndo: marksToUndo, index: index+1)
-                        if index == marksToUndo.count - 1 {
-                            self.actualDeleteAccount()
-                        }
                     }
                 }
             }

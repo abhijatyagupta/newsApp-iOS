@@ -7,12 +7,12 @@
 
 import UIKit
 
-
 class PublicViewsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideUserInterfaceStyle = .dark
+        
         
     }
 
