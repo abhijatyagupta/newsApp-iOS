@@ -182,16 +182,16 @@ class UserAccountTableViewController: UITableViewController {
         }
     }
     
-    private func pseudoDelete(withEmail email: String) {
+    private func reauthenticaticate(withCredential credential: AuthCredential) {
         if let user = Auth.auth().currentUser {
-            user.updateEmail(to: Settings.userEmail) { (error) in
+            user.reauthenticate(with: credential) { (authResult, error) in
                 if let error = error {
                     self.toggleDeleteAccountSpinner(spinnerShouldAppear: false)
-                    self.presentAlert(withTitle: K.UIText.errorString, message: K.UIText.reAuthenticationError)
-                    print("error in pseudo delete: \(error.localizedDescription)")
+                    self.presentAlert(withTitle: K.UIText.errorString, message: error.localizedDescription)
+                    print("error occured while reauthentication")
+                    print(error)
                 }
                 else {
-                    print("pseudoDelete ran, email updated, reauthentication not required")
                     self.startDeletingDataOfAccount()
                 }
             }
@@ -222,7 +222,7 @@ class UserAccountTableViewController: UITableViewController {
     private func deleteAlert() {
         let alert = UIAlertController(title: K.UIText.areYouSure, message: K.UIText.deleteAccountFooter, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: K.UIText.deleteAndSignOut, style: .destructive, handler: { (action) in
-            self.pseudoDelete(withEmail: Settings.userEmail)
+            self.confirmDelete()
             self.toggleDeleteAccountSpinner(spinnerShouldAppear: true)
         }))
         alert.addAction(UIAlertAction(title: K.UIText.cancelString, style: .cancel, handler: { (action) in
@@ -231,5 +231,39 @@ class UserAccountTableViewController: UITableViewController {
         alert.overrideUserInterfaceStyle = .dark
         present(alert, animated: true)
     }
+    
+    private func confirmDelete() {
+        let alert = UIAlertController(title: K.UIText.confirmDeleteTitle, message: K.UIText.confirmDeleteMessage, preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.isSecureTextEntry = true
+            textField.placeholder = K.UIText.passwordPlaceholder
+            textField.addTarget(self, action: #selector(self.textDidChange), for: .editingChanged)
+        }
+        alert.addAction(UIAlertAction(title: K.UIText.cancelString, style: .cancel, handler: { (action) in
+            alert.dismiss(animated: true) {
+                self.toggleDeleteAccountSpinner(spinnerShouldAppear: false)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: K.UIText.deleteString, style: .destructive, handler: { (action) in
+            let password = alert.textFields!.first!.text!
+            let credential = EmailAuthProvider.credential(withEmail: Settings.userEmail, password: password)
+            self.reauthenticaticate(withCredential: credential)
+            alert.dismiss(animated: true)
+        }))
+        alert.actions[1].isEnabled = false
+        alert.overrideUserInterfaceStyle = .dark
+        present(alert, animated: true)
+    }
+    
+    @objc private func textDidChange(_ textField: UITextField) {
+        var responder: UIResponder! = textField
+        while !(responder is UIAlertController) {
+            responder = responder.next
+        }
+        let alert = responder as? UIAlertController
+        alert?.actions[1].isEnabled = textField.text!.count > 5
+    }
+    
 
 }
+
