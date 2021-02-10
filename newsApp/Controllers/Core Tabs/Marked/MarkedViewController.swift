@@ -37,13 +37,6 @@ class MarkedViewController: UIViewController {
         addStateChangeListener()
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        //also add listener
-//        if !zeroResultsView.isHidden {
-//
-//        }
-//    }
-    
 }
 
 
@@ -253,9 +246,11 @@ extension MarkedViewController {
                     }
                 }
             }
-            self.markedCollectionView.isHidden = true
-            self.activityIndicator.isHidden = true
-            self.zeroResultsView.isHidden = false
+            else {
+                self.markedCollectionView.isHidden = true
+                self.activityIndicator.isHidden = true
+                self.zeroResultsView.isHidden = false
+            }
         }
     }
     

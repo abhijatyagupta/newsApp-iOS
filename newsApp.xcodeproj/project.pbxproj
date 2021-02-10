@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		003938733B900BCCE1659420 /* Pods_newsApp_newsAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32005ED97659CBA2B28082B7 /* Pods_newsApp_newsAppUITests.framework */; };
 		8A04B16225B8A0A200C70549 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A04B16125B8A0A200C70549 /* KeyboardManager.swift */; };
+		8A069C1F25D2706F00C6F916 /* ViewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A069C1D25D2706F00C6F916 /* ViewsCell.swift */; };
+		8A069C2025D2706F00C6F916 /* ViewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A069C1E25D2706F00C6F916 /* ViewsCell.xib */; };
 		8A5FE6D625BE0EDE00ACB3B7 /* UserAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5FE6D525BE0EDE00ACB3B7 /* UserAccountTableViewController.swift */; };
 		8A5FE6DE25BFE97300ACB3B7 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5FE6DD25BFE97300ACB3B7 /* FirestoreManager.swift */; };
 		AC01D48B257FDD8F0036A1EA /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC01D48A257FDD8F0036A1EA /* TabBarController.swift */; };
@@ -75,6 +77,8 @@
 		76EF39D3E477FB9E6B61F768 /* Pods_newsAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_newsAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		851DF7E0CF276C2438F2D188 /* Pods-newsAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsAppTests.debug.xcconfig"; path = "Target Support Files/Pods-newsAppTests/Pods-newsAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8A04B16125B8A0A200C70549 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
+		8A069C1D25D2706F00C6F916 /* ViewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewsCell.swift; sourceTree = "<group>"; };
+		8A069C1E25D2706F00C6F916 /* ViewsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewsCell.xib; sourceTree = "<group>"; };
 		8A5FE6D525BE0EDE00ACB3B7 /* UserAccountTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAccountTableViewController.swift; sourceTree = "<group>"; };
 		8A5FE6DD25BFE97300ACB3B7 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		AC01D48A257FDD8F0036A1EA /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -147,6 +151,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A069C2425D2707300C6F916 /* Views Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8A069C1D25D2706F00C6F916 /* ViewsCell.swift */,
+				8A069C1E25D2706F00C6F916 /* ViewsCell.xib */,
+			);
+			path = "Views Cell";
+			sourceTree = "<group>";
+		};
 		8A397B7A25BC53DC00EBE85A /* Marked */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +223,7 @@
 				AC6046D9252A15F3007CEB56 /* Main.storyboard */,
 				AC6046DE252A15F4007CEB56 /* LaunchScreen.storyboard */,
 				AC2BE851259E496A004A3E08 /* News Cell */,
+				8A069C2425D2707300C6F916 /* Views Cell */,
 				ACAF5E82258A3DED00F6026B /* LoadMoreActivityIndicator.swift */,
 				AC3DAA4C2594DBE100F2FAC1 /* RecentSearchesTableView.swift */,
 				ACBD7D3D259D017300BE2FF6 /* Signed Out View */,
@@ -459,6 +473,7 @@
 				AC2F4450259CF73700DD74CF /* SignedOutView.xib in Resources */,
 				AC6046E0252A15F5007CEB56 /* LaunchScreen.storyboard in Resources */,
 				AC222F8525A735F200E7AF4F /* ForgotPasswordViewController.xib in Resources */,
+				8A069C2025D2706F00C6F916 /* ViewsCell.xib in Resources */,
 				AC4D9C952542FA7600942DA8 /* NewsCell.xib in Resources */,
 				AC6046DD252A15F4007CEB56 /* Assets.xcassets in Resources */,
 				AC4D9CEF254EEECD00942DA8 /* Secrets.plist in Resources */,
@@ -606,6 +621,7 @@
 				AC222F8425A735F200E7AF4F /* ForgotPasswordViewController.swift in Sources */,
 				AC2F4440259CB66D00DD74CF /* MarkedViewController.swift in Sources */,
 				AC467AC9252BC530003089D5 /* CountryTableViewController.swift in Sources */,
+				8A069C1F25D2706F00C6F916 /* ViewsCell.swift in Sources */,
 				8A5FE6DE25BFE97300ACB3B7 /* FirestoreManager.swift in Sources */,
 				ACAF5E83258A3DED00F6026B /* LoadMoreActivityIndicator.swift in Sources */,
 				ACFFE04725979DB600B55AF2 /* PublicViewsViewController.swift in Sources */,

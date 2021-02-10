@@ -31,9 +31,7 @@ class LoadMoreActivityIndicator {
         if #available(iOS 13.0, *)
         {
             activityIndicatorView.color = .label
-        }
-        else
-        {
+        } else {
             activityIndicatorView.color = .black
         }
         activityIndicatorView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin]

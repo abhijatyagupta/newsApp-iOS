@@ -469,5 +469,13 @@ extension RealFakeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "showPublicViews", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showPublicViews" {
+            let vc = segue.destination as! PublicViewsViewController
+            vc.publicViewsID = cellForCurrentNews.documentID ?? ""
+        }
     }
 }

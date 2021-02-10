@@ -38,7 +38,7 @@ struct K {
         static let articleOpenErrorTitle = "Unable to open article"
         static let searchPlaceholder = "Search topic"
         static let publicViews = "Public Views"
-        static let publicViewsFooter = "All public views are anonymous. Read guidelines on posting public views."
+        static let publicViewsFooter = "Read guidelines on posting public views."
         static let undoMark = "Undo mark"
         static let markThisNews = "Mark this news as"
         static let newsMarked = "You marked this news as"
@@ -48,7 +48,7 @@ struct K {
         static let sentSuccessful = "Reset link sent successfully"
         static let noUser = "No user found"
         static let areYouSure = "Are you sure?"
-        static let deleteAccountFooter = "Deleting an account will unmark all the news you have marked till date. This action cannot be undone."
+        static let deleteAccountFooter = "Deleting an account will unmark all the news you have marked till date. Your public views, however, will remain unless you delete them yourself. This action cannot be undone."
         static let deleteSuccess = "Account successfully deleted."
         static let deleteAndSignOut = "Delete and sign out"
         static let signOutMessage = "You will be signed out."
@@ -74,6 +74,7 @@ struct K {
     
     struct FStore {
         static let markedNewsCollection = "markedNews"
+        static let pathtoPublicViewsCollection = "publicViews/publicViews"
         static let id = "id"
         static let markedAs = "markedAs"
         static let time = "time"

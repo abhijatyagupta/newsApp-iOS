@@ -32,7 +32,7 @@ class SignInViewController: UIViewController {
         signInButton.layer.cornerRadius = 10
         configureTextFields()
         NotificationCenter.default.addObserver(self, selector: #selector(calculateKeyboardHeight), name: UIResponder.keyboardWillShowNotification, object: nil)
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyBoard))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
         
         if isSignUpController {
@@ -49,14 +49,14 @@ class SignInViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        dismissKeyBoard()
+        dismissKeyboard()
     }
     
     func cancelBarButtonForNavigationBar() -> UIBarButtonItem {
         return UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissVC))
     }
     
-    @objc private func dismissKeyBoard() {
+    @objc private func dismissKeyboard() {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
     }
