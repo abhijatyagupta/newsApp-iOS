@@ -245,6 +245,11 @@ extension MarkedViewController {
                         return
                     }
                 }
+                else {
+                    self.markedCollectionView.isHidden = true
+                    self.activityIndicator.isHidden = true
+                    self.zeroResultsView.isHidden = false
+                }
             }
             else {
                 self.markedCollectionView.isHidden = true
