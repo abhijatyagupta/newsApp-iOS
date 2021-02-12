@@ -30,7 +30,7 @@ Read news. Mark news as real or fake. Or see what others have marked.
     </dict>
     </plist>
    ```
-Now that we have the secret ingredient, we shall proceed further with the recipe! 😋
+   Now that we have the secret ingredient, we shall proceed further with the recipe! 😋
 
 1. The basic stuff 💁🏻‍♀️
 
