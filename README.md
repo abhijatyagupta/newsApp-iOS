@@ -14,10 +14,8 @@ Read news. Mark news as real or fake. Or see what others have marked.
    `
    <br><br>
    Then, either
-   <br><br>
-   `
+   <br>
    From within XCode, select Secrets.plist and create a new item with String as its type with API_KEY as Key and the api key you obtained from newsapi.org as value.
-   `
    <br><br>
    Or
    <br>
