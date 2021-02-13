@@ -7,7 +7,7 @@ Read news. Mark news as real or fake. Or see what others have marked.
 
    In order for the build to succeed and for this app to actually fetch the news, along with the files in this repo, it also requires a file called "Secrets.plist"    which should be placed inside the "newsApp" folder in this repo. Though named Secrets with an s, it needs to hold only one secret which should be your API key to    the newsapi.org REST API which can be obtained for free from [newsapi.org/register](https://newsapi.org/register).
    <br><br>
-   Once you have the API key, clone the repo and open newsApp.xcworkspace (not newsApp.xcodeproj) in xcode and create a "Secrets.plist" file inside newsApp folder (alongside Constants.swift). Follow the steps below to see how to create plist file.
+   Once you have the API key, clone the repo and create a "Secrets.plist" file inside newsApp folder (alongside Constants.swift). Follow the steps below to see how to create plist file using xcode or you may create it using touch terminal command.
    <br><br>
    `
    Open newsApp.xcworkspace > Expand newsApp project > Right-click newsApp folder > New File... > Property List > Save As: Secrets.plist
